@@ -62,10 +62,10 @@
 		"postcss-nesting": "11.2.1",
 		"react-intersection-observer": "9.13.1",
 		"sass": "1.58.3",
-		"sharp": "0.31.3",
+		"sharp": "0.34.5",
 		"ts-loader": "9.4.2",
 		"typescript": "5.7.2",
 		"use-debounce": "10.0.4"
 	},
-	"packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+	"packageManager": "yarn@4.18.0+sha512.fcb8716fe7cd0eece141ffc18b92193a9df9204c1ba83189c288835223fc0bbe64af473bab0d5e9927a7daeb5caf2bb07eb2787cc9338ca040ea125f2a1f2f7e"
 }
