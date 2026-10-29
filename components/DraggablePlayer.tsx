@@ -43,51 +43,18 @@ function	DraggablePlayer({
 							height={320}
 							objectFit={'cover'} />
 					</div>
-					<AudioPlayerSimple
-						isSelected={selected === 0}
-						set_selected={(ref: any): void => {
-							set_audio(ref);
-							set_selected(0);
-						}}
-						onSelectNext={(): void => set_selected(1)}
-						name={AUDIO_LIST[0][0]}
-						src={AUDIO_LIST[0][1]} />
-					<AudioPlayerSimple
-						isSelected={selected === 1}
-						set_selected={(ref: any): void => {
-							set_audio(ref);
-							set_selected(1);
-						}}
-						onSelectNext={(): void => set_selected(2)}
-						name={AUDIO_LIST[1][0]}
-						src={AUDIO_LIST[1][1]} />
-					<AudioPlayerSimple
-						isSelected={selected === 2}
-						set_selected={(ref: any): void => {
-							set_audio(ref);
-							set_selected(2);
-						}}
-						onSelectNext={(): void => set_selected(3)}
-						name={AUDIO_LIST[2][0]}
-						src={AUDIO_LIST[2][1]} />
-					<AudioPlayerSimple
-						isSelected={selected === 3}
-						set_selected={(ref: any): void => {
-							set_audio(ref);
-							set_selected(3);
-						}}
-						onSelectNext={(): void => set_selected(4)}
-						name={AUDIO_LIST[3][0]}
-						src={AUDIO_LIST[3][1]} />
-					<AudioPlayerSimple
-						isSelected={selected === 4}
-						set_selected={(ref: any): void => {
-							set_audio(ref);
-							set_selected(4);
-						}}
-						onSelectNext={(): void => set_selected(0)}
-						name={AUDIO_LIST[4][0]}
-						src={AUDIO_LIST[4][1]} />
+					{AUDIO_LIST.map(([name, src], index): ReactElement => (
+						<AudioPlayerSimple
+							key={src}
+							isSelected={selected === index}
+							set_selected={(audio): void => {
+								set_audio(audio);
+								set_selected(index);
+							}}
+							onSelectNext={(): void => set_selected((index + 1) % AUDIO_LIST.length)}
+							name={name}
+							src={src} />
+					))}
 				</div>
 			</Draggable>
 		</div>

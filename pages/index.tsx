@@ -1,9 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import axios from 'axios';
-import {redis} from 'utils/redis';
 
 import ComicIntro from '../components/ComicIntro';
 import Footer from '../components/Footer';
@@ -94,13 +92,8 @@ function Tree(): ReactElement {
 	);
 }
 
-function Index({visitors = []}): ReactElement {
-	const [visitorsUpdated, set_visitorsUpdated] = useState(visitors);
+function Index(): ReactElement {
 	const allData = YFU_DATA;
-
-	useEffect((): void => {
-		axios.get('/api/visitors').then((v): void => set_visitorsUpdated(v.data));
-	}, []);
 
 	return (
 		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
@@ -159,14 +152,9 @@ function Index({visitors = []}): ReactElement {
 					</section>
 				</div>
 			</main>
-			<Footer visitors={visitorsUpdated}/>
+			<Footer/>
 		</div>
 	);
 }
 
 export default Index;
-
-export async function getStaticProps(): Promise<unknown> {
-	const visitors = await redis.incr('counter');
-	return {props: {visitors}};
-}

@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {useAudio} from '../contexts/useAudio';
+import {formatRemaining, useAudio, useAudioProgress} from '../contexts/useAudio';
 import IconPause from './icons/IconPause';
 import IconPlay from './icons/IconPlay';
 import IconPrev from './icons/IconPrev';
@@ -9,7 +9,7 @@ type TAudioPlayerSimple = {
 	name: string,
 	src: string,
 	isSelected: boolean,
-	set_selected: React.Dispatch<React.SetStateAction<any>>,
+	set_selected: (audio: HTMLAudioElement) => void,
 	onSelectNext: () => void
 }
 
@@ -21,49 +21,32 @@ function	AudioPlayerSimple({
 	onSelectNext
 }: TAudioPlayerSimple): React.ReactElement {
 	const	{set_audio, isPlaying, set_isPlaying} = useAudio();
-	const	ref = useRef<HTMLAudioElement>();
-	const	progress = useRef<HTMLDivElement>();
+	const	[element, set_element] = useState<HTMLAudioElement | null>(null);
+	const	progress = useAudioProgress(element);
 	const	[isInitialLoad, set_isInitialLoad] = useState(true);
 
 	useEffect((): void => {
-		if (progress.current) {
-			progress.current.onclick = (e: any): void => {
-				if (ref.current && e?.target?.offsetWidth) {
-					const progressPercent = e.offsetX / e.target.offsetWidth * 100;
-					const newTime = ref.current.duration * progressPercent / 100;
-					ref.current.currentTime = newTime;
-				}
-			};
-		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [progress.current, ref.current]);
-
-	useEffect((): void => {
-		if (ref.current && !isSelected) {
-			// set_currentTime(0);
-			ref.current.currentTime = 0;
-			ref.current.pause();
-		} else if (ref.current && isSelected) {
-			set_selected(ref.current);
+		if (element && !isSelected) {
+			element.currentTime = 0;
+			element.pause();
+		} else if (element && isSelected) {
+			set_selected(element);
 			if (!isInitialLoad) {
-				ref.current.play();
+				element.play();
 			}
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isSelected, ref.current]);
+	}, [isSelected, element]);
 
 	useEffect((): void => {
 		setTimeout((): void => set_isInitialLoad(false), 100);
 	}, [isInitialLoad]);
 
-	function renderTimer(): string {
-		const	remaining = (ref?.current?.duration || 2) - (ref?.current?.currentTime || 0);
-		const	minutes = Math.floor(remaining / 60);
-		let		seconds = String(Math.floor(remaining % 60));
-		if (Number(seconds) < 10) {
-			seconds = `0${seconds}`;
+	function onSeek(e: React.MouseEvent<HTMLDivElement>): void {
+		if (element && progress.duration) {
+			const rect = e.currentTarget.getBoundingClientRect();
+			element.currentTime = progress.duration * (e.clientX - rect.left) / rect.width;
 		}
-		return (`${minutes}:${seconds}`);
 	}
 
 	function renderLayout(): React.ReactElement {
@@ -73,11 +56,11 @@ function	AudioPlayerSimple({
 					<div className={'flex flex-row items-center justify-center'}>
 						<IconPlay
 							onClick={(): void => {
-								set_selected(ref.current);
-								set_isPlaying(true);
-								set_audio(ref.current);
-								if (ref.current) {
-									ref.current.play();
+								if (element) {
+									set_selected(element);
+									set_isPlaying(true);
+									set_audio(element);
+									element.play();
 								}
 							}}
 							className={'cursor-pointer'}/>
@@ -91,8 +74,8 @@ function	AudioPlayerSimple({
 				<div className={'flex flex-row items-center justify-center'}>
 					<IconPrev
 						onClick={(): void => {
-							if (ref.current) {
-								ref.current.currentTime = 0;
+							if (element) {
+								element.currentTime = 0;
 							}
 						}}
 						className={'cursor-pointer'} />
@@ -100,18 +83,14 @@ function	AudioPlayerSimple({
 						<IconPause
 							onClick={(): void => {
 								set_isPlaying(false);
-								if (ref.current) {
-									ref.current.pause();
-								}
+								element?.pause();
 							}}
 							className={'mx-2 cursor-pointer'}/>
 					) : (
 						<IconPlay
 							onClick={(): void => {
 								set_isPlaying(true);
-								if (ref.current) {
-									ref.current.play();
-								}
+								element?.play();
 							}}
 							className={'mx-2 cursor-pointer'}/>
 					)}
@@ -129,17 +108,20 @@ function	AudioPlayerSimple({
 			{renderLayout()}
 			<div className={'relative w-full'} style={!isSelected ? {opacity: 0} : {}}>
 				<div className={'relative flex w-full flex-row items-center justify-center space-x-2'}>
-					<div ref={progress as never} className={'-my-2 w-full cursor-pointer py-2'}>
+					<div onClick={onSeek} className={'-my-2 w-full cursor-pointer py-2'}>
 						<div className={'relative w-full bg-white'} style={{height: 1}}>
 							<div
 								className={'absolute h-4 bg-white transition-all'}
-								style={{width: 1, top: -8, left: `${(ref?.current?.currentTime || 0) / (ref?.current?.duration || 2) * 100}%`}} />
+								style={{width: 1, top: -8, left: `${progress.currentTime / (progress.duration || 1) * 100}%`}} />
 						</div>
 					</div>
 					<div className={'font-scope tabular-nums text-white'}>
-						{renderTimer()}
+						{formatRemaining(progress)}
 					</div>
-					<audio ref={ref as never} src={src}></audio>
+					<audio
+						ref={set_element}
+						src={src}
+						preload={isSelected ? 'metadata' : 'none'} />
 				</div>
 			</div>
 		</div>

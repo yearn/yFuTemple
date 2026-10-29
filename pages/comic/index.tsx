@@ -1,10 +1,18 @@
-'use client';
-
 import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import fs from 'fs';
+import path from 'path';
+
+import type {GetStaticProps} from 'next';
 
 import styles from './Carousel.module.css';
+
+const TABS = ['techne', 'transmission', 'community', 'dominion'];
+
+type TCarouselPage = {
+	imagesByTab: { [key: string]: string[] }
+};
 
 // Define a custom type for our CSS variables with the correct prefix
 type TCustomCSSProperties = React.CSSProperties & {
@@ -41,10 +49,8 @@ function handleModalClose(set_isModalOpen: React.Dispatch<React.SetStateAction<b
 	set_modalImage(null);
 }
 
-export default function CarouselPage(): React.ReactElement {
+export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactElement {
 	const [activeTab, set_activeTab] = useState<string>('techne');
-	const [imagePaths, set_imagePaths] = useState<string[]>([]);
-	const [isLoading, set_isLoading] = useState<boolean>(true);
 	const [currentSlide, set_currentSlide] = useState<number>(0);
 	const [isShowGlow, set_isShowGlow] = useState<boolean>(false);
 	const [isModalOpen, set_isModalOpen] = useState<boolean>(false);
@@ -56,27 +62,6 @@ export default function CarouselPage(): React.ReactElement {
 		community: 'rgba(238, 166, 208, 0.8)',
 		dominion: 'rgba(227, 111, 76, 0.8)'
 	};
-
-	// Fetch image paths dynamically when the active tab changes
-	useEffect((): void => {
-		const fetchImagePaths = async (folder: string): Promise<void> => {
-			try {
-				set_isLoading(true);
-				const response = await fetch(`/api/imagePaths?folder=${encodeURIComponent(folder)}`);
-				const data = await response.json();
-				set_imagePaths(data.imagePaths || []);
-				set_currentSlide(0); // Reset the carousel to the first slide
-				set_isLoading(false);
-			} catch (error) {
-				console.error('Error fetching image paths:', error);
-				set_imagePaths([]);
-				set_isLoading(false);
-			}
-		};
-
-		const folder = `assets/comics/img/${activeTab}`;
-		void fetchImagePaths(folder);
-	}, [activeTab]);
 
 	useEffect((): (() => void) => {
 		const showGlowEffect = (): () => void => {
@@ -92,20 +77,7 @@ export default function CarouselPage(): React.ReactElement {
 		return showGlowEffect();
 	}, [activeTab]);
 
-	if (isLoading) {
-		return (
-			<div className={'fixed inset-0 z-50 flex items-center justify-center bg-black/50'}>
-				<h1>{'Loading...'}</h1>
-			</div>
-		);
-	}
-
-	const tabs = [
-		'techne',
-		'transmission',
-		'community',
-		'dominion'
-	];
+	const imagePaths = imagesByTab[activeTab];
 
 	const styleProps: TCustomCSSProperties = {
 		'--glow-color': tabColors[activeTab],
@@ -148,10 +120,13 @@ export default function CarouselPage(): React.ReactElement {
 						const disabledTabs = ['transmission', 'community', 'dominion'];
 						return (
 							// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-							tabs.map((tab) => (
+							TABS.map((tab) => (
 								<button
 									key={tab}
-									onClick={(): void => set_activeTab(tab)}
+									onClick={(): void => {
+										set_activeTab(tab);
+										set_currentSlide(0);
+									}}
 									className={`rounded-md px-2 py-1 text-sm capitalize ${activeTab === tab ? 'bg-white/30' : disabledTabs.includes(tab) ? 'cursor-not-allowed text-white/70' : 'text-white'}`}
 									disabled={disabledTabs.includes(tab)} // Use disabledTabs here
 								>
@@ -223,3 +198,12 @@ export default function CarouselPage(): React.ReactElement {
 		</article>
 	);
 }
+
+export const getStaticProps: GetStaticProps<TCarouselPage> = async () => {
+	const imagesByTab = Object.fromEntries(TABS.map((tab): [string, string[]] => {
+		const folder = path.join('assets', 'comics', 'img', tab);
+		const fileNames = fs.readdirSync(path.join(process.cwd(), 'public', folder));
+		return [tab, fileNames.map((fileName): string => path.join(folder, fileName))];
+	}));
+	return {props: {imagesByTab}};
+};

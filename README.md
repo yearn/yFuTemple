@@ -1,6 +1,6 @@
 
 ### requires
-node, yarn, docker, docker compose
+node, yarn
 
 
 ```
