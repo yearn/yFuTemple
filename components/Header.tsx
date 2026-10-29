@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 
-import {useAudio} from '../contexts/useAudio';
+import {formatRemaining, useAudio, useAudioProgress} from '../contexts/useAudio';
 import DraggablePlayer from './DraggablePlayer';
 import IconExpand from './icons/IconExpand';
 import IconPause from './icons/IconPause';
@@ -11,29 +11,11 @@ import IconPrev from './icons/IconPrev';
 import type {ReactElement} from 'react';
 
 function	Header(): ReactElement {
-	const	readInterval = useRef<NodeJS.Timer>();
 	const	{AUDIO_LIST, audio, isPlaying, set_isPlaying} = useAudio();
+	const	progress = useAudioProgress(audio);
 	const	[hasModal, set_hasModal] = useState(false);
 	const	[hasMediaPlayer, set_hasMediaPlayer] = useState(false);
 	const	[selected, set_selected] = useState(0);
-	const	[, set_nonce] = useState(0);
-
-	useEffect((): () => void => {
-		readInterval.current = setInterval((): void => {
-			set_nonce((n: number): number => n + 1);
-		}, 300);
-		return (): void => clearInterval(readInterval.current);
-	}, []);
-
-	function renderTimer(): string {
-		const	remaining = (audio?.duration || 0) - (audio?.currentTime || 0);
-		const	minutes = Math.floor(remaining / 60);
-		let		seconds = String(Math.floor(remaining % 60));
-		if (Number(seconds) < 10) {
-			seconds = `0${seconds}`;
-		}
-		return (`${minutes}:${seconds}`);
-	}
 
 	return (
 		<>
@@ -106,31 +88,33 @@ function	Header(): ReactElement {
 						<div className={'flex flex-row items-center justify-center font-scope'}>
 							<IconPrev
 								onClick={(): void => {
-									audio.currentTime = 0;
+									if (audio) {
+										audio.currentTime = 0;
+									}
 								}}
 								className={'h-3 w-3 cursor-pointer text-white md:h-4 md:w-4'} />
 							{isPlaying ? (
 								<IconPause
 									onClick={(): void => {
 										set_isPlaying(false);
-										audio.pause();
+										audio?.pause();
 									}}
 									className={'mx-0.5 h-3 w-3 cursor-pointer text-white md:mx-1 md:h-4 md:w-4'}/>
 							) : (
 								<IconPlay
 									onClick={(): void => {
 										set_isPlaying(true);
-										audio.play();
+										audio?.play();
 									}}
 									className={'mx-0.5 h-3 w-3 cursor-pointer text-white md:mx-1 md:h-4 md:w-4'}/>
 							)}
 							<IconPrev
-								onClick={(): void => set_selected(selected === 4 ? 0 : selected + 1)}
+								onClick={(): void => set_selected((selected + 1) % AUDIO_LIST.length)}
 								className={'h-3 w-3 rotate-180 cursor-pointer text-white md:h-4 md:w-4'}/>
 						</div>
 						<div className={'mx-2 mb-0.5 flex font-scope text-xs text-white md:mx-3 md:text-base'}>{AUDIO_LIST[selected][0]}</div>
 						<div className={'mr-0 mb-0.5 font-scope text-xs tabular-nums text-white md:mr-3 md:text-base'}>
-							{renderTimer()}
+							{formatRemaining(progress)}
 						</div>
 						<IconExpand
 							className={'text-white'}

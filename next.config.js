@@ -18,7 +18,6 @@ module.exports = (phase) => withPWA({
 		]
 	},
 	env: {
-		REDIS_URL: process.env.REDIS_URL,
 		WEBSITE_URI: process.env.WEBSITE_URI
 	}
 });

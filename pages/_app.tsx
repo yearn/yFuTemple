@@ -43,7 +43,7 @@ const WithSplash = memo(function WithSplash({children}: {children: ReactNode}): 
 									<button
 										onClick={(): void => {
 											set_isPlaying(true);
-											audio.play();
+											audio?.play();
 											set_hasOpacity(false);
 											setTimeout((): void => set_shouldDisplay(false), 1000);
 										}}

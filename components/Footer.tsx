@@ -2,15 +2,17 @@ import	React							from	'react';
 
 import type {ReactElement} from 'react';
 
-function	Footer({visitors=[]}): ReactElement {
-	const	visitorsAsArr = visitors.toString().split('');
+// a nod to 2000s hit counters, it doesn't count anything
+const	VISITORS = '001337';
+
+function	Footer(): ReactElement {
 	return (
 		<footer className={'z-20 mt-12 flex flex-col items-center border-t-2 border-white pb-5 md:mt-20 md:pb-12'}>
 			<div className={'my-8 md:my-12'}>
 				<div className={'flex flex-row items-center justify-center space-x-1'}>
-					{visitorsAsArr.map((e, index): ReactElement => (
+					{VISITORS.split('').map((digit, index): ReactElement => (
 						<div key={index} className={'flex h-12 w-9 items-center justify-center border-2 border-white bg-black font-chicago tabular-nums text-white'}>
-							{e}
+							{digit}
 						</div>
 					))}
 				</div>
