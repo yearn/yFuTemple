@@ -2,15 +2,7 @@ import React, {Fragment, memo, useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import {DefaultSeo} from 'next-seo';
-import {MintContextApp} from 'contexts/useMint';
-import {http, WagmiProvider} from 'wagmi';
-import {base} from 'wagmi/chains';
 import {Dialog, Transition} from '@headlessui/react';
-import {getDefaultConfig,
-	RainbowKitProvider} from '@rainbow-me/rainbowkit';
-import {QueryClient,
-	QueryClientProvider} from '@tanstack/react-query';
-import {WithYearn} from '@yearn-finance/web-lib/contexts/WithYearn';
 
 import Header from '../components/Header';
 import useAudio, {AudioContextApp} from '../contexts/useAudio';
@@ -19,17 +11,6 @@ import type {AppProps} from 'next/app';
 import type {ReactElement, ReactNode} from 'react';
 
 import '../style.css';
-import '@rainbow-me/rainbowkit/styles.css';
-
-const config = getDefaultConfig({
-	appName: 'yfu temple',
-	projectId: '19b7e0458a927a6954498322eea5226a',
-	chains: [base],
-	ssr: true,
-	transports: {
-		[base.id]: http('https://base.gateway.tenderly.co/44o3I2s29kcHgNsYCeR2rR')
-	}
-});
 
 const WithSplash = memo(function WithSplash({children}: {children: ReactNode}): ReactElement {
 	const	[hasOpacity, set_hasOpacity] = useState(true);
@@ -192,32 +173,14 @@ function	AppWrapper(props: AppProps): ReactElement {
 
 function	MyApp(props: AppProps): ReactElement {
 	const	{Component, pageProps} = props;
-	const chainId = parseInt(process.env.CHAIN_ID ?? '8453');
-	const queryClient = new QueryClient();
 
 	return (
-		<WithYearn
-			options={{
-				web3: {
-					defaultChainID: chainId,
-					supportedChainID: [chainId]
-				}
-			}}>
-			<MintContextApp>
-				<AudioContextApp>
-					<WagmiProvider config={config}>
-						<QueryClientProvider client={queryClient}>
-							<RainbowKitProvider>
-								<AppWrapper
-									Component={Component}
-									pageProps={pageProps}
-									router={props.router} />
-							</RainbowKitProvider>
-						</QueryClientProvider>
-					</WagmiProvider>
-				</AudioContextApp>
-			</MintContextApp>
-		</WithYearn>
+		<AudioContextApp>
+			<AppWrapper
+				Component={Component}
+				pageProps={pageProps}
+				router={props.router} />
+		</AudioContextApp>
 	);
 }
 

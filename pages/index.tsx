@@ -2,17 +2,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import Button from 'components/Button';
-import Connect from 'components/Connect';
-import {useMint} from 'contexts/useMint';
-import {useTickets} from 'contexts/useTickets';
-import {redis} from 'utils/redis';
-import {useAccount} from 'wagmi';
 import axios from 'axios';
+import {redis} from 'utils/redis';
 
 import ComicIntro from '../components/ComicIntro';
 import Footer from '../components/Footer';
-import SnapshotCountdown from '../components/SnapshotCountdown';
 import Title from '../components/Title';
 import YFU_DATA from '../utils/data';
 
@@ -100,104 +94,6 @@ function Tree(): ReactElement {
 	);
 }
 
-function MintView(): ReactElement {
-	const {isConnected} = useAccount();
-	const tickets = useTickets();
-	const balanceOf = tickets.length;
-
-	const {
-		shippingDone
-	} = useMint();
-
-	return (
-		<div className={'mb-16 flex flex-col items-center border-2 border-white p-4 text-white md:p-8'}>
-			<h4 className={'mx-auto mb-0 hidden w-3/4 text-center text-2xl font-bold md:mb-6 md:flex md:w-full md:text-left md:text-4xl'}>
-				{'yFu - The Comic, Episodes 1 to 4'}
-			</h4>
-			<div className={'mb-4 grid w-full grid-cols-12 gap-2 md:my-10 md:gap-10'}>
-				<div className={'col-span-12 mb-4 flex flex-col px-0 md:col-span-4 md:mb-0'}>
-					<video
-						playsInline
-						autoPlay
-						muted
-						loop
-						poster={'/artwork.png'}
-						className={'hfull wfull objectcover md:aspectauto md:objectcontain'}>
-						<source src={'/artwork.mp4'} type={'video/mp4'}/>
-					</video>
-				</div>
-				<div className={'col-span-12 flex w-full flex-col md:col-span-8'}>
-					<h4 className={'text-2xl font-bold'}>
-						{'Mint the NFT'}
-					</h4>
-					<button
-						onClick={(): void => {
-							window.open(process.env.MINT_URL ?? '/', '_blank', 'noopener,noreferrer');
-						}}
-						className={'button-glowing relative my-4 flex w-full items-center justify-between bg-white px-6 py-3 text-black sm:w-auto'}
-						aria-label={'Mint on Zora'}>
-						<span>{'Mint on Zora'}</span>
-						<Image
-							src={'/assets/Base_Wordmark_Blue.svg'}
-							alt={'Base logo'}
-							width={80}
-							height={10}
-							className={'ml-4 inline-block'}
-						/>
-					</button>
-					<br/>
-
-					<h4 className={'text-2xl font-bold'}>
-						{'Get the physical comics'}
-					</h4>
-					<Connect />
-
-					<div className={'flex flex-col'}>
-						<div
-							className={`mb-8 flex flex-col items-center space-x-0 md:flex-row md:space-x-6 ${!isConnected ? 'pointer-events-none' : ''}`}>
-							<Link
-								href={balanceOf < 1 ? '' : '/shipping'}
-								className={`w-full ${balanceOf < 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
-								<Button
-									disabled={balanceOf < 1}
-									className={'button-glowing w-full bg-white font-peste text-black md:my-4'}>
-									<p>{'Fill Shipping Information'}</p>
-								</Button>
-							</Link>
-						</div>
-						<div>
-							<h4 className={'mb-6 flex text-2xl font-bold md:hidden md:text-4xl'}>
-								{'yFu - The Comic, Episodes 1 to 4'}
-							</h4>
-							<p className={'mb-4 font-scope text-base text-white md:text-lg'}>
-								{'Each NFT holder is eligible to receive a physical set of all four limited first edition comics, at no additional cost. Mint, hodl to the snapshot, and receive a redeemable coupon to enter shipping information. Then, prepare to own your piece of Yearn & DeFi history.'}
-							</p>
-							<p className={'mb-4 font-scope text-base text-white md:text-lg'}>
-								{'As a bonus, upon revealing your NFT you will have a collectible, generative digital artwork, based on unique frames from the comics.'}
-							</p>
-							<Link href={'/faq'}>
-								<p className={'mb-4 font-scope text-base text-white underline md:text-xl'}>
-									{'See FAQ for all the details.'}
-								</p>
-							</Link>
-						</div>
-						<SnapshotCountdown className={'mb-8'}/>
-						<div className={'mt-auto flex flex-row space-x-4 border-2 border-white p-6'}>
-							<div className={'pt-1'}>
-								<div className={'h-4 w-4 animate-pulse rounded-full bg-green-500'}/>
-							</div>
-							<div suppressHydrationWarning>
-								<p>{`You have minted ${balanceOf} yFu Comic NFT${balanceOf > 1 ? 's' : ''}`}</p>
-								<p>{`You entered shipping for ${shippingDone.length} yFu Comic NFT${balanceOf > 1 ? 's' : ''}`}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-}
-
 function Index({visitors = []}): ReactElement {
 	const [visitorsUpdated, set_visitorsUpdated] = useState(visitors);
 	const allData = YFU_DATA;
@@ -229,7 +125,6 @@ function Index({visitors = []}): ReactElement {
 					</div>
 
 					<section className={'w-full px-4 md:px-0'}>
-						<MintView/>
 						<ComicIntro/>
 
 						{allData
