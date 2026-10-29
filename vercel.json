@@ -33,6 +33,15 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/audio/:track.opus",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "audio/ogg; codecs=opus"
+        }
+      ]
     }
   ],
   "git": {

@@ -11,7 +11,6 @@ export default function ComicIntro(): React.ReactElement {
 						alt={''}
 						src={'/assetsThumbnail/comic1-mark.avif'}
 						loading={'eager'}
-						quality={90}
 						className={'aspect-square w-32 object-contain p-2 md:w-full'}
 						width={497}
 						height={497}
@@ -30,7 +29,7 @@ export default function ComicIntro(): React.ReactElement {
 			</div>
 			<div className={'col-span-1 flex size-full flex-col border-0 border-white p-4 pb-8 md:border-x-2 md:p-8 md:pb-14'}>
 				<div className={'space-y-4 font-scope text-base text-white md:text-lg'} style={{whiteSpace: 'break-spaces'}}>
-					<h4 className={'mb-6 text-2xl font-bold md:text-4xl'}>{'The Comic'}</h4>
+					<h2 className={'mb-6 text-2xl font-bold md:text-4xl'}>{'The Comic'}</h2>
 					<p>{"yFu is a comic in four episodes, set in the Pills alternate universe and chronicling the rise of Yearn's DAO and DeFi. yFu was developed by Yearn Finance and The Pills Universe, and was written and produced by Josh Blaylock."}</p>
 					<p>{'yFu follows the story of Andre the Patcher and a young farmer named Estonya as they encounter the four yFu goddesses and attempt to recover the secrets of yield from the clutches of the ancient, evil Cron.'}</p>
 					<p>{'Browse to see the art and story first hand.'}</p>

@@ -1,7 +1,6 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
 
 import ComicIntro from '../components/ComicIntro';
 import Footer from '../components/Footer';
@@ -12,13 +11,6 @@ import type {ReactElement} from 'react';
 import type {TYFUData} from '../utils/data';
 
 function Goddess({characterSrc = '', typoSrc = '', id = '', title = '', children = <div/>}): ReactElement {
-	const router = useRouter();
-
-	const onClickTribute = useCallback((id: string): void => {
-		console.log('routing', `/tribute/${id}`);
-		router.push(`/tribute/${id}`);
-	}, [router]);
-
 	return (
 		<div className={'grid grid-cols-1 divide-y divide-white border-2 border-white md:grid-cols-3 md:divide-y-0'}>
 			<div
@@ -27,8 +19,7 @@ function Goddess({characterSrc = '', typoSrc = '', id = '', title = '', children
 					<Image
 						alt={''}
 						src={typoSrc}
-						loading={'eager'}
-						quality={90}
+						loading={'lazy'}
 						className={'aspect-square w-32 object-contain p-2 md:w-full'}
 						width={497}
 						height={497} />
@@ -36,10 +27,10 @@ function Goddess({characterSrc = '', typoSrc = '', id = '', title = '', children
 			</div>
 			<div className={'image-wrapper col-span-1 block md:hidden'}>
 				<Image
-					alt={''}
+					alt={title}
 					src={characterSrc}
 					className={'w-full object-cover'}
-					loading={'eager'}
+					loading={'lazy'}
 					width={600}
 					height={895}/>
 			</div>
@@ -48,25 +39,25 @@ function Goddess({characterSrc = '', typoSrc = '', id = '', title = '', children
 				<div
 					className={'space-y-4 font-scope text-base text-white md:text-lg'}
 					style={{whiteSpace: 'break-spaces'}}>
-					<h4 className={'mb-6 text-2xl font-bold md:text-4xl'}>{title}</h4>
+					<h2 className={'mb-6 text-2xl font-bold md:text-4xl'}>{title}</h2>
 					{children}
 				</div>
 				<div className={'mx-auto mt-8 pt-8 md:mt-auto'}>
-					<button
-						onClick={(): void => onClickTribute(id)}
+					<Link
+						href={`/tribute/${id}/`}
 						className={'button-glowing bg-white font-peste text-black'}>
 						{'SEE TRIBUTES'}
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'}/>
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'}/>
-					</button>
+					</Link>
 				</div>
 			</div>
 			<div className={'image-wrapper col-span-1 hidden md:flex'}>
 				<Image
-					alt={''}
+					alt={title}
 					src={characterSrc}
 					className={'w-full object-cover'}
-					loading={'eager'}
+					loading={'lazy'}
 					width={600}
 					height={895}/>
 			</div>
@@ -79,9 +70,9 @@ function Tree(): ReactElement {
 		<div className={'grid grid-cols-1 border-2 border-white'}>
 			<div className={'image-wrapper col-span-1'}>
 				<Image
-					alt={''}
+					alt={'The Yearning Tree'}
 					src={'/yearningTree.avif'}
-					loading={'eager'}
+					loading={'lazy'}
 					width={2000}
 					height={1000}/>
 			</div>
@@ -114,7 +105,10 @@ function Index(): ReactElement {
 					</div>
 
 					<div className={'flex items-center justify-center pb-8 pt-2 md:pt-4'}>
-						<Title/>
+						<h1>
+							<span className={'sr-only'}>{'yFu Temple'}</span>
+							<span aria-hidden={'true'}><Title/></span>
+						</h1>
 					</div>
 
 					<section className={'w-full px-4 md:px-0'}>

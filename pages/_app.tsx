@@ -10,14 +10,15 @@ import type {ReactElement} from 'react';
 
 import '../style.css';
 
-function	AppMeta(): ReactElement {
+const	DESCRIPTION = 'Read the four yFu comics, walk the halls of the yFu goddesses and listen to their soundtrack. An archive of Yearn lore.';
+
+function	AppMeta({path}: {path: string}): ReactElement {
 	return (
 		<>
 			<Head>
 				<title>{'yFu Temple'}</title>
 				<meta httpEquiv={'X-UA-Compatible'} content={'IE=edge'} />
 				<meta name={'viewport'} content={'width=device-width, initial-scale=1'} />
-				<meta name={'description'} content={'YFU Temple'} />
 				<meta charSet={'utf-8'} />
 
 				{/* FAVICONS */}
@@ -46,8 +47,8 @@ function	AppMeta(): ReactElement {
 					sizes={'16x16'}
 					href={'/favicons/favicon-16x16.png'} />
 				<link rel={'manifest'} href={'/favicons/site.webmanifest'} />
-				<meta name={'msapplication-TileColor'} content={'#ffffff'} />
-				<meta name={'theme-color'} content={'#ffffff'} />
+				<meta name={'msapplication-TileColor'} content={'#000000'} />
+				<meta name={'theme-color'} content={'#000000'} />
 
 				{/* ROBOTS */}
 				<meta name={'robots'} content={'index,follow'} />
@@ -55,27 +56,27 @@ function	AppMeta(): ReactElement {
 			</Head>
 			<DefaultSeo
 				title={'yFu Temple'}
-				defaultTitle={'YFU Temple'}
-				description={'YFU Temple'}
+				description={DESCRIPTION}
+				canonical={new URL(path, process.env.WEBSITE_URI).href}
 				openGraph={{
 					type: 'website',
 					locale: 'en_US',
-					url: process.env.WEBSITE_URI,
-					site_name: 'YFU Temple',
-					title: 'YFU Temple',
-					description: 'YFU Temple',
+					url: new URL(path, process.env.WEBSITE_URI).href,
+					siteName: 'yFu Temple',
+					title: 'yFu Temple',
+					description: DESCRIPTION,
 					images: [
 						{
-							url: `${process.env.WEBSITE_URI}og.jpg`,
-							width: 1200,
-							height: 675,
-							alt: 'Yearn'
+							url: new URL('og.jpg', process.env.WEBSITE_URI).href,
+							width: 2000,
+							height: 1000,
+							alt: 'The Yearning Tree'
 						}
 					]
 				}}
 				twitter={{
-					handle: '@iearnfinance',
-					site: '@iearnfinance',
+					handle: '@yearnfi',
+					site: '@yearnfi',
 					cardType: 'summary_large_image'
 				}} />
 		</>
@@ -87,7 +88,7 @@ function	AppWrapper(props: AppProps): ReactElement {
 
 	return (
 		<>
-			<AppMeta />
+			<AppMeta path={router.asPath.split('#')[0]} />
 			<Header />
 			<div className={'z-10 overflow-x-clip pt-24 md:pt-16'}>
 				<Component
@@ -102,9 +103,11 @@ function	AppWrapper(props: AppProps): ReactElement {
 					muted
 					loop
 					poster={'/bg.avif'}
-					className={'size-full object-cover'}>
+					className={'size-full object-cover motion-reduce:hidden'}>
 					<source src={'/bglow.webm'} type={'video/webm'} />
 				</video>
+				{/* the poster on its own for visitors who asked for less motion */}
+				<div className={'hidden size-full bg-[url(/bg.avif)] bg-cover bg-center motion-reduce:block'} />
 			</div>
 		</>
 	);
