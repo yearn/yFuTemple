@@ -1,13 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import Link from 'next/link';
 
 import {fullPageSrc, pageAlt, pageImage} from '../../utils/comics';
+import {usePhotoSwipe} from '../../utils/usePhotoSwipe';
 
-import type PhotoSwipeLightbox from 'photoswipe/lightbox';
+import type {SlideData} from 'photoswipe';
 import type {ReactElement} from 'react';
 import type {TComic, TComicSummary} from '../../utils/comics';
-
-import 'photoswipe/style.css';
 
 type TMode = 'scroll' | 'page';
 
@@ -78,7 +77,6 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 	const [scrollTarget, set_scrollTarget] = useState<TScrollTarget | null>(null);
 	const [resumeFrom, set_resumeFrom] = useState<number | null>(null);
 	const [isReady, set_isReady] = useState(false);
-	const lightbox = useRef<PhotoSwipeLightbox | null>(null);
 
 	const goTo = useCallback((target: number, smooth = false): void => {
 		const page = Math.min(Math.max(target, 0), count - 1);
@@ -86,9 +84,18 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		set_scrollTarget({index: page, smooth});
 	}, [count]);
 
-	const openZoom = useCallback((target: number): void => {
-		lightbox.current?.loadAndOpen(target);
-	}, []);
+	const slides = useMemo((): SlideData[] => comic.pages.map((page, i): SlideData => ({
+		src: fullPageSrc(comic, i),
+		srcset: pageImage(comic, i).srcSet,
+		width: page.width,
+		height: page.height,
+		alt: pageAlt(comic, i, count)
+	})), [comic, count]);
+	// follow the zoomed page, and land on it when zoom closes
+	const {open: openZoom, isOpen: isZoomOpen} = usePhotoSwipe(slides, {
+		onChange: set_index,
+		onClose: (page): void => set_scrollTarget({index: page, smooth: false})
+	});
 
 	// the reader places the page itself, the browser restoring the old offset on reload would undo a deep link
 	useEffect((): (() => void) => {
@@ -176,7 +183,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 	useEffect((): (() => void) => {
 		const onKeyDown = (event: KeyboardEvent): void => {
 			const isTyping = event.target instanceof Element && event.target.closest('input, select, textarea');
-			if (event.altKey || event.ctrlKey || event.metaKey || isTyping || lightbox.current?.pswp) {
+			if (event.altKey || event.ctrlKey || event.metaKey || isTyping || isZoomOpen()) {
 				return;
 			}
 			if (event.key === 'z') {
@@ -196,48 +203,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		};
 		window.addEventListener('keydown', onKeyDown);
 		return (): void => window.removeEventListener('keydown', onKeyDown);
-	}, [count, goTo, index, mode, openZoom]);
-
-	// zoom, pan and swipe between pages, loaded on first use
-	useEffect((): (() => void) => {
-		let instance: PhotoSwipeLightbox | null = null;
-		let isCancelled = false;
-		void import('photoswipe/lightbox').then(({default: Lightbox}): void => {
-			if (isCancelled) {
-				return;
-			}
-			instance = new Lightbox({
-				dataSource: comic.pages.map((page, i): {src: string, srcset: string, width: number, height: number, alt: string} => ({
-					src: fullPageSrc(comic, i),
-					srcset: pageImage(comic, i).srcSet,
-					width: page.width,
-					height: page.height,
-					alt: pageAlt(comic, i, count)
-				})),
-				pswpModule: async () => import('photoswipe'),
-				bgOpacity: 0.95,
-				secondaryZoomLevel: 1,
-				maxZoomLevel: 2
-			});
-			instance.on('change', (): void => {
-				if (instance?.pswp) {
-					set_index(instance.pswp.currIndex);
-				}
-			});
-			instance.on('close', (): void => {
-				if (instance?.pswp) {
-					set_scrollTarget({index: instance.pswp.currIndex, smooth: false});
-				}
-			});
-			instance.init();
-			lightbox.current = instance;
-		});
-		return (): void => {
-			isCancelled = true;
-			instance?.destroy();
-			lightbox.current = null;
-		};
-	}, [comic, count]);
+	}, [count, goTo, index, isZoomOpen, mode, openZoom]);
 
 	// warm the cache with the next page so turning feels instant
 	useEffect((): void => {

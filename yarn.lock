@@ -1424,13 +1424,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.1.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 10c0/34dead8bee24f5e96f6e7937d711978380647e936a22e76380290e35486afd8634966ce300fc4b74a32f3762c7d4c0303f442c3e259f4ce02374eb0c82834f27
-  languageName: node
-  linkType: hard
-
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -4051,19 +4044,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-draggable@npm:4.4.5":
-  version: 4.4.5
-  resolution: "react-draggable@npm:4.4.5"
-  dependencies:
-    clsx: "npm:^1.1.1"
-    prop-types: "npm:^15.8.1"
-  peerDependencies:
-    react: ">= 16.3.0"
-    react-dom: ">= 16.3.0"
-  checksum: 10c0/d950e25b41092ffd689e9882c287f7f49dbd8eb7e8a220af6e08c0dc06f1ae778871b0f414e30bd2891a96c6be1f673c3a698c0e642903542ff5ab5b0cbaf805
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -5254,7 +5234,6 @@ __metadata:
     postcss-nesting: "npm:11.2.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    react-draggable: "npm:4.4.5"
     sharp: "npm:0.35.5"
     tailwindcss: "npm:3.4.19"
     typescript: "npm:5.7.2"
