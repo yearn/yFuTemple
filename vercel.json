@@ -3,11 +3,37 @@
   "buildCommand": "yarn build",
   "trailingSlash": true,
   "redirects": [
-    {"source": "/shipping", "destination": "/faq/", "permanent": true},
-    {"source": "/shipping/", "destination": "/faq/", "permanent": true}
+    {
+      "source": "/shipping",
+      "destination": "/faq/",
+      "permanent": true
+    },
+    {
+      "source": "/shipping/",
+      "destination": "/faq/",
+      "permanent": true
+    },
+    {
+      "source": "/comic",
+      "destination": "/comics/",
+      "permanent": true
+    },
+    {
+      "source": "/comic/",
+      "destination": "/comics/",
+      "permanent": true
+    }
   ],
   "headers": [
-    {"source": "/sw.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
   ],
   "git": {
     "deploymentEnabled": false

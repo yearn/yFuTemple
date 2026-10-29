@@ -1,5 +1,3 @@
-import comics from '../content/comics.json';
-
 export type TComicPage = {
 	width: number,
 	height: number,
@@ -9,18 +7,24 @@ export type TComicPage = {
 
 export type TComic = {
 	id: string,
+	number: number,
 	title: string,
+	subtitle: string,
 	pages: TComicPage[]
 };
 
-export const COMICS: TComic[] = comics;
+export type TComicSummary = Omit<TComic, 'pages'>;
 
 // widest variant a browser without srcset support should get
 const FALLBACK_WIDTH = 1200;
 
+function pageBase(comic: TComicSummary, index: number): string {
+	return `/comics/${comic.id}/${String(index + 1).padStart(2, '0')}`;
+}
+
 export function pageImage(comic: TComic, index: number): {src: string, srcSet: string, width: number, height: number} {
 	const page = comic.pages[index];
-	const base = `/comics/${comic.id}/${String(index + 1).padStart(2, '0')}`;
+	const base = pageBase(comic, index);
 	const fallback = page.widths.filter((width): boolean => width <= FALLBACK_WIDTH).at(-1);
 	return {
 		src: `${base}-${fallback}.avif`,
@@ -28,4 +32,12 @@ export function pageImage(comic: TComic, index: number): {src: string, srcSet: s
 		width: page.width,
 		height: page.height
 	};
+}
+
+export function fullPageSrc(comic: TComic, index: number): string {
+	return `${pageBase(comic, index)}-${comic.pages[index].widths.at(-1)}.avif`;
+}
+
+export function pageAlt(comic: TComicSummary, index: number, count: number): string {
+	return `${comic.title}, page ${index + 1} of ${count}`;
 }

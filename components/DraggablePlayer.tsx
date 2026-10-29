@@ -22,11 +22,11 @@ function	DraggablePlayer({
 	const	{AUDIO_LIST, set_audio} = useAudio();
 
 	return (
-		<div className={`fixed z-50 ${hasMediaPlayer ? '' : 'hidden'}`}>
+		<div className={`pointer-events-none fixed z-50 ${hasMediaPlayer ? '' : 'hidden'}`}>
 			<Draggable
 				handle={'.cursor-grab'}
 				defaultPosition={{x: 200, y: 200}}>
-				<div className={'relative z-50 flex w-96 flex-col border-2 border-b-0 border-white bg-black'}>
+				<div className={'pointer-events-auto relative z-50 flex w-96 flex-col border-2 border-b-0 border-white bg-black'}>
 					<div className={'flex h-7 w-full cursor-grab flex-row justify-between border-b-2 border-white px-2 font-scope text-lg text-white'}>
 						<div className={'w-full'}>{'YFU MEDIA PLAYER'}</div>
 						<div

@@ -105,7 +105,7 @@ function Index(): ReactElement {
 					<div className={'grid justify-items-end p-4 md:px-4 md:py-1'}>
 						<div></div>
 						<Link
-							href={'/comic'}
+							href={'/comics/'}
 							className={'button-glowing-small bg-white font-scope text-black'}>
 							{'VIEW THE COMICS'}
 							<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
