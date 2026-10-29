@@ -26,6 +26,16 @@ print PDFs. Re-run the import when the source files change (needs poppler for `p
 yarn import-comics '<path to "pills comic final">'
 ```
 
+### artwork and audio
+
+Gallery artwork is encoded to AVIF from the masters in the yearn keybase archive, and the AAC
+fallbacks of the soundtrack from its WAV masters (needs macOS ffmpeg for `aac_at`):
+
+```
+node scripts/encode-assets.mjs '<path to "keybase backup/yearnfinance">'
+node scripts/encode-audio.mjs '<path to the "yfu temple" masters folder>'
+```
+
 ⚠ incompatible with bun 1.0.27,
 ```
 Server Error

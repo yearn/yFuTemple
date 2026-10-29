@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Image from 'next/image';
 
-import {formatRemaining, useAudio, useAudioProgress} from '../contexts/useAudio';
-import DraggablePlayer from './DraggablePlayer';
+import {formatRemaining, useAudio} from '../contexts/useAudio';
+import PlayerPanel from './PlayerPanel';
 import IconExpand from './icons/IconExpand';
 import IconPause from './icons/IconPause';
 import IconPlay from './icons/IconPlay';
@@ -10,12 +10,13 @@ import IconPrev from './icons/IconPrev';
 
 import type {ReactElement} from 'react';
 
+const	HEADER_BUTTON = 'flex size-6 items-center justify-center hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-white md:size-8';
+
 function	Header(): ReactElement {
-	const	{AUDIO_LIST, audio, isPlaying, set_isPlaying} = useAudio();
-	const	progress = useAudioProgress(audio);
+	const	{tracks, current, isPlaying, progress, toggle, next, previous} = useAudio();
 	const	[hasModal, set_hasModal] = useState(false);
 	const	[hasMediaPlayer, set_hasMediaPlayer] = useState(false);
-	const	[selected, set_selected] = useState(0);
+	const	closeMediaPlayer = useCallback((): void => set_hasMediaPlayer(false), []);
 
 	return (
 		<>
@@ -84,41 +85,40 @@ function	Header(): ReactElement {
 					</div>
 				</div>
 				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-[300px] md:min-w-[300px]'}>
-					<div className={'flex w-max cursor-pointer items-center justify-between px-2 md:px-4'}>
-						<div className={'flex flex-row items-center justify-center font-scope'}>
-							<IconPrev
-								onClick={(): void => {
-									if (audio) {
-										audio.currentTime = 0;
-									}
-								}}
-								className={'size-3 cursor-pointer text-white md:size-4'} />
-							{isPlaying ? (
-								<IconPause
-									onClick={(): void => {
-										set_isPlaying(false);
-										audio?.pause();
-									}}
-									className={'mx-0.5 size-3 cursor-pointer text-white md:mx-1 md:size-4'}/>
-							) : (
-								<IconPlay
-									onClick={(): void => {
-										set_isPlaying(true);
-										audio?.play();
-									}}
-									className={'mx-0.5 size-3 cursor-pointer text-white md:mx-1 md:size-4'}/>
-							)}
-							<IconPrev
-								onClick={(): void => set_selected((selected + 1) % AUDIO_LIST.length)}
-								className={'size-3 rotate-180 cursor-pointer text-white md:size-4'}/>
-						</div>
-						<div className={'mx-2 mb-0.5 flex font-scope text-xs text-white md:mx-3 md:text-base'}>{AUDIO_LIST[selected][0]}</div>
-						<div className={'mb-0.5 mr-0 font-scope text-xs tabular-nums text-white md:mr-3 md:text-base'}>
+					<div className={'flex w-max items-center justify-between px-1 font-scope text-white md:px-3'}>
+						<button
+							type={'button'}
+							onClick={previous}
+							aria-label={'Previous track'}
+							className={HEADER_BUTTON}>
+							<IconPrev className={'size-3 md:size-4'} />
+						</button>
+						<button
+							type={'button'}
+							onClick={toggle}
+							aria-label={isPlaying ? 'Pause' : 'Play'}
+							className={HEADER_BUTTON}>
+							{isPlaying ? <IconPause className={'size-3 md:size-4'} /> : <IconPlay className={'size-3 md:size-4'} />}
+						</button>
+						<button
+							type={'button'}
+							onClick={next}
+							aria-label={'Next track'}
+							className={HEADER_BUTTON}>
+							<IconPrev className={'size-3 rotate-180 md:size-4'} />
+						</button>
+						<div className={'mx-2 mb-0.5 flex text-xs md:mx-3 md:text-base'}>{tracks[current].title}</div>
+						<div className={'mb-0.5 mr-1 text-xs tabular-nums md:mr-3 md:text-base'}>
 							{formatRemaining(progress)}
 						</div>
-						<IconExpand
-							className={'text-white'}
-							onClick={(): void => set_hasMediaPlayer(!hasMediaPlayer)} />
+						<button
+							type={'button'}
+							onClick={(): void => set_hasMediaPlayer(!hasMediaPlayer)}
+							aria-label={hasMediaPlayer ? 'Close media player' : 'Open media player'}
+							aria-expanded={hasMediaPlayer}
+							className={HEADER_BUTTON}>
+							<IconExpand />
+						</button>
 					</div>
 				</div>
 				<div className={'relative col-span-2 flex h-12 w-250% select-none items-center overflow-x-hidden border-b-2 border-white bg-[#181D20] font-scope text-white md:h-16 md:w-full'}>
@@ -130,12 +130,9 @@ function	Header(): ReactElement {
 					</div>
 				</div>
 			</header>
-			<DraggablePlayer
-				selected={selected}
-				set_selected={set_selected}
-				hasMediaPlayer={hasMediaPlayer}
-				set_hasMediaPlayer={set_hasMediaPlayer}
-			/>
+			<PlayerPanel
+				isOpen={hasMediaPlayer}
+				onClose={closeMediaPlayer} />
 		</>
 
 	);
