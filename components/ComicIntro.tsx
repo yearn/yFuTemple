@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 
 export default function ComicIntro(): React.ReactElement {
@@ -40,6 +41,11 @@ export default function ComicIntro(): React.ReactElement {
 					<p>{"yFu is a comic in four episodes, set in the Pills alternate universe and chronicling the rise of Yearn's DAO and DeFi. yFu was developed by Yearn Finance and The Pills Universe, and was written and produced by Josh Blaylock."}</p>
 					<p>{'yFu follows the story of Andre the Patcher and a young farmer named Estonya as they encounter the four yFu goddesses and attempt to recover the secrets of yield from the clutches of the ancient, evil Cron.'}</p>
 					<p>{'Browse to see the art and story first hand.'}</p>
+					<p>
+						<Link href={'/faq'} className={'underline'}>
+							{'See the FAQ for full credits.'}
+						</Link>
+					</p>
 				</div>
 				<div className={'mx-auto mt-8 pt-8 md:mt-auto'}>
 					<button

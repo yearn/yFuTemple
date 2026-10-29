@@ -167,7 +167,6 @@ module.exports = {
 							[
 								'^react',
 								'^next',
-								'^(ethers|ethcall)?\\w',
 								'^axios', '^swr',
 								'^tailwindcss', '^framer-motion', '^nprogress',
 								'^@?\\w',

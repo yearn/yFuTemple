@@ -9,38 +9,6 @@ function FAQ(): ReactElement {
 		<div className={'relative mb-10 flex flex-col border-2 border-white text-white'}>
 			<div className={'border-b-2 border-white p-8'}>
 				<h1 className={'whitespace-pre-wrap text-4xl font-bold text-white'}>
-					{'Base Chain'}
-				</h1>
-				<div className={'mt-10 text-base text-white'}>
-					<p>{'Your yFu NFTs will be minted on the Base chain!'}</p> 
-					<p>{'NFT contract is '}<a href={'https://basescan.org/address/0x39adafad9fde221725b975b4adae8b8f2dfa6d4b'}>{'here 0x39ad...6d4b'}</a></p>
-				</div>
-				<h1 className={'mt-20 whitespace-pre-wrap text-4xl font-bold text-white'}>
-					{'Campaign Timeline'}
-				</h1>
-				<div className={'mt-10'}>
-					<ul className={'list-inside list-disc space-y-2'}>
-						<li className={'text-base text-white'}>
-							{'NFT Minting Begins!'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'NFT Reveal'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Snapshot of NFT holders is taken on November 11th 2024'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Airdrop of shipping coupons within a day or two.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Shipping information entry period: open until December 11th.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Comics will ship! (expect 6-8 weeks for delivery)'}
-						</li>
-					</ul>
-				</div>
-				<h1 className={'mt-20 whitespace-pre-wrap text-4xl font-bold text-white'}>
 					{'F.A.Q.'}
 				</h1>
 				<div className={'mt-10'}>
@@ -65,86 +33,23 @@ function FAQ(): ReactElement {
 
 				<div className={'mt-10'}>
 					<h2 className={'text-2xl font-bold text-white'}>
-						{'What is this NFT all about?'}
+						{'What was the yFu Comic NFT?'}
 					</h2>
 					<ul className={'mt-4 max-w-2xl list-outside list-disc space-y-2 pl-4'}>
 						<li className={'text-base text-white'}>
-							{'yFu Comic NFTs are your ticket to receive physical copies of all four comics.'}
+							{'In 2024, a limited edition of 888 yFu Comic NFTs was minted on Base, each associated with a frame from the comics.'}
 						</li>
 						<li className={'text-base text-white'}>
-							{'They are also commemorative and collectible digital artwork on the Ethereum blockchain.'}
+							{'Holders at the snapshot received a physical set of all four first edition comics, produced and shipped by Devil\'s Due Comics.'}
 						</li>
 						<li className={'text-base text-white'}>
-							{'There is a fixed supply of 888 NFTs, and each will be associated with a frame from the comics after reveal.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Artwork and metadata is stored on IPFS.'}
-						</li>
-					</ul>
-				</div>
-
-				<div className={'mt-10'}>
-					<h2 className={'text-2xl font-bold text-white'}>
-						{'How will this work, exactly?'}
-					</h2>
-					<ul className={'mt-4 max-w-2xl list-outside list-disc space-y-2 pl-4'}>
-						<li className={'text-base text-white'}>
-							{'Anyone can mint one or more yFu Comic NFTs.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'At the snapshot date, all holders of yFu Comic NFTs will be airdropped a Shipping Coupon NFT, one for each NFT held.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'For one month, these coupons will allow you to use the yFu Temple website to enter your address'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Devil\'s Due Comics will use the address entered to send you a set of all four comics, for each coupon you use.'}
-						</li>
-					</ul>
-				</div>
-
-				<div className={'mt-10'}>
-					<h2 className={'text-2xl font-bold text-white'}>
-						{'Physical comics? Tell me more...'}
-					</h2>
-					<ul className={'mt-4 max-w-2xl list-outside list-disc space-y-2 pl-4'}>
-						<li className={'text-base text-white'}>
-							{'Comics are produced and shipped by the good people at Devil\'s Due Comics.  They will be sent from the U.S.A.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Domestic shipping in the U.S.A. will be via USPS.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'International shipping will be via FedEx.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'There is no additional charge for shipping, this has been covered in the mint cost.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'Customs charges may be applied in some locations, and will be the responsibility of the recipient.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'If you have any issues with shipping, please post in our '}
+							{'The NFT contract is '}
 							<a
-								href={'https://discord.com/invite/yearn'}
-								target={'_blank'} 
+								href={'https://basescan.org/address/0x39adafad9fde221725b975b4adae8b8f2dfa6d4b'}
+								target={'_blank'}
 								rel={'noreferrer'}>
-								<span className={'underline hover:text-yearn-blue'}> {'Discord channel'}</span>
-							</a>{', and we can support your questions.'}
-						</li>
-					</ul>
-				</div>
-
-				<div className={'mt-10'}>
-					<h2 className={'text-2xl font-bold text-white'}>
-						{'But I\'m anon. How am I going to get the comics?'}
-					</h2>
-					<ul className={'mt-4 max-w-2xl list-outside list-disc space-y-2 pl-4'}>
-						<li className={'text-base text-white'}>
-							{'Feel free to mint from a non-public wallet and / or use a P.O. box, a third party recipient, etc.'}
-						</li>
-						<li className={'text-base text-white'}>
-							{'We will not retain shipping information, Yearn doesn\'t care where you live, but please use any op-sec you think is needed.'}
+								<span className={'underline hover:text-yearn-blue'}>{'0x39ad...6d4b'}</span>
+							</a>
 						</li>
 					</ul>
 				</div>
