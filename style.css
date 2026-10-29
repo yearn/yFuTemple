@@ -181,63 +181,10 @@ h1, h2, h3, h4, h5, h6 {
       disabled:opacity-10
 }
 
-.no-slide-content {
-  pointer-events: none;
+/* caption under photoswipe slides, registered in utils/usePhotoSwipe */
+.pswp__caption {
+    @apply absolute inset-x-0 bottom-0 bg-black/70 px-4 py-3 text-center font-scope text-white;
 }
-.no-slide-content .slide-content {
-  opacity: 0;
-}
-
-
-.horizontal-snap {
-    margin: 0 auto;
-    display: grid;
-    grid-auto-flow: column;
-    width: 100%;
-    overflow-y: auto;
-    scroll-snap-type: x;
-    -webkit-scroll-snap-type: x mandatory;
-}
-
-.horizontal-snap > div {
-    scroll-snap-align: center;
-    -webkit-scroll-snap-align: center;
-    transform-style: preserve-3d;
-    perspective: 500px;
-}
-
-.horizontal-snap-center {
-    z-index: 10;
-    & > div {
-        transform: rotateY(0) scale(1);
-    }
-}
-.horizontal-snap-on-left {
-    z-index: 0;
-    & > div {
-        transform: rotateY(40deg) scale(0.6);
-    }
-}
-.horizontal-snap-on-right {
-    z-index:0;
-    & > div {
-        transform: rotateY(-40deg) scale(0.6);
-    }
-}
-
-.figure {
-    display: block;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    flex: 0 0 auto;
-    cursor: pointer;
-    transition: transform 600ms ease;
-    backface-visibility: hidden;
-    z-index: 9;
-    align-self: center;
-}
-
 
 [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
 	outline: none;
