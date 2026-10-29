@@ -1,28 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
 
 import DraggableInfo from '../../components/DraggableInfo';
 import TributeSlider from '../../components/TributeSlider';
 import YFU_DATA from '../../utils/data';
 
+import type {GetStaticPaths, GetStaticProps} from 'next';
 import type {ReactElement} from 'react';
+import type {TYFUData} from '../../utils/data';
 
-export default function Index(): ReactElement {
-	const	router = useRouter();
+type TTributePage = {
+	temple: TYFUData
+};
+
+export default function Index({temple}: TTributePage): ReactElement {
 	const	[hasInfo, set_hasInfo] = useState(false);
-	const	[currentTemple, set_currentTemple] = useState(YFU_DATA.find((e): boolean => e.id === router?.query?.id));
-
-	useEffect((): void => {
-		console.log('murder');
-	}, []);
-
-	useEffect((): void => {
-		if(router?.query?.id) {
-			const	_currentTemple = YFU_DATA.find((e): boolean => e.id === router?.query?.id);
-			set_currentTemple(_currentTemple);
-		}
-	}, [router.query]);
 
 	return (
 		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
@@ -64,11 +56,11 @@ export default function Index(): ReactElement {
 				</button>
 			</div>
 			<h3 className={'mx-auto mt-4 w-fit max-w-xl whitespace-pre-wrap break-words border-b-2 border-b-white px-3 pb-3 font-peste text-2xl font-medium uppercase text-white md:mt-0 md:px-0 md:text-5xl'}>
-				{currentTemple?.tributeTitle}
+				{temple.tributeTitle}
 			</h3>
-			<div className={'mx-auto mt-2 h-full w-full md:mt-10'}>
+			<div className={'mx-auto mt-2 size-full md:mt-10'}>
 				<TributeSlider
-					medias={currentTemple?.medias || []}
+					medias={temple.medias}
 					hasInfo={hasInfo}
 					set_hasInfo={set_hasInfo as any} />
 			</div>
@@ -78,3 +70,12 @@ export default function Index(): ReactElement {
 		</div>
 	);
 }
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+	paths: YFU_DATA.map(({id}): {params: {id: string}} => ({params: {id}})),
+	fallback: false
+});
+
+export const getStaticProps: GetStaticProps<TTributePage, {id: string}> = async ({params}) => ({
+	props: {temple: YFU_DATA.find(({id}): boolean => id === params?.id) as TYFUData}
+});

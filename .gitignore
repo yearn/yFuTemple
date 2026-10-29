@@ -32,9 +32,6 @@ pnpm-debug.log*
 .env
 .next
 .vercel
+/out
 
-public/build/
-public/contracts/*
-public/sw.js
-public/workbox-588899ac.js
 tsconfig.tsbuildinfo

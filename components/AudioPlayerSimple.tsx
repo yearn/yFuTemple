@@ -11,7 +11,7 @@ type TAudioPlayerSimple = {
 	isSelected: boolean,
 	set_selected: (audio: HTMLAudioElement) => void,
 	onSelectNext: () => void
-}
+};
 
 function	AudioPlayerSimple({
 	name,

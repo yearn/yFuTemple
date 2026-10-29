@@ -1,71 +1,14 @@
-import React, {Fragment, memo, useState} from 'react';
+import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import {DefaultSeo} from 'next-seo';
-import {Dialog, Transition} from '@headlessui/react';
 
 import Header from '../components/Header';
-import useAudio, {AudioContextApp} from '../contexts/useAudio';
+import {AudioContextApp} from '../contexts/useAudio';
 
 import type {AppProps} from 'next/app';
-import type {ReactElement, ReactNode} from 'react';
+import type {ReactElement} from 'react';
 
 import '../style.css';
-
-const WithSplash = memo(function WithSplash({children}: {children: ReactNode}): ReactElement {
-	const	[hasOpacity, set_hasOpacity] = useState(true);
-	const	[shouldDisplay, set_shouldDisplay] = useState(true);
-	const	[shouldDisplayVideo] = useState(true);
-	const	{audio, set_isPlaying} = useAudio();
-
-	return (
-		<>
-			<Transition
-				appear
-				show={shouldDisplay}
-				as={Fragment}>
-				<Dialog
-					as={'div'}
-					className={'fixed inset-0 z-20'}
-					onClose={(): void => set_shouldDisplay(false)}>
-					<div className={`absolute inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-1000 ${hasOpacity ? 'opacity-100' : 'opacity-0'} ${!shouldDisplay ? 'hidden' : ''}`}>
-						<div className={'relative mx-auto flex h-full w-full items-center justify-center'}>
-							<div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${shouldDisplayVideo ? 'opacity-100' : 'opacity-0'}`}>
-								<Image
-									alt={''}
-									src={'/splash.gif'}
-									loading={'eager'}
-									width={640}
-									height={360} />
-							</div>
-							<div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${!shouldDisplayVideo ? 'opacity-100' : 'opacity-100'}`}>
-								<div className={'mt-[360px]'}>
-									<button
-										onClick={(): void => {
-											set_isPlaying(true);
-											audio?.play();
-											set_hasOpacity(false);
-											setTimeout((): void => set_shouldDisplay(false), 1000);
-										}}
-										className={'button-glowing bg-beige font-scope text-black'}>
-										{'ENTER'}
-										<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
-										<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</Dialog>
-			</Transition>
-			<div
-				className={`transition-opacity duration-1000 ${hasOpacity ? 'pointer-events-none h-screen overflow-hidden' : ''}`}
-				style={{opacity: hasOpacity ? 0 : 1}}>
-				{children}
-			</div>
-		</>
-	);
-});
 
 function	AppMeta(): ReactElement {
 	return (
@@ -107,8 +50,8 @@ function	AppMeta(): ReactElement {
 				<meta name={'theme-color'} content={'#ffffff'} />
 
 				{/* ROBOTS */}
-				<meta name={'robots'} content={'index,nofollow'} />
-				<meta name={'googlebot'} content={'index,nofollow'} />
+				<meta name={'robots'} content={'index,follow'} />
+				<meta name={'googlebot'} content={'index,follow'} />
 			</Head>
 			<DefaultSeo
 				title={'yFu Temple'}
@@ -142,28 +85,24 @@ function	AppMeta(): ReactElement {
 function	AppWrapper(props: AppProps): ReactElement {
 	const	{Component, pageProps, router} = props;
 
-	console.log('Current route:', router.route);
-
 	return (
 		<>
 			<AppMeta />
-			<WithSplash>
-				<Header />
-				<div className={'z-10 overflow-x-hidden pt-24 md:pt-16'}>
-					<Component
-						key={router.route}
-						router={props.router}
-						{...pageProps} />
-				</div>
-			</WithSplash>
+			<Header />
+			<div className={'z-10 overflow-x-hidden pt-24 md:pt-16'}>
+				<Component
+					key={router.route}
+					router={props.router}
+					{...pageProps} />
+			</div>
 			<div className={'fixed inset-0 -z-10'}>
 				<video
 					playsInline
 					autoPlay
 					muted
 					loop
-					poster={'/bg.jpg'}
-					className={'h-full w-full object-cover'}>
+					poster={'/bg.avif'}
+					className={'size-full object-cover'}>
 					<source src={'/bglow.webm'} type={'video/webm'} />
 				</video>
 			</div>

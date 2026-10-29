@@ -1,4 +1,4 @@
-import	React							from	'react';
+import	React from	'react';
 
 function	Icon({width = '16', height = '16', ...props}): React.ReactElement {
 	return (

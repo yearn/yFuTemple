@@ -13,7 +13,7 @@ type TTributeElement = {
 	onClick: () => void,
 	onImageClick: () => void,
 	set_hasInfo: React.Dispatch<React.SetStateAction<TYFUDataMedia|boolean>>
-}
+};
 
 function	TributeElement({
 	tribute, className, hasInfo, set_hasInfo, onClick, onImageClick
@@ -54,7 +54,7 @@ type TTributeSlider = {
 	medias: TYFUDataMedia[],
 	hasInfo: TYFUDataMedia|boolean,
 	set_hasInfo: React.Dispatch<React.SetStateAction<TYFUDataMedia|boolean>>
-}
+};
 export default function TributeSlider({medias, hasInfo, set_hasInfo}: TTributeSlider): ReactElement {
 	const	[currentSlide, set_currentSlide] = useState(0);
 
@@ -77,7 +77,7 @@ export default function TributeSlider({medias, hasInfo, set_hasInfo}: TTributeSl
 	return (
 		<div
 			id={'tribute-slider'}
-			className={'horizontal-snap w-screen gap-0 scroll-smooth px-20 scrollbar-none md:px-[40vw]'}
+			className={'horizontal-snap scrollbar-none w-screen gap-0 scroll-smooth px-20 md:px-[40vw]'}
 			onScroll={handleScroll}>
 			{
 				medias.map((tribute: TYFUDataMedia, index: number): ReactElement => (

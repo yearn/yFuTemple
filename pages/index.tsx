@@ -44,7 +44,7 @@ function Goddess({characterSrc = '', typoSrc = '', id = '', title = '', children
 					height={895}/>
 			</div>
 			<div
-				className={'col-span-1 flex h-full w-full flex-col border-0 border-white p-4 pb-8 md:border-x-2 md:p-8 md:pb-14'}>
+				className={'col-span-1 flex size-full flex-col border-0 border-white p-4 pb-8 md:border-x-2 md:p-8 md:pb-14'}>
 				<div
 					className={'space-y-4 font-scope text-base text-white md:text-lg'}
 					style={{whiteSpace: 'break-spaces'}}>
@@ -80,7 +80,7 @@ function Tree(): ReactElement {
 			<div className={'image-wrapper col-span-1'}>
 				<Image
 					alt={''}
-					src={'/yearningTree.jpg'}
+					src={'/yearningTree.avif'}
 					loading={'eager'}
 					width={2000}
 					height={1000}/>
@@ -113,7 +113,7 @@ function Index(): ReactElement {
 						</Link>
 					</div>
 
-					<div className={'flex items-center justify-center pt-2 pb-8 md:pt-4'}>
+					<div className={'flex items-center justify-center pb-8 pt-2 md:pt-4'}>
 						<Title/>
 					</div>
 
@@ -134,6 +134,7 @@ function Index(): ReactElement {
 									<div
 										className={`my-0 flex items-center justify-center ${index + 1 === allData.length ? 'hidden' : ''}`}>
 										<Image
+											unoptimized
 											alt={''}
 											src={`/divider-${index + 1}.gif`}
 											width={200}
@@ -144,7 +145,7 @@ function Index(): ReactElement {
 						<div className={'my-9 flex items-center justify-center'}>
 							<Image
 								alt={''}
-								src={'/yfiTree2.png'}
+								src={'/yfiTree2.avif'}
 								width={112}
 								height={112}/>
 						</div>
