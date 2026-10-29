@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import {NextSeo} from 'next-seo';
 import Footer from 'components/Footer';
 
 import type {ReactElement} from 'react';
@@ -83,6 +84,9 @@ function FAQ(): ReactElement {
 function Wrapper(): ReactElement {
 	return (
 		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
+			<NextSeo
+				title={'FAQ · yFu Temple'}
+				description={'Credits for the yFu comic, the 2024 comic NFT, and how the yFu Temple relates to Yearn.'} />
 			<div className={'relative mx-auto w-full max-w-screen-xl'} style={{minHeight: '100vh'}}>
 				<div>
 					<Link href={'/'}>

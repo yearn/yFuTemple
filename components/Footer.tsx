@@ -6,9 +6,9 @@ import type {ReactElement} from 'react';
 const	VISITORS = '001337';
 
 const	LINKS = [
-	['TWITTER', 'https://twitter.com/yearnfi'],
+	['TWITTER', 'https://x.com/yearnfi'],
 	['DISCORD', 'https://discord.com/invite/yearn'],
-	['MEDIUM', 'http://blog.yearn.finance'],
+	['BLOG', 'https://blog.yearn.fi'],
 	['TELEGRAM', 'https://t.me/yearnfinance'],
 	['THE BLUE PILL', 'https://yfistory.org']
 ];

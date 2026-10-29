@@ -6,6 +6,6 @@ module.exports = {
 		unoptimized: true
 	},
 	env: {
-		WEBSITE_URI: process.env.WEBSITE_URI
+		WEBSITE_URI: process.env.WEBSITE_URI ?? 'https://temple.yearn.fi/'
 	}
 };

@@ -4,7 +4,8 @@ body {@apply text-white;}
 h1 {@apply text-xl font-bold;}
 h4 {@apply text-lg font-bold;}
 * {@apply scroll-smooth;}
-:focus {outline: none;}
+/* keep focus rings for keyboard users, hide them after mouse clicks */
+:focus:not(:focus-visible) {outline: none;}
 
 @tailwind components;
 @tailwind utilities;
