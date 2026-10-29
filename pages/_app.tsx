@@ -89,7 +89,7 @@ function	AppWrapper(props: AppProps): ReactElement {
 		<>
 			<AppMeta />
 			<Header />
-			<div className={'z-10 overflow-x-hidden pt-24 md:pt-16'}>
+			<div className={'z-10 overflow-x-clip pt-24 md:pt-16'}>
 				<Component
 					key={router.route}
 					router={props.router}

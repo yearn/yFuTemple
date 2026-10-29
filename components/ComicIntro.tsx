@@ -1,15 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
 
 export default function ComicIntro(): React.ReactElement {
-	const router = useRouter();
-
-	const onClickTribute = (): void => {
-		router.push('/comic');
-	};
-
 	return (
 		<section className={'mb-16 grid grid-cols-1 divide-y divide-white border-2 border-white md:grid-cols-3 md:divide-y-0'}>
 			<div className={'relative col-span-1 flex flex-col items-center justify-center divide-y divide-white p-0 md:divide-y-0 md:p-8'}>
@@ -48,13 +41,13 @@ export default function ComicIntro(): React.ReactElement {
 					</p>
 				</div>
 				<div className={'mx-auto mt-8 pt-8 md:mt-auto'}>
-					<button
-						onClick={onClickTribute}
+					<Link
+						href={'/comics/'}
 						className={'button-glowing bg-white font-peste text-black'}>
 						{'VIEW COMICS'}
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
-					</button>
+					</Link>
 				</div>
 			</div>
 			<div className={'image-wrapper col-span-1 hidden md:flex'}>

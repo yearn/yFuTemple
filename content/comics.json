@@ -1,7 +1,9 @@
 [
 	{
 		"id": "techne",
+		"number": 1,
 		"title": "Techne",
+		"subtitle": "Andre the Patcher",
 		"pages": [
 			{
 				"width": 1988,
@@ -286,7 +288,9 @@
 	},
 	{
 		"id": "transmission",
+		"number": 2,
 		"title": "Transmission",
+		"subtitle": "Transmission Received",
 		"pages": [
 			{
 				"width": 1988,
@@ -571,7 +575,9 @@
 	},
 	{
 		"id": "community",
+		"number": 3,
 		"title": "Community",
+		"subtitle": "Community's Circle",
 		"pages": [
 			{
 				"width": 1988,
@@ -857,7 +863,9 @@
 	},
 	{
 		"id": "dominion",
+		"number": 4,
 		"title": "Dominion",
+		"subtitle": "Attack on Markap",
 		"pages": [
 			{
 				"width": 1988,

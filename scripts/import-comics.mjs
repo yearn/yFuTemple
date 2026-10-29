@@ -20,7 +20,9 @@ const QUALITY = 60;
 const ISSUES = [
 	{
 		id: 'techne',
+		number: 1,
 		title: 'Techne',
+		subtitle: 'Andre the Patcher',
 		pdf: '2024-04-17 fix bigbadabook/yFu_01 Full 04172024.pdf',
 		fixes: {
 			// the pdf leaves white strips down both edges of this page
@@ -29,7 +31,9 @@ const ISSUES = [
 	},
 	{
 		id: 'transmission',
+		number: 2,
 		title: 'Transmission',
+		subtitle: 'Transmission Received',
 		pdf: '2024-04-17 fix bigbadabook/yFu_02 Full 04172024.pdf',
 		fixes: {
 			// the 2024 pdf carries issue 3's cover
@@ -40,13 +44,17 @@ const ISSUES = [
 	},
 	{
 		id: 'community',
+		number: 3,
 		title: 'Community',
+		subtitle: 'Community\'s Circle',
 		pdf: '2024-04-17 fix bigbadabook/yFu_03 Full 04172024.pdf',
 		fixes: {}
 	},
 	{
 		id: 'dominion',
+		number: 4,
 		title: 'Dominion',
+		subtitle: 'Attack on Markap',
 		pdf: '2024-04-17 fix bigbadabook/yFu_04 Full 04172024.pdf',
 		fixes: {}
 	}
@@ -108,7 +116,7 @@ for (const issue of ISSUES) {
 		pages.push({...await encode(input, outDir, number), source});
 		console.log(`${issue.id} ${number} <- ${source}`);
 	}
-	manifest.push({id: issue.id, title: issue.title, pages});
+	manifest.push({id: issue.id, number: issue.number, title: issue.title, subtitle: issue.subtitle, pages});
 }
 fs.rmSync(tmp, {recursive: true, force: true});
 fs.mkdirSync('content', {recursive: true});
