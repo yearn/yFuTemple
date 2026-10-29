@@ -1,18 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import fs from 'fs';
-import path from 'path';
 
-import type {GetStaticProps} from 'next';
+import {COMICS, pageImage} from '../../utils/comics';
+
+import type {TComic} from '../../utils/comics';
 
 import styles from './Carousel.module.css';
-
-const TABS = ['techne', 'transmission', 'community', 'dominion'];
-
-type TCarouselPage = {
-	imagesByTab: { [key: string]: string[] }
-};
 
 // Define a custom type for our CSS variables with the correct prefix
 type TCustomCSSProperties = React.CSSProperties & {
@@ -39,24 +32,25 @@ function handleScroll(e: React.UIEvent<HTMLElement>, currentSlide: number, set_c
 	}
 }
 
-function handleImageClick(imagePath: string, set_modalImage: React.Dispatch<React.SetStateAction<string | null>>, set_isModalOpen: React.Dispatch<React.SetStateAction<boolean>>): void {
-	set_modalImage(imagePath);
+function handleImageClick(index: number, set_modalImage: React.Dispatch<React.SetStateAction<number | null>>, set_isModalOpen: React.Dispatch<React.SetStateAction<boolean>>): void {
+	set_modalImage(index);
 	set_isModalOpen(true);
 }
 
-function handleModalClose(set_isModalOpen: React.Dispatch<React.SetStateAction<boolean>>, set_modalImage: React.Dispatch<React.SetStateAction<string | null>>): void {
+function handleModalClose(set_isModalOpen: React.Dispatch<React.SetStateAction<boolean>>, set_modalImage: React.Dispatch<React.SetStateAction<number | null>>): void {
 	set_isModalOpen(false);
 	set_modalImage(null);
 }
 
-export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactElement {
-	const [activeTab, set_activeTab] = useState<string>('techne');
+export default function CarouselPage(): React.ReactElement {
+	const [comic, set_comic] = useState<TComic>(COMICS[0]);
 	const [currentSlide, set_currentSlide] = useState<number>(0);
 	const [isShowGlow, set_isShowGlow] = useState<boolean>(false);
 	const [isModalOpen, set_isModalOpen] = useState<boolean>(false);
-	const [modalImage, set_modalImage] = useState<string | null>(null);
+	const [modalImage, set_modalImage] = useState<number | null>(null);
+	const activeTab = comic.id;
 
-	const tabColors: { [key: string]: string } = {
+	const tabColors: {[key: string]: string} = {
 		techne: 'rgba(18, 201, 205, 0.8)',
 		transmission: 'rgba(230, 236, 117, 0.8)',
 		community: 'rgba(238, 166, 208, 0.8)',
@@ -76,8 +70,6 @@ export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactE
 
 		return showGlowEffect();
 	}, [activeTab]);
-
-	const imagePaths = imagesByTab[activeTab];
 
 	const styleProps: TCustomCSSProperties = {
 		'--glow-color': tabColors[activeTab],
@@ -115,16 +107,14 @@ export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactE
 			<article className={'z-10 flex flex-col items-stretch justify-between space-y-4 overflow-hidden p-4 py-8 sm:space-y-16'}>
 
 				<section className={'mb-4 flex w-full justify-center gap-x-1 sm:gap-x-4'}>
-					{/* eslint-disable-next-line @typescript-eslint/explicit-function-return-type */}
 					{(() => {
 						const disabledTabs = ['transmission', 'community', 'dominion'];
 						return (
-							// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-							TABS.map((tab) => (
+							COMICS.map(({id: tab}, index) => (
 								<button
 									key={tab}
 									onClick={(): void => {
-										set_activeTab(tab);
+										set_comic(COMICS[index]);
 										set_currentSlide(0);
 									}}
 									className={`rounded-md px-2 py-1 text-sm capitalize ${activeTab === tab ? 'bg-white/30' : disabledTabs.includes(tab) ? 'cursor-not-allowed text-white/70' : 'text-white'}`}
@@ -140,11 +130,10 @@ export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactE
 
 				<section
 					id={'image-carousel'}
-					className={'horizontal-snap w-screen gap-0 scroll-smooth px-20 scrollbar-none md:px-[40vw]'}
+					className={'horizontal-snap scrollbar-none w-screen gap-0 scroll-smooth px-20 md:px-[40vw]'}
 					onScroll={(e): void => handleScroll(e, currentSlide, set_currentSlide)}
 				>
-					{/* eslint-disable-next-line @typescript-eslint/explicit-function-return-type */}
-					{imagePaths.map((imagePath, index) => (
+					{comic.pages.map((_page, index) => (
 						<div
 							key={index}
 							className={`w-[50vw] md:w-[20vw] ${
@@ -153,39 +142,37 @@ export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactE
 						>
 							<div className={'figure select-none'}>
 								<div className={'carousel-slider-animate-opacity'}>
-									<Image
-										alt={`Image ${index + 1}`}
-										src={`/${imagePath}`}
-										width={1200}
-										height={1846}
+									<img
+										{...pageImage(comic, index)}
+										alt={`${comic.title} page ${index + 1}`}
+										sizes={'(min-width: 768px) 20vw, 50vw'}
 										style={{objectFit: 'contain'}}
 										loading={'lazy'}
+										decoding={'async'}
 										className={'cursor-pointer'}
-										onClick={(): void => handleImageClick(imagePath, set_modalImage, set_isModalOpen)}
+										onClick={(): void => handleImageClick(index, set_modalImage, set_isModalOpen)}
 									/>
 								</div>
 							</div>
 						</div>
 					))}
 
-					{imagePaths.length < 5
-						? Array(5 - imagePaths.length).fill(<div className={'w-[50vw] md:w-[20vw]'}/>)
+					{comic.pages.length < 5
+						? Array(5 - comic.pages.length).fill(<div className={'w-[50vw] md:w-[20vw]'}/>)
 						: null}
 				</section>
 			</article>
 
-			{isModalOpen && modalImage && (
+			{isModalOpen && modalImage !== null && (
 				<div
 					className={'fixed inset-0 z-50 flex items-center justify-center bg-black/80'}
 					onClick={(): void => handleModalClose(set_isModalOpen, set_modalImage)}
 				>
 					<div className={'relative p-4'}>
-						<Image
-							src={`/${modalImage}`}
-							alt={'Full screen image'}
-							width={1200}
-							height={1846}
-							loading={'eager'}
+						<img
+							{...pageImage(comic, modalImage)}
+							alt={`${comic.title} page ${modalImage + 1}`}
+							sizes={'100vw'}
 							style={{
 								objectFit: 'contain',
 								maxHeight: 'calc(100vh - 80px)',
@@ -198,12 +185,3 @@ export default function CarouselPage({imagesByTab}: TCarouselPage): React.ReactE
 		</article>
 	);
 }
-
-export const getStaticProps: GetStaticProps<TCarouselPage> = async () => {
-	const imagesByTab = Object.fromEntries(TABS.map((tab): [string, string[]] => {
-		const folder = path.join('assets', 'comics', 'img', tab);
-		const fileNames = fs.readdirSync(path.join(process.cwd(), 'public', folder));
-		return [tab, fileNames.map((fileName): string => path.join(folder, fileName))];
-	}));
-	return {props: {imagesByTab}};
-};

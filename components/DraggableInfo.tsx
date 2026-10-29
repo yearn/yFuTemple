@@ -1,12 +1,12 @@
-import	React			from	'react';
-import	Draggable		from	'react-draggable';
+import	React from	'react';
+import	Draggable from	'react-draggable';
 
 import	{parseMarkdown}	from	'../utils/parseMarkdown';
 
 type TDraggableInfo = {
 	hasInfo: boolean,
 	set_hasInfo: React.Dispatch<React.SetStateAction<boolean>>,
-}
+};
 function	DraggableInfo({hasInfo, set_hasInfo}: TDraggableInfo): React.ReactElement {
 	return (
 		<div className={`pointer-events-none fixed inset-0 z-50 items-center justify-center ${hasInfo ? 'flex' : 'hidden'}`} style={{zIndex: 10000}}>

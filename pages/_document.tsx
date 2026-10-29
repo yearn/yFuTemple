@@ -4,33 +4,6 @@ import Document, {Head, Html, Main, NextScript} from 'next/document';
 import type {DocumentContext, DocumentInitialProps} from 'next/document';
 import type {ReactElement} from 'react';
 
-const modeScript = `
-  let darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-  updateMode()
-  darkModeMediaQuery.addEventListener('change', updateModeWithoutTransitions)
-  window.addEventListener('storage', updateModeWithoutTransitions)
-
-  function updateMode() {
-    let isSystemDarkMode = darkModeMediaQuery.matches
-    let isDarkMode = true
-
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-
-    if (isDarkMode === isSystemDarkMode) {
-      delete window.localStorage.isDarkMode
-    }
-  }
-
-  function updateModeWithoutTransitions() {
-    updateMode()
-  }
-`;
-
 class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
 		const initialProps = await Document.getInitialProps(ctx);
@@ -40,13 +13,7 @@ class MyDocument extends Document {
 	render(): ReactElement {
 		return (
 			<Html lang={'en'}>
-				<Head>
-					<link
-						rel={'preconnect'}
-						href={'https://brand.yearn.finance'}
-						crossOrigin={'anonymous'} />
-					<script dangerouslySetInnerHTML={{__html: modeScript}} />
-				</Head>
+				<Head />
 				<body>
 					<Main />
 					<NextScript />

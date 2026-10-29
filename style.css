@@ -1,66 +1,55 @@
-@import '@yearn-finance/web-lib/style.css';
+@tailwind base;
+
+body {@apply text-white;}
+h1 {@apply text-xl font-bold;}
+h4 {@apply text-lg font-bold;}
+* {@apply scroll-smooth;}
+:focus {outline: none;}
+
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
     font-family: 'Scope';
-    src: url('/fonts/Scope.eot');
     src: local('Scope'),
-        url('/fonts/Scope.eot?#iefix') format('embedded-opentype'),
         url('/fonts/Scope.woff2') format('woff2'),
-        url('/fonts/Scope.woff') format('woff'),
-        url('/fonts/Scope.ttf') format('truetype'),
-        url('/fonts/Scope.svg#Scope') format('svg');
+        url('/fonts/Scope.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Peste';
-    src: url('/fonts/PesteTRIAL-Regular.eot');
     src: local('Peste TRIAL Regular'), local('PesteTRIAL-Regular'),
-        url('/fonts/PesteTRIAL-Regular.eot?#iefix') format('embedded-opentype'),
         url('/fonts/PesteTRIAL-Regular.woff2') format('woff2'),
-        url('/fonts/PesteTRIAL-Regular.woff') format('woff'),
-        url('/fonts/PesteTRIAL-Regular.ttf') format('truetype'),
-        url('/fonts/PesteTRIAL-Regular.svg#PesteTRIAL-Regular') format('svg');
+        url('/fonts/PesteTRIAL-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Monument';
-    src: url('/fonts/MonumentExtended-Ultralight.eot');
     src: local('Monument Extended Ultralight'), local('MonumentExtended-Ultralight'),
-        url('/fonts/MonumentExtended-Ultralight.eot?#iefix') format('embedded-opentype'),
         url('/fonts/MonumentExtended-Ultralight.woff2') format('woff2'),
-        url('/fonts/MonumentExtended-Ultralight.woff') format('woff'),
-        url('/fonts/MonumentExtended-Ultralight.ttf') format('truetype'),
-        url('/fonts/MonumentExtended-Ultralight.svg#MonumentExtended-Ultralight') format('svg');
+        url('/fonts/MonumentExtended-Ultralight.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Chicago';
-    src: url('/fonts/pixChicago.eot');
     src: local('pix Chicago'), local('pixChicago'),
-        url('/fonts/pixChicago.eot?#iefix') format('embedded-opentype'),
         url('/fonts/pixChicago.woff2') format('woff2'),
-        url('/fonts/pixChicago.woff') format('woff'),
-        url('/fonts/pixChicago.ttf') format('truetype'),
-        url('/fonts/pixChicago.svg#pixChicago') format('svg');
+        url('/fonts/pixChicago.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'New Spirit Bold Condensed';
-    src: url('/fonts/NewSpirit-BoldCondensed.eot');
     src: local('New Spirit Bold Condensed'), local('NewSpirit-BoldCondensed'),
-        url('/fonts/NewSpirit-BoldCondensed.eot?#iefix') format('embedded-opentype'),
         url('/fonts/NewSpirit-BoldCondensed.woff2') format('woff2'),
-        url('/fonts/NewSpirit-BoldCondensed.woff') format('woff'),
-        url('/fonts/NewSpirit-BoldCondensed.ttf') format('truetype'),
-        url('/fonts/NewSpirit-BoldCondensed.svg#NewSpirit-BoldCondensed') format('svg');
+        url('/fonts/NewSpirit-BoldCondensed.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;

@@ -16,7 +16,7 @@ export default function ComicIntro(): React.ReactElement {
 				<div className={'image-wrapper-full-height h-32 md:h-auto'}>
 					<Image
 						alt={''}
-						src={'/assetsThumbnail/comic1-mark.png'}
+						src={'/assetsThumbnail/comic1-mark.avif'}
 						loading={'eager'}
 						quality={90}
 						className={'aspect-square w-32 object-contain p-2 md:w-full'}
@@ -28,14 +28,14 @@ export default function ComicIntro(): React.ReactElement {
 			<div className={'image-wrapper col-span-1 block md:hidden'}>
 				<Image
 					alt={''}
-					src={'/assets/comic1-main.jpg'}
+					src={'/assets/comic1-main.avif'}
 					className={'w-full object-cover'}
 					loading={'eager'}
 					width={600}
 					height={895}
 				/>
 			</div>
-			<div className={'col-span-1 flex h-full w-full flex-col border-0 border-white p-4 pb-8 md:border-x-2 md:p-8 md:pb-14'}>
+			<div className={'col-span-1 flex size-full flex-col border-0 border-white p-4 pb-8 md:border-x-2 md:p-8 md:pb-14'}>
 				<div className={'space-y-4 font-scope text-base text-white md:text-lg'} style={{whiteSpace: 'break-spaces'}}>
 					<h4 className={'mb-6 text-2xl font-bold md:text-4xl'}>{'The Comic'}</h4>
 					<p>{"yFu is a comic in four episodes, set in the Pills alternate universe and chronicling the rise of Yearn's DAO and DeFi. yFu was developed by Yearn Finance and The Pills Universe, and was written and produced by Josh Blaylock."}</p>
@@ -60,7 +60,7 @@ export default function ComicIntro(): React.ReactElement {
 			<div className={'image-wrapper col-span-1 hidden md:flex'}>
 				<Image
 					alt={''}
-					src={'/assets/comic1-main.jpg'}
+					src={'/assets/comic1-main.avif'}
 					className={'w-full object-cover'}
 					loading={'eager'}
 					width={600}

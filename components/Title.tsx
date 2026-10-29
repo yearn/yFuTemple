@@ -1,4 +1,4 @@
-import	React							from	'react';
+import	React from	'react';
 
 function	Icon({className='', width = 233, height = 115}): React.ReactElement {
 	return (

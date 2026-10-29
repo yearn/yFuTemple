@@ -1,5 +1,14 @@
 {
-  "installCommand": "yarn install --frozen-lockfile",
+  "installCommand": "yarn install --immutable",
+  "buildCommand": "yarn build",
+  "trailingSlash": true,
+  "redirects": [
+    {"source": "/shipping", "destination": "/faq/", "permanent": true},
+    {"source": "/shipping/", "destination": "/faq/", "permanent": true}
+  ],
+  "headers": [
+    {"source": "/sw.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}
+  ],
   "git": {
     "deploymentEnabled": false
   }

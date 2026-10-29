@@ -26,7 +26,7 @@ function	Header(): ReactElement {
 						onClick={(): void => set_hasModal(!hasModal)}>
 						<p className={'select-none font-scope text-xl text-white md:text-2xl'}>{'INFO'}</p>
 					</div>
-					<div className={`absolute top-full left-0 z-50 w-250% border-0 border-b-2 border-white bg-black p-4 md:w-full md:border-2 ${hasModal ? '' : 'pointer-events-none opacity-0'}`}>
+					<div className={`absolute left-0 top-full z-50 w-250% border-0 border-b-2 border-white bg-black p-4 md:w-full md:border-2 ${hasModal ? '' : 'pointer-events-none opacity-0'}`}>
 						<div
 							className={'-m-1 flex w-full cursor-pointer select-none justify-end p-1 font-scope text-lg text-white'}
 							onClick={(): void => set_hasModal(!hasModal)}>
@@ -35,7 +35,7 @@ function	Header(): ReactElement {
 						<div className={'flex w-full select-none justify-center'}>
 							<Image
 								alt={''}
-								src={'/yfiTree.png'}
+								src={'/yfiTree.avif'}
 								width={150}
 								height={186} />
 						</div>
@@ -92,28 +92,28 @@ function	Header(): ReactElement {
 										audio.currentTime = 0;
 									}
 								}}
-								className={'h-3 w-3 cursor-pointer text-white md:h-4 md:w-4'} />
+								className={'size-3 cursor-pointer text-white md:size-4'} />
 							{isPlaying ? (
 								<IconPause
 									onClick={(): void => {
 										set_isPlaying(false);
 										audio?.pause();
 									}}
-									className={'mx-0.5 h-3 w-3 cursor-pointer text-white md:mx-1 md:h-4 md:w-4'}/>
+									className={'mx-0.5 size-3 cursor-pointer text-white md:mx-1 md:size-4'}/>
 							) : (
 								<IconPlay
 									onClick={(): void => {
 										set_isPlaying(true);
 										audio?.play();
 									}}
-									className={'mx-0.5 h-3 w-3 cursor-pointer text-white md:mx-1 md:h-4 md:w-4'}/>
+									className={'mx-0.5 size-3 cursor-pointer text-white md:mx-1 md:size-4'}/>
 							)}
 							<IconPrev
 								onClick={(): void => set_selected((selected + 1) % AUDIO_LIST.length)}
-								className={'h-3 w-3 rotate-180 cursor-pointer text-white md:h-4 md:w-4'}/>
+								className={'size-3 rotate-180 cursor-pointer text-white md:size-4'}/>
 						</div>
 						<div className={'mx-2 mb-0.5 flex font-scope text-xs text-white md:mx-3 md:text-base'}>{AUDIO_LIST[selected][0]}</div>
-						<div className={'mr-0 mb-0.5 font-scope text-xs tabular-nums text-white md:mr-3 md:text-base'}>
+						<div className={'mb-0.5 mr-0 font-scope text-xs tabular-nums text-white md:mr-3 md:text-base'}>
 							{formatRemaining(progress)}
 						</div>
 						<IconExpand

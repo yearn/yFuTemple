@@ -1,9 +1,17 @@
-import	React							from	'react';
+import	React from	'react';
 
 import type {ReactElement} from 'react';
 
 // a nod to 2000s hit counters, it doesn't count anything
 const	VISITORS = '001337';
+
+const	LINKS = [
+	['TWITTER', 'https://twitter.com/yearnfi'],
+	['DISCORD', 'https://discord.com/invite/yearn'],
+	['MEDIUM', 'http://blog.yearn.finance'],
+	['TELEGRAM', 'https://t.me/yearnfinance'],
+	['THE BLUE PILL', 'https://yfistory.org']
+];
 
 function	Footer(): ReactElement {
 	return (
@@ -17,12 +25,17 @@ function	Footer(): ReactElement {
 					))}
 				</div>
 			</div>
-			<nav className={'flex w-full flex-col items-center justify-center space-y-5 space-x-0 font-monument text-lg text-yblue md:flex-row md:space-y-0 md:space-x-8 md:text-xl'}>
-				<p className={'text-shadow transition-all duration-150'}><a href={'https://twitter.com/yearnfi'} target={'_blank'}>{'TWITTER'}</a></p>
-				<p className={'text-shadow transition-all duration-150'}><a href={'https://discord.com/invite/yearn'} target={'_blank'}>{'DISCORD'}</a></p>
-				<p className={'text-shadow transition-all duration-150'}><a href={'http://blog.yearn.finance'} target={'_blank'}>{'MEDIUM'}</a></p>
-				<p className={'text-shadow transition-all duration-150'}><a href={'https://t.me/yearnfinance'} target={'_blank'}>{'TELEGRAM'}</a></p>
-				<p className={'text-shadow transition-all duration-150'}><a href={'https://yfistory.org'} target={'_blank'}>{'THE BLUE PILL'}</a></p>
+			<nav className={'flex w-full flex-col items-center justify-center space-x-0 space-y-5 font-monument text-lg text-yblue md:flex-row md:space-x-8 md:space-y-0 md:text-xl'}>
+				{LINKS.map(([label, href]): ReactElement => (
+					<p key={label} className={'text-shadow transition-all duration-150'}>
+						<a
+							href={href}
+							target={'_blank'}
+							rel={'noreferrer'}>
+							{label}
+						</a>
+					</p>
+				))}
 			</nav>
 		</footer>
 	);

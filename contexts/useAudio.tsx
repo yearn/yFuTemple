@@ -3,11 +3,11 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import type {ReactElement} from 'react';
 
 const AUDIO_LIST: [string, string, string][] = [
-	['TECHNE', '/audio/techne.opus', '/audio-marks/techne.png'],
-	['YEARNING TREE', '/audio/yearning_tree.opus', '/audio-marks/yfiTree.png'],
-	['DOMINION', '/audio/dominion.opus', '/audio-marks/dominion.png'],
-	['COMMUNITY', '/audio/community.opus', '/audio-marks/community.png'],
-	['TRANSMISSION', '/audio/transmission.opus', '/audio-marks/transmission.png']
+	['TECHNE', '/audio/techne.opus', '/audio-marks/techne.avif'],
+	['YEARNING TREE', '/audio/yearning_tree.opus', '/audio-marks/yfiTree.avif'],
+	['DOMINION', '/audio/dominion.opus', '/audio-marks/dominion.avif'],
+	['COMMUNITY', '/audio/community.opus', '/audio-marks/community.avif'],
+	['TRANSMISSION', '/audio/transmission.opus', '/audio-marks/transmission.avif']
 ];
 
 type TAudioContext = {
@@ -16,12 +16,12 @@ type TAudioContext = {
 	isPlaying: boolean,
 	set_isPlaying: React.Dispatch<React.SetStateAction<boolean>>,
 	AUDIO_LIST: [string, string, string][];
-}
+};
 
 export type TAudioProgress = {
 	currentTime: number,
 	duration: number
-}
+};
 
 const Audio = createContext<TAudioContext>({
 	audio: null,
@@ -58,7 +58,8 @@ export function useAudioProgress(audio: HTMLAudioElement | null): TAudioProgress
 			return;
 		}
 		const events = ['timeupdate', 'durationchange', 'emptied'];
-		const update = (): void => set_progress({currentTime: audio.currentTime, duration: audio.duration || 0});
+		// duration is NaN before metadata and Infinity when the server can't serve byte ranges
+		const update = (): void => set_progress({currentTime: audio.currentTime, duration: Number.isFinite(audio.duration) ? audio.duration : 0});
 		update();
 		events.forEach((event): void => audio.addEventListener(event, update));
 		return (): void => events.forEach((event): void => audio.removeEventListener(event, update));

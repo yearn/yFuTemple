@@ -12,7 +12,7 @@ type TDraggablePlayer = {
 	set_hasMediaPlayer: React.Dispatch<React.SetStateAction<boolean>>,
 	selected: number,
 	set_selected: React.Dispatch<React.SetStateAction<number>>
-}
+};
 function	DraggablePlayer({
 	hasMediaPlayer,
 	set_hasMediaPlayer,
