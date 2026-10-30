@@ -110,7 +110,7 @@
 					1200,
 					2063
 				],
-				"scene": "Estonya, in goggles, sits on a big metal machine at the gate, trying to summon a patcher, while the vendor and Grandfather mock her. As the machine lights up, the vendor stares at the sky in disbelief.",
+				"scene": "Estonya, in goggles, sits on a big metal machine at the gate, trying to summon a patcher. Grandfather and an unseen voice mock her, but the vendor, though skeptical, tells her to pay them no mind. As the machine lights up, the vendor stares at the sky in disbelief.",
 				"lines": [
 					"Estonya: Come on, damnit. I know the signal confirmed. Why aren't you registering a reply? Don't fail me now, or I swear tomorrow's the scrap heap for you.",
 					"Vendor: If you disrupt that fintent, it's gonna be chaos around here.",
@@ -261,7 +261,7 @@
 					1200,
 					2063
 				],
-				"scene": "A wordless vision: an ape-like farmer in a conical hat ploughs behind a pale beast, two figures raise their hands, the masked woman holds a tiny figure in her palm, and a blue-skinned woman cradles someone under the moon.",
+				"scene": "A wordless vision: an ape-like farmer in a conical hat ploughs behind a pale beast; the farmer, now with a third eye, raises his hands beside a purple-hooded figure; the masked woman holds a tiny ghostly figure with a backpack and hooked staff, like Andre, in her palm; and under the moon a grieving blue-skinned woman cradles a limp body, clutching withered stalks.",
 				"lines": []
 			},
 			{
@@ -283,7 +283,7 @@
 					1200,
 					2063
 				],
-				"scene": "The vision continues without words: a horned, three-eyed figure in a fur cloak raises a glowing pill and swallows it, small figures swing on vines, and stone golem faces glow.",
+				"scene": "The vision continues without words: a hooded, three-eyed figure with a tattooed red face and a fur cloak raises a glowing pill as small figures swing on vines around him, then swallows it. In close-ups, a pale stone face with a snout turns toward us and its eyes light up.",
 				"lines": []
 			},
 			{
@@ -294,7 +294,7 @@
 					1200,
 					2063
 				],
-				"scene": "Andre wakes on the ground holding a small blue pill and smiles. He leaves the tent with his backpack and staff and tells an eager Estonya the work is done.",
+				"scene": "Andre wakes on the ground with a gasp and studies a small blue pill in his hand. He leaves the tent with his backpack and staff and tells an eager Estonya the work is done.",
 				"lines": [
 					"Andre: Gasp!",
 					"Andre: Hmmm.",
@@ -314,12 +314,12 @@
 					1200,
 					2063
 				],
-				"scene": "The vendor and a villager find the garden's crops sprouting and celebrate. Estonya runs after Andre to offer him a cut of the harvest; he refuses anything but a meal.",
+				"scene": "The vendor and Alonz find the garden's crops sprouting and celebrate. Estonya runs after Andre to offer him a cut of the harvest; he refuses anything but a meal.",
 				"lines": [
 					"Vendor: Eston'ya! Come look!",
-					"Villager: I can't believe it. We… we're saved.",
+					"Alonz: I can't believe it. We… we're saved.",
 					"Vendor: We're more than saved. We're rich! The whole node is gonna be rich!",
-					"Villager: You did it, Esty. You and your patcher man.",
+					"Vendor: You did it, Esty. You and your patcher man.",
 					"Estonya: Hey! Andre! What about your payment? When will you return to collect a cut of the harvest?",
 					"Andre: I won't be needing any. Share the new crop kernels with your people and yields will return to normal.",
 					"Estonya: Are you serious? Nothing?",
@@ -357,13 +357,13 @@
 					1200,
 					2063
 				],
-				"scene": "At the crowded tavern table, Estonya whispers a warning to the others. Andre punches through Neiluj's glass dome, and the armored man charges at him.",
+				"scene": "At the crowded tavern table, Andre refuses to pay, holds Estonya back and whispers to the others to leave. Neiluj swings a mechanical arm at Andre, who dodges and punches through Neiluj's glass dome, and the armored man charges at him.",
 				"lines": [
-					"Estonya: You guys might want to leave.",
 					"Andre: That won't be happening.",
+					"Andre: You guys might want to leave.",
 					"Andre: This is why I don't talk to people.",
 					"Neiluj: Dont' worry. It'll be a short conversation.",
-					"Andre: Hyah!",
+					"Neiluj: Hyah!",
 					"Sound: Krraeeesh",
 					"Neiluj: Ggak!",
 					"Armored man: Rraaagh!"
@@ -393,7 +393,7 @@
 					1200,
 					2063
 				],
-				"scene": "Later, Andre's boxy ship sits parked in tall grass at night. Inside, he works at a control panel, then rests and eats until a voice startles him.",
+				"scene": "Later, Andre's boxy ship sits parked in tall grass at night. Inside, he works at a control panel, then slumps in his seat, rubbing his eyes and turning a small wrapped bundle in his fingers, until a voice startles him.",
 				"lines": [
 					"Caption: Later…",
 					"Voice: Captivating, isn't it?"
@@ -442,7 +442,7 @@
 					1200,
 					2063
 				],
-				"scene": "Behind-the-scenes art: an early painted character design of a figure in a pink rabbit mask with big red eyes, an armored coat with blue Yearn-logo badges, keys on its belt and a crossbow.",
+				"scene": "Behind-the-scenes art: an early painted character design of a figure in a pink rabbit mask with big red eyes, an armored coat with blue Yearn-logo badges, keys on its belt and a long gun over its shoulder.",
 				"lines": [
 					"Caption: Early yFu art",
 					"Credit: Character concepts by Pillhead",
@@ -487,6 +487,7 @@
 				"lines": [
 					"Ad: Read more damn fine comics",
 					"Ad: From Devil's Due",
+					"Biker: $#%!",
 					"Ad: Check your local comic shop!",
 					"Ad: www.devilsdue.net"
 				]
@@ -570,14 +571,14 @@
 					1200,
 					2063
 				],
-				"scene": "Markap's crowded market bustles with traders and crops as captions recount the node's history. A merchant shouts about his harvest, and a guide in a green helmet meets Bunny, a newcomer in a pink rabbit mask.",
+				"scene": "Markap's crowded market bustles with traders and crops as captions recount the node's history. The market vendor, now prospering, shouts about her harvest, and a green-skinned guide in a metal helmet meets Bunny, a newcomer in a pink rabbit mask.",
 				"lines": [
 					"Caption: Markap. A node on the not-so fringe of chainspace.",
 					"Caption: One of the core centers of commerce for trade, and most prolific crop yield centers in the known region.",
 					"Caption: Traders. Investors. Entrepreneurs. Hustlers. Thieves.",
 					"Caption: When Markap's crop yields began breaking all previously known records, all were attracted to the node.",
+					"Vendor: That's right, that's right. Feast your eyes! Have you ever seen such a bounty?",
 					"Caption: It wasn't always that way.",
-					"Merchant: That's right, that's right. Feast your eyes! Have you ever seen such a bounty?",
 					"Caption: Not long ago, this node was in a state of despair, with failing crops.",
 					"Caption: And then the first \"patcher\" appeared.",
 					"Caption: Since then, Markap has earned fame for producing the most anti-fragile yield baskets in all of chainspace.",
@@ -596,7 +597,7 @@
 					1200,
 					2063
 				],
-				"scene": "The guide leads Bunny to a huge building and introduces Estonya, who pulls Bunny into the crowded presentation she is giving with a glowing hologram. Unseen voices talk in captions.",
+				"scene": "The guide leads Bunny to a huge building, where Estonya greets them at the curtain. Inside, Bunny joins the crowd as Estonya gives a presentation with a glowing hologram. Unseen voices talk in captions.",
 				"lines": [
 					"Guide: She's very busy these days, keeping up with all of you patchers arriving. Seems like the first guy sparked somethin' and suddenly the whole space is opened up with people wanting to know what he did here.",
 					"Guide: Anyway, here ya go.",
@@ -630,7 +631,7 @@
 					"Community: I don't need a lecture, Transmission. The plans are in motion.",
 					"Community: With our powers weakened, focusing on Markap was the right approach. But these things take time. A community must be nurtured. And genuine.",
 					"Community: Your concerns would be better focused on finding more like Andre, resonating from within the tree's roots.",
-					"Transmission: We are trying, Community. You will be the first to know when we do, but he is a rarity, for sure, even in an ocean of infinite souls.",
+					"Techne: We are trying, Community. You will be the first to know when we do, but he is a rarity, for sure, even in an ocean of infinite souls.",
 					"Community: We don't want him to burn out. It's a shame when good mortals go to waste."
 				]
 			},
@@ -642,7 +643,7 @@
 					1200,
 					2063
 				],
-				"scene": "Transmission answers Community, then streaks as a glowing trail through a montage: a man shielding his eyes in reeds, a masked Andre, a figure floating in a tank, a frog-like figure and an angry red-skinned man.",
+				"scene": "Transmission answers Community, then dives headfirst across the page as a glowing streak through a montage of Andre's journey: wired into crops among reeds, in his breathing mask, swinging his hooked staff, floating in a tank with cables bound around his leg while a frog-like Pepel surgeon takes notes, and finally an angry, red-skinned Cron.",
 				"lines": [
 					"Transmission: I will continue to carve the paths, so that you may lead the people down them, Community.",
 					"Techne: \"I do question if we've given him too much access to the yield source.",
@@ -661,20 +662,20 @@
 					1200,
 					2063
 				],
-				"scene": "Andre's log recounts learning about Cron, over a close-up of his mask, a wasteland with a wrecked vehicle, Andre at a ship window, a wild-haired man tending a plant and a scowling red face.",
+				"scene": "Andre's log recounts learning about Cron, over a close-up of his masked face, his boxy ship parked in a field of red crops while his silhouette stands with two locals, Andre at a ship window, a young, ape-like Cron wiring up a living plant, and Cron's scowling red face.",
 				"lines": [
-					"Caption: \"At first the yFu's capsule seemed rather benign. I questioned if I hadn't hallucinated Techne's entire appearance.",
-					"Caption: \"It wouldn't be the first time I accidentally ingested something psychoactive on a strange node.",
-					"Caption: \"But another name in the vision kept ringing in my ears, over and over again.",
-					"Caption: \"Cron.",
-					"Caption: \"Cron. Cron. Cron.",
-					"Caption: \"At first I didn't understand the yFu's vision. But slowly, everything became resoundingly clear.",
-					"Caption: \"Cron was responsible for the waning crop yields, throughout all of chainspace.",
-					"Caption: \"I now knew the truth, and armed with truth, I could fight back.",
-					"Caption: \"Cron. A brilliant mind who once could have helped chainspace flourish.",
-					"Caption: \"But instead, created the problems that today now threaten it. A humanoid now resolved to myth, whose damage I must undo.",
-					"Caption: \"Where this man… this creature, channeled chainspace's energy and humanity's desires into an algorithmic pyramid that for a time, created prosperity.",
-					"Caption: \"But at the center of it all was him, and should he fail, or perish, so would we all.\""
+					"Andre: \"At first the yFu's capsule seemed rather benign. I questioned if I hadn't hallucinated Techne's entire appearance.",
+					"Andre: \"It wouldn't be the first time I accidentally ingested something psychoactive on a strange node.",
+					"Andre: \"But another name in the vision kept ringing in my ears, over and over again.",
+					"Andre: \"Cron.",
+					"Andre: \"Cron. Cron. Cron.",
+					"Andre: \"At first I didn't understand the yFu's vision. But slowly, everything became resoundingly clear.",
+					"Andre: \"Cron was responsible for the waning crop yields, throughout all of chainspace.",
+					"Andre: \"I now knew the truth, and armed with truth, I could fight back.",
+					"Andre: \"Cron. A brilliant mind who once could have helped chainspace flourish.",
+					"Andre: \"But instead, created the problems that today now threaten it. A humanoid now resolved to myth, whose damage I must undo.",
+					"Andre: \"Where this man… this creature, channeled chainspace's energy and humanity's desires into an algorithmic pyramid that for a time, created prosperity.",
+					"Andre: \"But at the center of it all was him, and should he fail, or perish, so would we all.\""
 				]
 			},
 			{
@@ -685,7 +686,7 @@
 					1200,
 					2063
 				],
-				"scene": "Andre, in a circular inset, describes how Cron failed, over images of a hunched figure drooling green slime on a floor and a huge, decaying face tangled in tubes and roots.",
+				"scene": "Andre, in a circular inset, describes how Cron failed, over images of a mutated Cron hunched over, drooling green slime on a floor, and Cron's huge, decaying face tangled in tubes and roots.",
 				"lines": [
 					"Andre: His methods required his involvement, and quickly began to fail. With each crack in the dam, he evolved to handle it. All the while not seeing that he was the problem. A central, singular point of failure for all of civilization. Eventually sacrificing himself for his own misguided, and delusional selfish cause."
 				]
@@ -698,14 +699,14 @@
 					1200,
 					2063
 				],
-				"scene": "Andre's log continues over a skull on a path, a stone face, a slumped figure and crowds bringing offerings to a temple. His living, tentacled ship latches onto another vessel, and a tentacle grabs a yellow crewmate.",
+				"scene": "Andre's log continues over a skull on a path, red-robed followers crowding before a cracked stone head of Cron, a slumped addict beside a syringe and pills, and crowds bringing offerings to Cron's temple. His living, tentacled ship latches onto another vessel, and a tentacle grabs a yellow crewmate.",
 				"lines": [
-					"Caption: \"At several points, in the early days of the failures, Cron could have corrected the problem.",
-					"Caption: \"Not without pain – both to him and his followers, yet manageable.",
-					"Caption: \"But addiction had set in.",
-					"Caption: \"Soon, his energetic systems were as entrenched in chainspace as his physical body was in the temple built around him.",
-					"Caption: \"So many following him, and benefitting from his sphere of influence, it's likely they wouldn't have let him stop even if he wanted to.",
-					"Caption: \"That is why I build.\"",
+					"Andre: \"At several points, in the early days of the failures, Cron could have corrected the problem.",
+					"Andre: \"Not without pain – both to him and his followers, yet manageable.",
+					"Andre: \"But addiction had set in.",
+					"Andre: \"Soon, his energetic systems were as entrenched in chainspace as his physical body was in the temple built around him.",
+					"Andre: \"So many following him, and benefitting from his sphere of influence, it's likely they wouldn't have let him stop even if he wanted to.",
+					"Andre: \"That is why I build.\"",
 					"Voice: Sorry to interrupt your log entries, Andre, but it's time to build onto our ship.",
 					"Voice: Every time we do this I question if we're out of our mind.",
 					"Voice: Ah, it'll be fine. We just gotta make sure ol' Beasty here doesn't reject our new friends.",
@@ -729,7 +730,7 @@
 					"Andre: I've got it covered. There, there, big guy. Just let go of our friend here.",
 					"Pilot: See? Easy peazy. It's just a vibe. We're clear to proceed.",
 					"Pilot: \"I'll admit, it's a beautiful thing, watching a patcher ship welcome a new addition.\"",
-					"Pilot: \"Merge successful.\"",
+					"Mohawk crewmate: \"Merge successful.\"",
 					"Mohawk crewmate: Okay, everyone, airlock is pressurized. Time to welcome our new friends."
 				]
 			},
@@ -741,18 +742,18 @@
 					1200,
 					2063
 				],
-				"scene": "Estonya arrives with Bunny and her crew and hugs Andre, while her narration recalls meeting him three years earlier. A pale crewmate is surprised Andre invited her.",
+				"scene": "Estonya arrives with Bunny and her crew and hugs Andre, while her narration recalls meeting him three years earlier. One of the patchers in her group is surprised Andre invited her.",
 				"lines": [
 					"Estonya: I almost can't believe it. We're here!",
 					"Andre: Eston'ya.",
-					"Caption: It had been three years since I last saw the mysterious patcher man who forever changed my world.",
-					"Caption: Andre.",
-					"Caption: Dare I say I think he showed a slight hint of happiness at our arrival?",
+					"Estonya: It had been three years since I last saw the mysterious patcher man who forever changed my world.",
+					"Estonya: Andre.",
+					"Estonya: Dare I say I think he showed a slight hint of happiness at our arrival?",
 					"Andre: Oof!",
 					"Estonya: I'm so glad you asked me to join you. Bringing the fight to Cron.",
-					"Caption: I've spent long enough on my home node, discovering new ways to fight him.",
-					"Caption: Now it's time to join those on the edge of it all.",
-					"Pale crewmate: He asked her to join? I thought Andre never invited anyone?",
+					"Estonya: I've spent long enough on my home node, discovering new ways to fight him.",
+					"Estonya: Now it's time to join those on the edge of it all.",
+					"Patcher: He asked her to join? I thought Andre never invited anyone?",
 					"Andre: We will orient your crew soon. You're just in time to welcome the next ship.",
 					"Estonya: Putting me to work already?"
 				]
@@ -765,7 +766,7 @@
 					1200,
 					2063
 				],
-				"scene": "Andre leads the newcomers through the ship as the crew explain that bio-stabilizers will keep it safe. A frog-like figure, Pencenatus, hails them from the next arriving vessel.",
+				"scene": "Andre leads the newcomers through the ship as the crew explain that bio-stabilizers will keep it safe. Pencenatus, a frog-like Pepel, hails them from the next arriving vessel.",
 				"lines": [
 					"Andre: Well, considering that our other group joining us is bringing gifts of bio-stabilizers for our symbiote friend, and ensuring we aren't all split asunder, it doesn't seem like a bad deal.",
 					"Goggled crewmate: Gotta love it.",
@@ -786,12 +787,13 @@
 					1200,
 					2063
 				],
-				"scene": "An explosion rocks the ship. A red, guitar-shaped Cron vessel fires on the merging patcher ships, and Pencenatus and Estonya react in disbelief.",
+				"scene": "An explosion rocks the ship. A red, guitar-shaped Cron vessel fires on the bio-stabilizer pod above the merging patcher ships, and Pencenatus and Estonya react in disbelief.",
 				"lines": [
 					"Sound: Doom",
 					"Mohawk crewmate: What the hell was that?!",
 					"Andre: Degenerators?",
-					"Voice: No, worse. F#¢*!ng Cron acolytes! Trying to stop our ships from merging.",
+					"Voice: No, worse. F#¢*!ng Cron acolytes!",
+					"Voice: Trying to stop our ships from merging.",
 					"Pencenatus: No, how could they?",
 					"Pencenatus: We've heard rumors that the Cronites have been targeting the bio-stabilizers, but we took precautions. How did they…",
 					"Estonya: That's bullshit! They claim the ship's dangerous but are taking out the one thing that guarantees it's 100% safe?"
@@ -828,6 +830,8 @@
 				"scene": "The Cron ship explodes. Andre, Estonya and the crew trade remarks until the sensors pick up a figure in space: Transmission, glowing, who appears inside the ship and greets Andre.",
 				"lines": [
 					"Sound: Wha-boom",
+					"Sound: Shooom",
+					"Sound: Choom",
 					"Estonya: It's never a dull moment with you, is it?",
 					"Andre: Actually, it is. Exceedingly so, and I prefer it to stay that way, but these pockets of \"excitement\" do happen.",
 					"Mohawk crewmate: So this is the part where we've officially passed the \"first they ignore you, and then they laugh at you phases, right?\"",
@@ -871,11 +875,11 @@
 					1200,
 					2063
 				],
-				"scene": "Transmission floats through the crowded cabin and startles a pale crewmate. The mohawk crewmate finds an encrypted patcher distress signal from the Trad'F1 node, and a pink handheld device beeps in the grass.",
+				"scene": "Transmission floats through the crowded cabin and startles the mushroom-capped yellow crewmate. The mohawk crewmate finds an encrypted patcher distress signal from the Trad'F1 node, and far away the explorer's pink handheld device beeps in the grass.",
 				"lines": [
 					"Transmission: I am here to do some \"nudging,\" myself. There is a signal within your bandwidth of detection that has not registered.",
 					"Transmission: One of your core crewmen is missing something obvious.",
-					"Pale crewmate: yFu… yFu… She's real. yFu.",
+					"Yellow crewmate: yFu… yFu… She's real. yFu.",
 					"Transmission: Boo!",
 					"Mohawk crewmate: Oh my God, I can't believe I missed it. An encrypted patcher signal, coming from the Trad'F1 node.",
 					"Mohawk crewmate: \"I'll get on deciphering it, but it's clearly a distress call.\"",
@@ -981,7 +985,7 @@
 					1200,
 					2063
 				],
-				"scene": "Techne, Transmission and Community watch events in a glowing pool, and Community warns of danger. On the edge of chainspace, an explorer finds Cron's resting place and is swallowed by a giant worm-like creature, dropping his device.",
+				"scene": "Techne, Transmission and Community watch events in a glowing pool, and Community warns of danger. On the edge of chainspace, an explorer finds Cron's resting place and is swallowed by a giant red-eyed, lizard-like beast, dropping his device.",
 				"lines": [
 					"Techne: Fair point. It's so hard to remember they're only human sometimes.",
 					"Transmission: These people need each other now if they are to succeed. What's taking you so long to rally them, Community?",
@@ -1016,7 +1020,7 @@
 					1200,
 					2063
 				],
-				"scene": "The right half of the spread: two more liquid figures, one in a gold mask with outstretched branching arms, the other with a yellow mask in a pink splash and a pill on its back hung with a ghost charm.",
+				"scene": "The right half of the spread: two more liquid figures, one in a gold mask with a branching coral-like collar and a pink-and-white pill hanging at its side, the other with a yellow mask in a pink splash and a pill on its back hung with a ghost charm.",
 				"lines": [
 					"Caption: Early yFu art",
 					"Credit: Character concepts by Pillhead",
@@ -1065,6 +1069,7 @@
 				"lines": [
 					"Ad: Read more damn fine comics",
 					"Ad: From Devil's Due",
+					"Biker: $#%!",
 					"Ad: Check your local comic shop!",
 					"Ad: www.devilsdue.net"
 				]
@@ -1085,14 +1090,14 @@
 					1200,
 					1988
 				],
-				"scene": "The cover shows Community hanging upside down at the bottom, tangled in giant rope-like roots, while Bunny, in her rabbit mask, Andre and Estonya are caught in the twisting coils above her.",
+				"scene": "The cover shows Community hanging upside down at the bottom, tangled in giant rope-like roots, while Bunny, in his rabbit mask, Andre and Estonya are caught in the twisting coils above her.",
 				"lines": [
 					"Title: The yFu",
+					"Title: Issue No. 003",
 					"Title: Community's Circle",
-					"Caption: Issue No. 003",
-					"Logo: Yearn lore",
+					"Logo: yearn lore",
 					"Logo: Pills",
-					"Signature: Community"
+					"Logo: Community"
 				]
 			},
 			{
@@ -1106,7 +1111,8 @@
 				"scene": "Credits page.",
 				"lines": [
 					"Credit: Produced by Devil's Due Studios",
-					"Credit: The yFu: Community's Circle",
+					"Title: The yFu",
+					"Title: Community's Circle",
 					"Credit: Written by Josh Blaylock",
 					"Credit: Art by Travis Hymel",
 					"Credit: Colors by Greg & Fake",
@@ -1121,7 +1127,7 @@
 					"Credit: Assistant Publisher: Kit Caoagas",
 					"Credit: Executive Assistant: Jenn Chun",
 					"Credit: Manager of Finance: Debbie Davis",
-					"Credit: The yFu. 2024. Published by Devil's Due Studios. Office of Publication 1658 N. Milwaukee Ave #100-5850, Chicago, IL 60647. Andre, Eston'ya, Cron and all associated characters and their respective likenesses are ™ and © yFu Temple used with permission. The events and characters presented in this book are entirely fictional. Any similarities to person living or dead is purely coincidental or for satirical purposes. No portion of this comic book may be used or reproduced by any means (digital or print) without written permission from yFu Temple or Devil's Due Studios, except for review purposes. Printed in Canada."
+					"Legal: The yFu. 2024. Published by Devil's Due Studios. Office of Publication 1658 N. Milwaukee Ave #100-5850, Chicago, IL 60647. Andre, Eston'ya, Cron and all associated characters and their respective likenesses are ™ and © yFu Temple used with permission. The events and characters presented in this book are entirely fictional. Any similarities to person living or dead is purely coincidental or for satirical purposes. No portion of this comic book may be used or reproduced by any means (digital or print) without written permission from yFu Temple or Devil's Due Studios, except for review purposes. Printed in Canada."
 				]
 			},
 			{
@@ -1134,12 +1140,12 @@
 				],
 				"scene": "Andre, in a breathing mask, fights Cron's followers in a bloody melee beside his allies, including Bunny and riders on reptile mounts. A masked follower leaps at him with a spear.",
 				"lines": [
-					"Caption: For ages, the whereabouts of Cron have been unknown.",
-					"Caption: A once well-intentioned humanoid turned parasitic god, preying on the energy of prosperity itself throughout all of chainspace.",
-					"Caption: Today, that ends.",
-					"Caption: Today, I have found him, and no amount of brainwashed followers will stop us from taking him down.",
-					"Caption: Aided by the guidance of the yFu, I have found myself here, among allies.",
-					"Caption: Friends. Something I did not expect."
+					"Andre: For ages, the whereabouts of Cron have been unknown.",
+					"Andre: A once well-intentioned humanoid turned parasitic god, preying on the energy of prosperity itself throughout all of chainspace.",
+					"Andre: Today, that ends.",
+					"Andre: Today, I have found him, and no amount of brainwashed followers will stop us from taking him down.",
+					"Andre: Aided by the guidance of the yFu, I have found myself here, among allies.",
+					"Andre: Friends. Something I did not expect."
 				]
 			},
 			{
@@ -1152,8 +1158,8 @@
 				],
 				"scene": "The battle rages as rebel allies, among them a blue alien in an aviator helmet, clash with Cron's hooded troops. A horned, bearded cultist and a robed cult leader boast that their numbers will win.",
 				"lines": [
-					"Caption: And now, further alliances made by rebels Cron tried to force into submission.",
-					"Caption: Finding him defied the impossible, so even if unprepared to strike, this opportunity could not be wasted.",
+					"Andre: And now, further alliances made by rebels Cron tried to force into submission.",
+					"Andre: Finding him defied the impossible, so even if unprepared to strike, this opportunity could not be wasted.",
 					"Cultist: We weren't prepared for their arrival, but these Patchers are no match for our numbers.",
 					"Cult leader: They underestimate the following, and loyalty, of our forces.",
 					"Cult leader: Hail Cron!"
@@ -1167,12 +1173,12 @@
 					1200,
 					2063
 				],
-				"scene": "Beside a grounded shuttle among giant mushrooms, explosions throw fighters into the air. A blood-soaked Andre grapples a hooded brute swinging a spiked flail as a blast engulfs the horned cultist.",
+				"scene": "Beside a grounded shuttle among giant mushrooms, explosions throw fighters into the air. A blood-soaked Andre grapples a hooded brute swinging a spiked flail, then a huge blast goes off, and Andre doubts he will survive.",
 				"lines": [
-					"Caption: But to say we are faring well would be a lie.",
-					"Caption: Our method and skills are so superior, but their numbers are so great, and their tactics so tested, we may not win this round.",
+					"Andre: But to say we are faring well would be a lie.",
+					"Andre: Our method and skills are so superior, but their numbers are so great, and their tactics so tested, we may not win this round.",
 					"Sound: Booom",
-					"Caption: Maybe I should have waited, but it appears I will never know the answer."
+					"Andre: Maybe I should have waited, but it appears I will never know the answer."
 				]
 			},
 			{
@@ -1222,13 +1228,14 @@
 					1200,
 					2063
 				],
-				"scene": "Community fades away to catch up on events, leaving Dominion and Transmission. On the ship, Andre tells his allies they have found Cron and calls a vote, and Estonya reluctantly agrees.",
+				"scene": "Community fades away to catch up on events, leaving Dominion and Transmission. On the ship, Andre tells his allies they have found Cron and calls a vote; a hulking crewmate mutters, and Estonya reluctantly agrees.",
 				"lines": [
 					"Community: Either way my role remains unchanged. It's only magnified.",
 					"Community: There's no sense in waiting on an outcome I can't predict. You'll inform me.",
 					"Community: Until then I'm off to play catch-up.",
-					"Andre: I do not disagree that our preparedness is lacking. But we have found Cron.",
-					"Estonya: That's putting it mildly.",
+					"Andre: I do not disagree that our preparedness is lacking.",
+					"Hulking crewmate: That's putting it mildly.",
+					"Andre: But we have found Cron.",
 					"Andre: Fate has given us a chance, and we may never get it again. We vote on this – today.",
 					"Estonya: Well, I guess there are worse ideas."
 				]
@@ -1283,13 +1290,13 @@
 					1200,
 					2063
 				],
-				"scene": "The acolyte begs for mercy, but Cron's vessel marks his forehead and condemns him. Guards hold the screaming acolyte in the flames as the vessel watches.",
+				"scene": "The acolyte begs for mercy, but Cron's vessel marks his forehead in blood and condemns him. The screaming acolyte burns in a pillar of fire between two guards with spears as the vessel watches.",
 				"lines": [
 					"Acolyte: Forgive me, Lord. It is only a few. Easily defeated rebels. We can disappear you again. Easily!",
 					"Cron: I shall hide no longer. But you. You are the one who shall be…",
 					"Cron: Disappeared.",
 					"Acolyte: No. Please. Do not send me to the burning! Please.",
-					"Acolyte: Nooooooooo!"
+					"Acolyte: Noooooooo!"
 				]
 			},
 			{
@@ -1320,7 +1327,7 @@
 					1200,
 					2063
 				],
-				"scene": "Community, in a green hood, tells a crowd of pale, mask-faced beings that Cron has been found and urges them to keep spreading the new ways. She sprinkles seeds into one being's cupped hands.",
+				"scene": "Community, in a green hood, tells a crowd of pale, mask-faced beings that Cron has been found and urges them to keep spreading the new ways. She drops small yellow pills into one being's cupped hands.",
 				"lines": [
 					"Community: We are never truly prepared for monumental shifts. For the old ways to die. But we must do what we can to prepare.",
 					"Community: It is true what you heard. Cron, creator of the old ways, was found.",
@@ -1415,11 +1422,11 @@
 					1200,
 					2063
 				],
-				"scene": "Weeks later, Estonya and Bunny visit a frog-like doctor and his staff, who have restored Andre. The doctor leads them to a dark room where Andre waits.",
+				"scene": "Weeks later, Estonya and Bunny visit a frog-like Pepel doctor and his staff, who have restored Andre. The doctor leads them to a dark room where Andre waits.",
 				"lines": [
 					"Caption: Weeks later.",
-					"Estonya: Thank you for granting our request to see him, doctor.",
 					"Doctor: It wasn't, rrrrrr, easy, but we, rrrrr managed to restore him.",
+					"Estonya: Thank you for granting our request to see him, doctor.",
 					"Doctor: He is, rrrrr, better, if opinion asked.",
 					"Doctor: Mind intact, too. Not an easy, rrrr, feat.",
 					"Doctor: Ready to return. Rrrr. Doll out just deserts to the abomination of Cron. A horrible primate.",
@@ -1438,9 +1445,9 @@
 					1200,
 					2063
 				],
-				"scene": "A full-page image shows Andre, rebuilt with robotic arms and a breathing mask, pins in his skin, suspended in a tangle of cables and tubes.",
+				"scene": "A full-page image shows Andre, rebuilt with robotic arms and a breathing mask, pins in his skin, his upper body wired into a large robotic frame and suspended in a tangle of cables and tubes.",
 				"lines": [
-					"Voice: Andre?!"
+					"Estonya: Andre?!"
 				]
 			},
 			{
@@ -1475,7 +1482,7 @@
 					"Cron: If it isn't the insolent sycophant? You may address my vessel.",
 					"Cron: You'd better have something worthy to report.",
 					"Informant: I, I do your holiness. About the Patcher who started this entire debacle. He lives.",
-					"Cron: And reeeeee?",
+					"Cron: Andreeeeee?",
 					"Informant: Yes, Cron. Through the help of a protege. A girl who hails from the troublesome node where this originated. Markap.",
 					"Cron: Well then…",
 					"Cron: I guess we know just where to go if we want to lure our enemies in."
@@ -1489,7 +1496,7 @@
 					1200,
 					2063
 				],
-				"scene": "Cron's hooded vessel, with tubes running into his nose, gazes up from the throne at a huge shadowy face looming in smoke and embers beneath a rune-carved stone arch.",
+				"scene": "Cron's hooded vessel, with tubes running into his nose, gazes up from the throne at Cron's own huge, shadowy face looming in smoke and embers beneath a rune-carved stone arch.",
 				"lines": [
 					"Cron: And which node must be sacrificed."
 				]
@@ -1581,6 +1588,7 @@
 				"lines": [
 					"Ad: Read more damn fine comics",
 					"Ad: From Devil's Due",
+					"Biker: $#%!",
 					"Ad: Check your local comic shop!",
 					"Ad: www.devilsdue.net"
 				]
@@ -1704,7 +1712,7 @@
 					1200,
 					1988
 				],
-				"scene": "In a Markap tavern, patrons talk about new farming methods. Alonz dismisses fears of Cron and toasts with friends, then the wall bursts in and debris strikes him as a woman screams his name.",
+				"scene": "In a Markap tavern, patrons talk about new farming methods. Alonz dismisses fears of Cron and toasts with friends, then a blast tears through the wall into him as a woman screams his name.",
 				"lines": [
 					"Patron: Just last week, I had a problem with the soil accepting the new robo-biome, and a good samaritan all the way from Magnus was able to transfer an immune-suppression code instantly.",
 					"Second patron: Here here! Let's just enjoy it until the other shoe drops.",
@@ -1760,7 +1768,7 @@
 					1200,
 					1988
 				],
-				"scene": "A golden ship dodges laser fire as it lands. Inside, Estonya and Bunny talk about their roles, a frog medic says Andre is not ready, and Andre, in a breathing mask and holding a staff, disagrees.",
+				"scene": "A golden ship dodges laser fire as it lands. Inside, Estonya and Bunny talk about their roles, a frog-like Pepel medic says Andre is not ready, and Andre, in a breathing mask and holding a staff, disagrees.",
 				"lines": [
 					"Sound: Skrek",
 					"Voice: Gods, that was close!",
@@ -1771,9 +1779,9 @@
 					"Bunny: And your mission isn't crazy?",
 					"Estonya: If I'm to play my role, though, I need him.",
 					"Medic: I still attest that he is not ready.",
-					"Voice: Your fears are wasted, team.",
+					"Andre: Your fears are wasted, team.",
 					"Andre: Fate doesn't care if I'm ready - or any of us.",
-					"Voice: Andre's right. I will need to access the Genesis crops. Protect them before Cron can take control of the yield energy. But he is the key. He's the first who altered the crops in our Genesis tent, and he'll be needed to make changes again."
+					"Estonya: Andre's right. I will need to access the Genesis crops. Protect them before Cron can take control of the yield energy. But he is the key. He's the first who altered the crops in our Genesis tent, and he'll be needed to make changes again."
 				]
 			},
 			{
@@ -1814,7 +1822,7 @@
 					"Estonya: So what are the chances you think this plan will actually work?",
 					"Andre: I'd prefer not to say out loud, but… there is a chance.",
 					"Andre: This is where we part ways, Eston'ya. You know what to do.",
-					"Caption: We need to return to where it all began. The \"fintent\" where Andre first hacked into Markap's yield energies."
+					"Estonya: We need to return to where it all began. The \"fintent\" where Andre first hacked into Markap's yield energies."
 				]
 			},
 			{
@@ -1827,11 +1835,11 @@
 				],
 				"scene": "Estonya climbs a dried-out fintent and pumps water into it as captions explain the creatures. Logistics and Comms ride a fish mount toward the crop silos, and underground, Bunny sets glowing roots ablaze with a lighter.",
 				"lines": [
-					"Caption: Fintents are a biological wonder. And something Markapians learned to retrofit centuries ago.",
-					"Caption: Amphibious monstrosities able to dehydrate themselves into perpetual hibernation.",
-					"Caption: Didn't take us long to learn that if we kept the water away from them, it provided instant shelter.",
-					"Caption: And we learned, often the hard way, that once they're rehydrated…",
-					"Caption: You'd better run.",
+					"Estonya: Fintents are a biological wonder. And something Markapians learned to retrofit centuries ago.",
+					"Estonya: Amphibious monstrosities able to dehydrate themselves into perpetual hibernation.",
+					"Estonya: Didn't take us long to learn that if we kept the water away from them, it provided instant shelter.",
+					"Estonya: And we learned, often the hard way, that once they're rehydrated…",
+					"Estonya: You'd better run.",
 					"Caption: Meanwhile.",
 					"Logistics: Right over there! I can see the crop store silos!",
 					"Logistics: Great. Doesn't do us any good if Bunny doesn't play his part soon!",
@@ -1854,15 +1862,15 @@
 					1200,
 					1988
 				],
-				"scene": "Two Markapians recognize Andre and try to guide him until strikes from above hit them. At a control console, Estonya floods the Genesis tent with water, and the huge fintent stirs awake with a groan.",
+				"scene": "Two Markapians recognize Andre and try to guide him until strikes from above hit them. At a control console, Estonya sends water to the other fintents while keeping the Genesis tent isolated, and a huge fintent stirs awake with a groan.",
 				"lines": [
 					"Helmeted Markapian: Is that one of the Patchers?",
 					"Beaked Markapian: It is! The original! Andre himself. Patcher, avoid that corner! Cron's forces are incoming. Follow us.",
 					"Beaked Markapian: It's too late! They… argh!",
 					"Andre: No!",
 					"Helmeted Markapian: Strikes from above! Patcher, take cove… aaagh!",
-					"Caption: Okay, water is flowing. The Genesis tent is isolated.",
-					"Caption: Can't verify that enough times. If it awoke while Andre was inside… yikes.",
+					"Estonya: Okay, water is flowing. The Genesis tent is isolated.",
+					"Estonya: Can't verify that enough times. If it awoke while Andre was inside… yikes.",
 					"Estonya: Well, ladies, wakey wakey. I hope you had a good twenty-year nap. May this sacrifice be worth it.",
 					"Sound: Rrrruummble",
 					"Fintent: Rrrrnnghhnnn."
@@ -1878,9 +1886,9 @@
 				],
 				"scene": "Andre crawls into the Genesis fintent and finds Dominion waiting there to watch. Shaken by Bunny's blasts below, Logistics and Comms ride toward the burning crop stores.",
 				"lines": [
-					"Caption: It appears the Pepel augmentations shield me from some of Cron's most basic ship sensors. Finally, it's the Genesis fintent.",
-					"Caption: It feels like a lifetime ago that I was here.",
-					"Caption: In a way, is that wrong? I surely am not the same person I was before.",
+					"Andre: It appears the Pepel augmentations shield me from some of Cron's most basic ship sensors. Finally, it's the Genesis fintent.",
+					"Andre: It feels like a lifetime ago that I was here.",
+					"Andre: In a way, is that wrong? I surely am not the same person I was before.",
 					"Voice: About time, Patcher.",
 					"Andre: Who… who are you?",
 					"Dominion: Don't mind me. I'm just here to witness history.",
@@ -2052,11 +2060,11 @@
 				"scene": "Seen from space, an explosion flares on a green planet. Cron's giant tomb mask dissolves into golden particles, and Cron, torn free of his cables, clutches his head.",
 				"lines": [
 					"Sound: Waboom",
-					"Caption: This is how we achieve victory, Eston'ya.",
-					"Caption: By sacrificing what Cron never would.",
+					"Andre: This is how we achieve victory, Eston'ya.",
+					"Andre: By sacrificing what Cron never would.",
 					"Cron: No… it can't be.",
 					"Cron: Without me there is no order… No one to protect them.",
-					"Caption: Ourselves. Our control."
+					"Andre: Ourselves. Our control."
 				]
 			},
 			{
@@ -2067,11 +2075,11 @@
 					1200,
 					1988
 				],
-				"scene": "Cron's head dissolves into golden particles. In the burning ruins, Markapians huddle together, realizing Cron is dead and their crops are gone.",
+				"scene": "Cron's head dissolves into golden particles. In the burning ruins, Markapians huddle together, and Logistics, holding Comms, realizes Cron is dead and their crops are gone.",
 				"lines": [
 					"Cron: Without me…",
 					"Markapian: What… what happened? What was that?",
-					"Blue Markapian: Cron… is dead? And so… so are our crops!"
+					"Logistics: Cron… is dead? And so… so are our crops!"
 				]
 			},
 			{
@@ -2082,7 +2090,7 @@
 					1200,
 					1988
 				],
-				"scene": "Estonya lies in a pink haze, calling for Andre. When no one answers, she kneels with her head to the ground beside a small smoking object.",
+				"scene": "Estonya lies in a pink haze, calling for Andre. When no one answers, she kneels with her head to the ground beside his smoking breathing mask.",
 				"lines": [
 					"Estonya: Nnnngh. Andre… are you okay? Andre?",
 					"Estonya: No! Andre?!",
@@ -2097,7 +2105,7 @@
 					1200,
 					1988
 				],
-				"scene": "Months later, workers rebuild Markap with cranes and new silos. Estonya and the Elder sit on a ledge overlooking the city and talk about how fast it has recovered.",
+				"scene": "Months later, workers rebuild Markap with cranes and new silos. Estonya and the Elder, Alonz's grandfather, sit on a ledge overlooking the city and talk about how fast it has recovered.",
 				"lines": [
 					"Caption: Months later.",
 					"Estonya: If only Alonz was here to see how quickly we've recovered, eh, Elder?",
