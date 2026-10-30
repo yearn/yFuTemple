@@ -261,7 +261,7 @@
 					1200,
 					2063
 				],
-				"scene": "A wordless vision: an ape-like farmer in a conical hat ploughs behind a pale beast; the farmer, now with a third eye, raises his hands beside a purple-hooded figure; the masked woman holds a tiny ghostly figure with a backpack and hooked staff, like Andre, in her palm; and under the moon a grieving blue-skinned woman cradles a limp body, clutching withered stalks.",
+				"scene": "A wordless vision: an ape-like farmer in a conical hat ploughs behind a pale beast; the farmer, now with a third eye, raises his hands beside a purple-hooded figure; the masked woman holds a tiny ghostly figure with a backpack and hooked staff, like Andre, in her palm; and under the moon a grieving blue-skinned woman cradles a limp body that clutches withered stalks.",
 				"lines": []
 			},
 			{
@@ -442,7 +442,7 @@
 					1200,
 					2063
 				],
-				"scene": "Behind-the-scenes art: an early painted character design of a figure in a pink rabbit mask with big red eyes, an armored coat with blue Yearn-logo badges, keys on its belt and a long gun over its shoulder.",
+				"scene": "Behind-the-scenes art: an early painted character design of a figure in a pink rabbit mask with big red eyes, an armored coat with blue Yearn-logo badges, keys on its belt and a long gun held at its hip.",
 				"lines": [
 					"Caption: Early yFu art",
 					"Credit: Character concepts by Pillhead",
@@ -742,7 +742,7 @@
 					1200,
 					2063
 				],
-				"scene": "Estonya arrives with Bunny and her crew and hugs Andre, while her narration recalls meeting him three years earlier. One of the patchers in her group is surprised Andre invited her.",
+				"scene": "Estonya arrives with Bunny and her crew and hugs Andre, while her narration recalls meeting him three years earlier. A patcher is surprised Andre invited her.",
 				"lines": [
 					"Estonya: I almost can't believe it. We're here!",
 					"Andre: Eston'ya.",
@@ -787,7 +787,7 @@
 					1200,
 					2063
 				],
-				"scene": "An explosion rocks the ship. A red, guitar-shaped Cron vessel fires on the bio-stabilizer pod above the merging patcher ships, and Pencenatus and Estonya react in disbelief.",
+				"scene": "An explosion rocks the ship. A pale Cron vessel fires on Pencenatus's red, guitar-shaped ship as it merges with theirs, and Pencenatus and Estonya react in disbelief.",
 				"lines": [
 					"Sound: Doom",
 					"Mohawk crewmate: What the hell was that?!",
@@ -807,7 +807,7 @@
 					1200,
 					2063
 				],
-				"scene": "The Cron ship's blasts throw the crew around. A hooded acolyte hails them on a screen, Andre realizes he knows the attackers, and the patcher ship fires back.",
+				"scene": "Pencenatus's ship explodes, and the blast throws the crew around. A hooded acolyte hails them on a screen, and Andre, shaken, says he knew these people. The Cron vessel fires again, and Andre takes command.",
 				"lines": [
 					"Voice: Welcome to Cron logic.",
 					"Andre: No…",
@@ -985,7 +985,7 @@
 					1200,
 					2063
 				],
-				"scene": "Techne, Transmission and Community watch events in a glowing pool, and Community warns of danger. On the edge of chainspace, an explorer finds Cron's resting place and is swallowed by a giant red-eyed, lizard-like beast, dropping his device.",
+				"scene": "Techne, Transmission and Community watch events in a glowing pool, and Community warns of danger. On the edge of chainspace, an explorer finds Cron's resting place and is bitten in half by a giant red-eyed, lizard-like beast, dropping his device.",
 				"lines": [
 					"Techne: Fair point. It's so hard to remember they're only human sometimes.",
 					"Transmission: These people need each other now if they are to succeed. What's taking you so long to rally them, Community?",
@@ -1009,7 +1009,7 @@
 					1200,
 					2063
 				],
-				"scene": "Behind-the-scenes art, the left half of a spread: two early painted designs of melting, rainbow-colored liquid figures on a dark blue background, one in a gold crown with a large pill under its arm, one in a gold cone hat.",
+				"scene": "Behind-the-scenes art, the left half of a spread: two early painted designs of melting, rainbow-colored liquid figures on a dark blue background, one in a gold crown with a large pill strapped across its chest, one in a gold cone hat.",
 				"lines": []
 			},
 			{
@@ -1173,7 +1173,7 @@
 					1200,
 					2063
 				],
-				"scene": "Beside a grounded shuttle among giant mushrooms, explosions throw fighters into the air. A blood-soaked Andre grapples a hooded brute swinging a spiked flail, then a huge blast goes off, and Andre doubts he will survive.",
+				"scene": "Beside a grounded shuttle among giant mushrooms, explosions throw fighters into the air. A blood-soaked Andre grapples a hooded brute swinging a heavy ball on a chain, then a huge blast goes off, and Andre doubts he will survive.",
 				"lines": [
 					"Andre: But to say we are faring well would be a lie.",
 					"Andre: Our method and skills are so superior, but their numbers are so great, and their tactics so tested, we may not win this round.",
@@ -1228,13 +1228,13 @@
 					1200,
 					2063
 				],
-				"scene": "Community fades away to catch up on events, leaving Dominion and Transmission. On the ship, Andre tells his allies they have found Cron and calls a vote; a hulking crewmate mutters, and Estonya reluctantly agrees.",
+				"scene": "Community fades away to catch up on events, leaving Dominion and Transmission. On the ship, Andre tells his allies they have found Cron and calls a vote, and Estonya reluctantly agrees.",
 				"lines": [
 					"Community: Either way my role remains unchanged. It's only magnified.",
 					"Community: There's no sense in waiting on an outcome I can't predict. You'll inform me.",
 					"Community: Until then I'm off to play catch-up.",
 					"Andre: I do not disagree that our preparedness is lacking.",
-					"Hulking crewmate: That's putting it mildly.",
+					"Estonya: That's putting it mildly.",
 					"Andre: But we have found Cron.",
 					"Andre: Fate has given us a chance, and we may never get it again. We vote on this – today.",
 					"Estonya: Well, I guess there are worse ideas."
@@ -1496,7 +1496,7 @@
 					1200,
 					2063
 				],
-				"scene": "Cron's hooded vessel, with tubes running into his nose, gazes up from the throne at Cron's own huge, shadowy face looming in smoke and embers beneath a rune-carved stone arch.",
+				"scene": "Cron's hooded vessel, with tubes running into his nose, sits on the throne while Cron's own huge, shadowy face looms behind him in smoke and embers beneath a rune-carved stone arch.",
 				"lines": [
 					"Cron: And which node must be sacrificed."
 				]
@@ -1842,7 +1842,7 @@
 					"Estonya: You'd better run.",
 					"Caption: Meanwhile.",
 					"Logistics: Right over there! I can see the crop store silos!",
-					"Logistics: Great. Doesn't do us any good if Bunny doesn't play his part soon!",
+					"Comms: Great. Doesn't do us any good if Bunny doesn't play his part soon!",
 					"Caption: Meanwhile, underground.",
 					"Bunny: Let's see, let's see. Look for the glowing roots, they said. These look pretty glowy ta me!",
 					"Bunny: Looks awfully flammable.",
@@ -2105,7 +2105,7 @@
 					1200,
 					1988
 				],
-				"scene": "Months later, workers rebuild Markap with cranes and new silos. Estonya and the Elder, Alonz's grandfather, sit on a ledge overlooking the city and talk about how fast it has recovered.",
+				"scene": "Months later, workers rebuild Markap with cranes and new silos. Estonya sits on a ledge beside the Elder, Alonz's grandfather, who leans on his cane, and they look out over the city and talk about how fast it has recovered.",
 				"lines": [
 					"Caption: Months later.",
 					"Estonya: If only Alonz was here to see how quickly we've recovered, eh, Elder?",
