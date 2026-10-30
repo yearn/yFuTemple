@@ -6,7 +6,6 @@
 		"dev": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
-		"import-comics": "node scripts/import-comics.mjs",
 		"lint": "eslint .",
 		"lintfix": "eslint . --fix"
 	},
