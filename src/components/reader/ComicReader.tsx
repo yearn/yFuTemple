@@ -6,7 +6,7 @@ import {usePhotoSwipe} from '../../utils/usePhotoSwipe';
 
 import type {SlideData} from 'photoswipe';
 import type {ReactElement} from 'react';
-import type {TComic, TComicSummary} from '../../utils/comics';
+import type {TComic, TComicPage, TComicSummary} from '../../utils/comics';
 
 type TMode = 'scroll' | 'page';
 
@@ -52,6 +52,27 @@ function pageInView(): number {
 function isOnScreen(index: number): boolean {
 	const rect = document.querySelector(`[data-page="${index}"]`)?.getBoundingClientRect();
 	return rect !== undefined && rect.bottom > 0 && rect.top < window.innerHeight;
+}
+
+// a page's text for screen readers and anyone who wants to read it: the scene, then every line in reading order
+function PageText({page, number, id, className = ''}: {page: TComicPage, number: number, id: string, className?: string}): ReactElement {
+	return (
+		<details className={`font-scope ${className}`}>
+			<summary className={`cursor-pointer text-sm opacity-70 hover:opacity-100 ${FOCUS}`}>{`Page ${number} as text`}</summary>
+			<div id={id} className={'space-y-2 pt-2 text-sm md:text-base'}>
+				<p className={'italic opacity-80'}>{page.scene}</p>
+				{page.lines.map((line, i): ReactElement => {
+					const colon = line.indexOf(': ');
+					return (
+						<p key={i}>
+							{colon > 0 ? <span className={'font-bold'}>{line.slice(0, colon + 1)}</span> : null}
+							{colon > 0 ? line.slice(colon + 1) : line}
+						</p>
+					);
+				})}
+			</div>
+		</details>
+	);
 }
 
 function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
@@ -194,7 +215,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 
 	useEffect((): (() => void) => {
 		const onKeyDown = (event: KeyboardEvent): void => {
-			const isTyping = event.target instanceof Element && event.target.closest('input, select, textarea');
+			const isTyping = event.target instanceof Element && event.target.closest('input, select, textarea, summary');
 			if (event.altKey || event.ctrlKey || event.metaKey || isTyping || isZoomOpen()) {
 				return;
 			}
@@ -323,7 +344,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 
 			{mode === 'scroll' ? (
 				<ol className={'mx-auto flex max-w-3xl flex-col gap-2 py-4'}>
-					{comic.pages.map((_page, i): ReactElement => (
+					{comic.pages.map((page, i): ReactElement => (
 						<li
 							key={i}
 							id={`page-${i + 1}`}
@@ -333,6 +354,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 								type={'button'}
 								onClick={(): void => openZoom(i)}
 								aria-label={`Zoom into ${pageAlt(comic, i, count)}`}
+								aria-describedby={`page-${i + 1}-text`}
 								className={`block w-full cursor-zoom-in ${FOCUS}`}>
 								<img
 									{...pageImage(comic, i)}
@@ -342,6 +364,11 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 									decoding={'async'}
 									className={'h-auto w-full bg-white/5'} />
 							</button>
+							<PageText
+								page={page}
+								number={i + 1}
+								id={`page-${i + 1}-text`}
+								className={'px-4 py-2 md:px-0'} />
 						</li>
 					))}
 				</ol>
@@ -351,6 +378,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 						type={'button'}
 						onClick={(): void => openZoom(index)}
 						aria-label={`Zoom into ${pageAlt(comic, index, count)}`}
+						aria-describedby={'page-text'}
 						className={`flex min-h-0 flex-1 cursor-zoom-in items-center justify-center ${FOCUS}`}>
 						<img
 							key={index}
@@ -380,6 +408,12 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 							</a>
 						)}
 					</div>
+					{/* one text panel follows the page, so it stays open while turning pages */}
+					<PageText
+						page={comic.pages[index]}
+						number={index + 1}
+						id={'page-text'}
+						className={'max-h-[35%] w-full max-w-3xl shrink-0 overflow-y-auto'} />
 				</div>
 			)}
 
