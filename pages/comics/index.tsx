@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {NextSeo} from 'next-seo';
 
+import BackLink from '../../components/BackLink';
 import Footer from '../../components/Footer';
 import {pageImage} from '../../utils/comics';
 import {COMICS} from '../../utils/comicsManifest';
@@ -21,7 +22,10 @@ export default function ComicsPage({issues}: TComicsPage): ReactElement {
 				title={'yFu Comics'}
 				description={'Read all four issues of yFu, the comic about the rise of Yearn and DeFi.'} />
 			<main className={'relative mx-auto w-full max-w-screen-xl px-4 md:px-0'}>
-				<h1 className={'mx-auto my-8 w-fit border-b-2 border-white px-3 pb-3 font-peste text-3xl font-medium uppercase text-white md:text-5xl'}>
+				<div className={'py-4'}>
+					<BackLink href={'/'} label={'HOME'} />
+				</div>
+				<h1 className={'mx-auto mb-8 mt-4 w-fit border-b-2 border-white px-3 pb-3 font-peste text-3xl font-medium uppercase text-white md:text-5xl'}>
 					{'yFu comics'}
 				</h1>
 				<ol className={'grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6'}>

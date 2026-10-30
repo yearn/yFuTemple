@@ -32,6 +32,12 @@ export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption
 				secondaryZoomLevel: 1,
 				maxZoomLevel: 2
 			});
+			// a slide can name a backdrop for artwork with transparency
+			instance.on('contentAppend', ({content}): void => {
+				if (content.element && content.data.background) {
+					content.element.style.background = content.data.background;
+				}
+			});
 			instance.on('change', (): void => {
 				if (instance?.pswp) {
 					callbacks.current.onChange?.(instance.pswp.currIndex);

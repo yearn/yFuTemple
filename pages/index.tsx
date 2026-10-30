@@ -29,7 +29,7 @@ function Tree(): ReactElement {
 }
 
 function Index(): ReactElement {
-	const allData = YFU_DATA;
+	const allData = [...YFU_DATA].sort((a: TYFUData, b: TYFUData): number => a.order - b.order);
 
 	return (
 		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
@@ -64,7 +64,7 @@ function Index(): ReactElement {
 								art={{src: '/assets/comic1-main.avif', width: 959, height: 1667, alt: ''}}
 								href={'/comics/'}
 								cta={'VIEW COMICS'}
-								eager>
+								priority>
 								<p>{"yFu is a comic in four episodes, set in the Pills alternate universe and chronicling the rise of Yearn's DAO and DeFi. yFu was developed by Yearn Finance and The Pills Universe, and was written and produced by Josh Blaylock."}</p>
 								<p>{'yFu follows the story of Andre the Patcher and a young farmer named Estonya as they encounter the four yFu goddesses and attempt to recover the secrets of yield from the clutches of the ancient, evil Cron.'}</p>
 								<p>{'Browse to see the art and story first hand.'}</p>
@@ -77,9 +77,11 @@ function Index(): ReactElement {
 						</div>
 
 						{allData
-							.sort((a: TYFUData, b: TYFUData): number => a.order - b.order)
 							.map((goddess: TYFUData, index: number): ReactElement => (
-								<div key={goddess.id}>
+								<div
+									key={goddess.id}
+									id={goddess.id}
+									className={'scroll-mt-28 md:scroll-mt-20'}>
 									<Showcase
 										title={goddess.title}
 										mark={{src: goddess.watermark, width: 497, height: 497}}
@@ -88,15 +90,16 @@ function Index(): ReactElement {
 										cta={'SEE TRIBUTES'}>
 										<p>{goddess.description}</p>
 									</Showcase>
-									<div
-										className={`my-0 flex items-center justify-center ${index + 1 === allData.length ? 'hidden' : ''}`}>
-										<Image
-											unoptimized
-											alt={''}
-											src={`/divider-${index + 1}.gif`}
-											width={200}
-											height={200}/>
-									</div>
+									{index + 1 < allData.length ? (
+										<div className={'my-0 flex items-center justify-center'}>
+											<Image
+												unoptimized
+												alt={''}
+												src={`/divider-${index + 1}.gif`}
+												width={200}
+												height={200}/>
+										</div>
+									) : null}
 								</div>
 							))}
 						<div className={'my-9 flex items-center justify-center'}>
