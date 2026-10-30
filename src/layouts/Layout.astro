@@ -83,6 +83,8 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
 			deselectScripts(event.newDocument);
 			swapRootAttributes(event.newDocument);
 			swapHeadElements(event.newDocument);
+			// astro announces each page in a new live region and relies on the body swap to drop the old ones
+			document.querySelectorAll('.astro-route-announcer').forEach((announcer): void => announcer.remove());
 			const restoreFocus = saveFocus();
 			swapBodyElement(event.newDocument.getElementById('content')!, document.getElementById('content')!);
 			restoreFocus();
