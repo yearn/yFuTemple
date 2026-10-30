@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import Link from 'next/link';
 
 import {fullPageSrc, pageAlt, pageImage} from '../../utils/comics';
@@ -26,6 +26,8 @@ const SCROLL_SIZES = '(min-width: 768px) 768px, 100vw';
 // a fitted page is about 0.65 times the height it is given
 const PAGE_SIZES = '(orientation: landscape) 60vh, 100vw';
 const STEPS: {[key: string]: number} = {ArrowRight: 1, ArrowLeft: -1, j: 1, k: -1};
+// scrolling has settled once no scroll event arrived for this long
+const SETTLE_MS = 100;
 const PAGE_MODE_STEPS: {[key: string]: number} = {'PageDown': 1, 'PageUp': -1, ' ': 1};
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const CONTROL = `border-2 border-white px-3 py-1 hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-40 aria-pressed:bg-white aria-pressed:text-black ${FOCUS}`;
@@ -50,6 +52,21 @@ function writeStorage(key: string, value: string): void {
 function pageFromHash(hash: string, count: number): number | null {
 	const page = Number(hash.match(/^#page-(\d+)$/)?.[1]);
 	return page >= 1 && page <= count ? page - 1 : null;
+}
+
+// the page under the middle of the screen, or the last one once the bottom is reached
+function pageInView(): number {
+	const pages = Array.from(document.querySelectorAll('[data-page]'));
+	if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1) {
+		return pages.length - 1;
+	}
+	const above = pages.filter((page): boolean => page.getBoundingClientRect().top <= window.innerHeight / 2);
+	return Math.max(above.length - 1, 0);
+}
+
+function isOnScreen(index: number): boolean {
+	const rect = document.querySelector(`[data-page="${index}"]`)?.getBoundingClientRect();
+	return rect !== undefined && rect.bottom > 0 && rect.top < window.innerHeight;
 }
 
 function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
@@ -77,6 +94,8 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 	const [scrollTarget, set_scrollTarget] = useState<TScrollTarget | null>(null);
 	const [resumeFrom, set_resumeFrom] = useState<number | null>(null);
 	const [isReady, set_isReady] = useState(false);
+	// a page the reader jumped to, which stays current while it is on screen even if it can't reach the middle
+	const jumpedTo = useRef<number | null>(null);
 
 	const goTo = useCallback((target: number, smooth = false): void => {
 		const page = Math.min(Math.max(target, 0), count - 1);
@@ -129,6 +148,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 			return;
 		}
 		if (mode === 'scroll') {
+			jumpedTo.current = scrollTarget.index;
 			document.getElementById(`page-${scrollTarget.index + 1}`)?.scrollIntoView({behavior: scrollTarget.smooth ? 'smooth' : 'instant'});
 		} else {
 			window.scrollTo({top: 0, behavior: 'instant'});
@@ -136,23 +156,29 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		set_scrollTarget(null);
 	}, [mode, scrollTarget]);
 
-	// in scroll mode the current page is whichever one crosses the middle of the screen
+	// in scroll mode the current page is read once scrolling settles, so the reader's own smooth scrolls don't fight it
 	useEffect((): (() => void) | void => {
 		if (mode !== 'scroll') {
 			return;
 		}
-		const observer = new IntersectionObserver((entries): void => {
-			for (const entry of entries) {
-				if (entry.isIntersecting) {
-					set_index(Number((entry.target as HTMLElement).dataset.page));
-				}
-			}
-		}, {rootMargin: '-50% 0px -50% 0px'});
-		document.querySelectorAll('[data-page]').forEach((element): void => observer.observe(element));
-		return (): void => observer.disconnect();
+		let timer = 0;
+		const onSettled = (): void => {
+			const target = jumpedTo.current;
+			jumpedTo.current = null;
+			set_index(target !== null && isOnScreen(target) ? target : pageInView());
+		};
+		const onScroll = (): void => {
+			window.clearTimeout(timer);
+			timer = window.setTimeout(onSettled, SETTLE_MS);
+		};
+		window.addEventListener('scroll', onScroll, {passive: true});
+		return (): void => {
+			window.clearTimeout(timer);
+			window.removeEventListener('scroll', onScroll);
+		};
 	}, [mode]);
 
-	// keep the url shareable and remember the page, without clobbering a pending resume offer
+	// keep the url shareable and remember the page, and keep a resume offer and its page until the reader takes it or reads past it
 	useEffect((): void => {
 		if (!isReady) {
 			return;
@@ -161,12 +187,11 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		if (window.location.hash !== hash) {
 			window.history.replaceState(window.history.state, '', `${window.location.pathname}${hash}`);
 		}
-		if (index > 0) {
-			set_resumeFrom(null);
-			writeStorage(positionKey, String(index));
-		} else if (resumeFrom === null) {
-			writeStorage(positionKey, '0');
+		if (resumeFrom !== null && index < resumeFrom) {
+			return;
 		}
+		set_resumeFrom(null);
+		writeStorage(positionKey, String(index));
 	}, [index, isReady, positionKey, resumeFrom]);
 
 	useEffect((): (() => void) => {
@@ -222,8 +247,9 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 	}
 
 	return (
-		<div className={'min-h-screen bg-black text-white'}>
-			<div className={'sticky top-24 z-10 flex flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 md:top-16'}>
+		// page mode fills the screen under the header, so the page and its buttons always fit
+		<div className={mode === 'page' ? 'flex h-[calc(100dvh-6rem)] flex-col bg-black text-white md:h-[calc(100dvh-4rem)]' : 'min-h-screen bg-black text-white'}>
+			<div className={'sticky top-24 z-10 flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 md:top-16'}>
 				<Link href={'/comics/'} className={`hover:underline ${FOCUS}`}>{'‹ Comics'}</Link>
 				<h1 className={'mr-auto text-base font-normal md:text-lg'}>
 					{`Issue ${comic.number} · ${comic.title}`}
@@ -297,20 +323,20 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 					))}
 				</ol>
 			) : (
-				<div className={'flex flex-col items-center gap-4 p-4'}>
+				<div className={'flex min-h-0 flex-1 flex-col items-center gap-4 p-4'}>
 					<button
 						type={'button'}
 						onClick={(): void => openZoom(index)}
 						aria-label={`Zoom into ${pageAlt(comic, index, count)}`}
-						className={`cursor-zoom-in ${FOCUS}`}>
+						className={`flex min-h-0 flex-1 cursor-zoom-in items-center justify-center ${FOCUS}`}>
 						<img
 							key={index}
 							{...pageImage(comic, index)}
 							sizes={PAGE_SIZES}
 							alt={pageAlt(comic, index, count)}
-							className={'size-auto max-h-[calc(100dvh-12rem)] max-w-full md:max-h-[calc(100dvh-9rem)]'} />
+							className={'size-auto max-h-full max-w-full'} />
 					</button>
-					<div className={'flex gap-4'}>
+					<div className={'flex shrink-0 gap-4'}>
 						<button
 							type={'button'}
 							disabled={index === 0}
@@ -318,18 +344,23 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 							className={CONTROL}>
 							{'‹ Previous'}
 						</button>
-						<button
-							type={'button'}
-							disabled={index === count - 1}
-							onClick={(): void => goTo(index + 1)}
-							className={CONTROL}>
-							{'Next ›'}
-						</button>
+						{index < count - 1 ? (
+							<button
+								type={'button'}
+								onClick={(): void => goTo(index + 1)}
+								className={CONTROL}>
+								{'Next ›'}
+							</button>
+						) : (
+							<Link href={next ? `/comics/${next.id}/` : '/comics/'} className={CONTROL}>
+								{next ? `Issue ${next.number} · ${next.title} ›` : 'All comics ›'}
+							</Link>
+						)}
 					</div>
 				</div>
 			)}
 
-			{mode === 'scroll' || index === count - 1 ? <EndOfIssue next={next} /> : null}
+			{mode === 'scroll' ? <EndOfIssue next={next} /> : null}
 		</div>
 	);
 }

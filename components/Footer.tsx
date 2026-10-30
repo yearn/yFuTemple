@@ -1,9 +1,16 @@
 import	React from	'react';
+import	Link from	'next/link';
 
 import type {ReactElement} from 'react';
 
 // a nod to 2000s hit counters, it doesn't count anything
 const	VISITORS = '001337';
+
+const	PAGES = [
+	['HOME', '/'],
+	['COMICS', '/comics/'],
+	['FAQ', '/faq/']
+];
 
 const	LINKS = [
 	['TWITTER', 'https://x.com/yearnfi'],
@@ -25,7 +32,17 @@ function	Footer(): ReactElement {
 					))}
 				</div>
 			</div>
-			<nav className={'flex w-full flex-col items-center justify-center space-x-0 space-y-5 font-monument text-lg text-yblue md:flex-row md:space-x-8 md:space-y-0 md:text-xl'}>
+			<nav aria-label={'Site'} className={'mb-6 flex w-full flex-row items-center justify-center gap-8 font-monument text-lg text-white md:mb-8 md:text-xl'}>
+				{PAGES.map(([label, href]): ReactElement => (
+					<Link
+						key={label}
+						href={href}
+						className={'hover:underline'}>
+						{label}
+					</Link>
+				))}
+			</nav>
+			<nav aria-label={'Elsewhere'} className={'flex w-full flex-col items-center justify-center space-x-0 space-y-5 font-monument text-lg text-yblue md:flex-row md:space-x-8 md:space-y-0 md:text-xl'}>
 				{LINKS.map(([label, href]): ReactElement => (
 					<p key={label} className={'text-shadow transition-all duration-150'}>
 						<a

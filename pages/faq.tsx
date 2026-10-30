@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 import {NextSeo} from 'next-seo';
+import BackLink from 'components/BackLink';
 import Footer from 'components/Footer';
 
 import type {ReactElement} from 'react';
@@ -89,12 +89,10 @@ function Wrapper(): ReactElement {
 				description={'Credits for the yFu comic, the 2024 comic NFT, and how the yFu Temple relates to Yearn.'} />
 			<div className={'relative mx-auto w-full max-w-screen-xl'} style={{minHeight: '100vh'}}>
 				<div>
-					<Link href={'/'}>
-						<p className={'cursor-pointer text-sm opacity-60 transition-opacity hover:opacity-100'}>
-							{'Back to home'}
-						</p>
-					</Link>
-					<section className={'mt-2 w-full px-4 md:px-0'}>
+					<div className={'p-4 md:px-0'}>
+						<BackLink href={'/'} label={'HOME'} />
+					</div>
+					<section className={'w-full px-4 md:px-0'}>
 						<FAQ/>
 					</section>
 				</div>

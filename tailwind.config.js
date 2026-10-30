@@ -10,7 +10,6 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				'beige': '#EAE8E1',
 				'yblue': '#6176b4',
 				'yearn-blue': 'hsl(220, 95%, 50%)'
 			},
@@ -18,12 +17,7 @@ module.exports = {
 				DEFAULT: 'currentColor'
 			},
 			width: {
-				68: '17rem',
-				'250%': '250%'
-			},
-			minWidth: {
-				68: '17rem',
-				80: '20rem'
+				68: '17rem'
 			},
 			fontFamily: {
 				scope: ['Scope', 'Roboto', 'serif'],

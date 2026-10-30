@@ -16,20 +16,19 @@ type TShowcase = {
 	art: TShowcaseImage & {alt: string},
 	href: string,
 	cta: string,
-	eager?: boolean,
+	priority?: boolean,
 	children: ReactNode
 };
 
 // phones stack mark, art and text; tablets put the mark over the text beside the art; desktops use three columns
-export default function Showcase({title, mark, art, href, cta, eager = false, children}: TShowcase): ReactElement {
-	const loading = eager ? 'eager' : 'lazy';
+export default function Showcase({title, mark, art, href, cta, priority = false, children}: TShowcase): ReactElement {
 	return (
 		<div className={'grid grid-cols-1 border-2 border-white md:grid-cols-2 lg:grid-cols-3'}>
 			<div className={'row-start-1 flex items-center justify-center border-b-2 border-white md:col-start-1 md:border-b-0 md:border-r-2 md:pt-8 lg:border-r-0 lg:p-8'}>
 				<Image
 					alt={''}
 					src={mark.src}
-					loading={loading}
+					priority={priority}
 					className={'aspect-square w-32 object-contain p-2 md:w-40 lg:w-full'}
 					width={mark.width}
 					height={mark.height} />
@@ -55,7 +54,7 @@ export default function Showcase({title, mark, art, href, cta, eager = false, ch
 				<Image
 					alt={art.alt}
 					src={art.src}
-					loading={loading}
+					priority={priority}
 					className={'w-full object-cover'}
 					width={art.width}
 					height={art.height} />

@@ -16,7 +16,6 @@ function	AppMeta({path}: {path: string}): ReactElement {
 	return (
 		<>
 			<Head>
-				<title>{'yFu Temple'}</title>
 				<meta httpEquiv={'X-UA-Compatible'} content={'IE=edge'} />
 				<meta name={'viewport'} content={'width=device-width, initial-scale=1'} />
 				<meta charSet={'utf-8'} />
@@ -49,10 +48,6 @@ function	AppMeta({path}: {path: string}): ReactElement {
 				<link rel={'manifest'} href={'/favicons/site.webmanifest'} />
 				<meta name={'msapplication-TileColor'} content={'#000000'} />
 				<meta name={'theme-color'} content={'#000000'} />
-
-				{/* ROBOTS */}
-				<meta name={'robots'} content={'index,follow'} />
-				<meta name={'googlebot'} content={'index,follow'} />
 			</Head>
 			<DefaultSeo
 				title={'yFu Temple'}

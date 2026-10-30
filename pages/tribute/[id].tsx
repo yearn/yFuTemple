@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import Link from 'next/link';
 import {NextSeo} from 'next-seo';
 
+import BackLink from '../../components/BackLink';
 import Footer from '../../components/Footer';
 import YFU_DATA, {originalSrc, thumbnailSrc} from '../../utils/data';
 import {Markdown} from '../../utils/markdown';
@@ -14,22 +15,30 @@ import type {TYFUData, TYFUDataMedia} from '../../utils/data';
 
 type TArtwork = TYFUDataMedia & {
 	width: number,
-	height: number
+	height: number,
+	// mostly see-through art, drawn against white
+	isTransparent: boolean
 };
+
+type THallLink = Pick<TYFUData, 'id' | 'hall'>;
 
 type TTributePage = {
 	temple: TYFUData,
-	artworks: TArtwork[]
+	artworks: TArtwork[],
+	previous: THallLink | null,
+	next: THallLink | null
 };
 
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+const HALL_LINK = `border-2 border-white bg-black px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`;
 
-export default function Index({temple, artworks}: TTributePage): ReactElement {
+export default function Index({temple, artworks, previous, next}: TTributePage): ReactElement {
 	const slides = useMemo((): SlideData[] => artworks.map((artwork): SlideData => ({
 		src: originalSrc(artwork.image),
 		width: artwork.width,
 		height: artwork.height,
-		alt: artwork.title
+		alt: artwork.title,
+		background: artwork.isTransparent ? 'white' : undefined
 	})), [artworks]);
 	const {open} = usePhotoSwipe(slides, {hasCaption: true});
 
@@ -40,7 +49,7 @@ export default function Index({temple, artworks}: TTributePage): ReactElement {
 				description={temple.description.trim()} />
 			<div className={'mx-auto w-full max-w-screen-xl'}>
 				<div className={'flex items-center justify-between p-4 font-scope text-white md:px-0'}>
-					<Link href={'/'} className={`text-xl hover:underline md:text-2xl ${FOCUS}`}>{'‹ BACK'}</Link>
+					<BackLink href={`/#${temple.id}`} label={'HOME'} />
 					<a
 						href={'https://discord.com/invite/yearn'}
 						target={'_blank'}
@@ -64,7 +73,7 @@ export default function Index({temple, artworks}: TTributePage): ReactElement {
 								type={'button'}
 								onClick={(): void => open(index)}
 								aria-label={`Zoom into ${artwork.title}`}
-								className={`block w-full cursor-zoom-in ${FOCUS}`}>
+								className={`block w-full cursor-zoom-in ${artwork.isTransparent ? 'bg-white' : ''} ${FOCUS}`}>
 								<img
 									src={thumbnailSrc(artwork.image)}
 									width={artwork.width}
@@ -88,6 +97,10 @@ export default function Index({temple, artworks}: TTributePage): ReactElement {
 						</li>
 					))}
 				</ul>
+				<nav aria-label={'Halls'} className={'mt-4 flex flex-wrap justify-between gap-4 px-4 font-scope text-white md:px-0'}>
+					{previous ? <Link href={`/tribute/${previous.id}/`} className={HALL_LINK}>{`‹ ${previous.hall}`}</Link> : <span />}
+					{next ? <Link href={`/tribute/${next.id}/`} className={HALL_LINK}>{`${next.hall} ›`}</Link> : null}
+				</nav>
 			</div>
 			<Footer />
 		</div>
@@ -101,10 +114,14 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 export const getStaticProps: GetStaticProps<TTributePage, {id: string}> = async ({params}) => {
 	const {default: sharp} = await import('sharp');
-	const temple = YFU_DATA.find(({id}): boolean => id === params?.id) as TYFUData;
+	const halls = [...YFU_DATA].sort((a, b): number => a.order - b.order);
+	const index = halls.findIndex(({id}): boolean => id === params?.id);
+	const temple = halls[index];
+	const link = (hall?: TYFUData): THallLink | null => (hall ? {id: hall.id, hall: hall.hall} : null);
 	const artworks = await Promise.all(temple.medias.map(async (media): Promise<TArtwork> => {
-		const {width, height} = await sharp(`${process.cwd()}/public${originalSrc(media.image)}`).metadata();
-		return {...media, width: width as number, height: height as number};
+		const image = sharp(`${process.cwd()}/public${originalSrc(media.image)}`);
+		const [{width, height}, {channels: [, , , alpha]}] = await Promise.all([image.metadata(), image.stats()]);
+		return {...media, width: width as number, height: height as number, isTransparent: alpha !== undefined && alpha.mean < 255 / 2};
 	}));
-	return {props: {temple, artworks}};
+	return {props: {temple, artworks, previous: link(halls[index - 1]), next: link(halls[index + 1])}};
 };
