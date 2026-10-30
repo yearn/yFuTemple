@@ -11,11 +11,11 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-	{ignores: ['.next', 'out', 'public', 'next-env.d.ts']},
+	{ignores: ['.next', 'out', 'public', 'next-env.d.ts', '.claude']},
 	js.configs.recommended,
 	importPlugin.flatConfigs.recommended,
 	react.configs.flat.recommended,
-	reactHooks.configs['recommended-latest'],
+	reactHooks.configs.flat['recommended-latest'],
 	...tailwind.configs['flat/recommended'],
 	tseslint.configs.recommended,
 	{
@@ -47,6 +47,9 @@ export default tseslint.config(
 			'react/prop-types': 0,
 			// the static export has no image optimizer, so next/image buys nothing over a plain img
 			'@next/next/no-img-element': 0,
+			// without the react compiler, an effect is the place to read browser-only state (storage, the url hash)
+			// after the static render and to scroll once the dom has updated
+			'react-hooks/set-state-in-effect': 0,
 			'@typescript-eslint/no-explicit-any': 'warn',
 			'react/react-in-jsx-scope': 0,
 			'no-async-promise-executor': 0,

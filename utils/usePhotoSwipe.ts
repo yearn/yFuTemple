@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef} from 'react';
+import {useCallback, useEffect, useEffectEvent, useRef} from 'react';
 
 import type {SlideData} from 'photoswipe';
 import type PhotoSwipeLightbox from 'photoswipe/lightbox';
@@ -21,8 +21,9 @@ const CLICK_ZOOM = 2.5;
 // open can take the items in another order, for when the page shows them differently.
 export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption = false}: TPhotoSwipeOptions = {}): {open: (index: number, ordered?: SlideData[]) => void, isOpen: () => boolean} {
 	const lightbox = useRef<PhotoSwipeLightbox | null>(null);
-	const callbacks = useRef({onChange, onClose});
-	callbacks.current = {onChange, onClose};
+	// the viewer outlives renders, so it reports through these to the latest callbacks
+	const changed = useEffectEvent((index: number): void => onChange?.(index));
+	const closed = useEffectEvent((index: number): void => onClose?.(index));
 
 	useEffect((): (() => void) => {
 		let instance: PhotoSwipeLightbox | null = null;
@@ -58,12 +59,12 @@ export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption
 			});
 			instance.on('change', (): void => {
 				if (instance?.pswp) {
-					callbacks.current.onChange?.(instance.pswp.currIndex);
+					changed(instance.pswp.currIndex);
 				}
 			});
 			instance.on('close', (): void => {
 				if (instance?.pswp) {
-					callbacks.current.onClose?.(instance.pswp.currIndex);
+					closed(instance.pswp.currIndex);
 				}
 			});
 			if (hasCaption) {
