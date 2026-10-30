@@ -1,9 +1,3 @@
-# hold back package versions published less than a week ago, except next's security releases
-minimumReleaseAge: 10080
-minimumReleaseAgeExclude:
-  - next
-  - '@next/*'
-
 # pin exact versions when adding packages
 savePrefix: ''
 
