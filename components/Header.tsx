@@ -40,17 +40,17 @@ function	Header(): ReactElement {
 	return (
 		<>
 			<header className={'fixed top-0 z-20 grid h-24 w-full grid-cols-2 flex-col items-center md:flex md:h-16 md:flex-row'}>
-				<div className={'relative col-span-1 flex h-12 w-full items-center border-b-2 border-white bg-black md:h-full md:w-68 md:min-w-68'}>
+				<div className={'relative col-span-1 flex h-12 w-full items-center border-b-2 border-white bg-black md:h-full md:w-auto md:shrink-0 lg:w-68'}>
 					<button
 						type={'button'}
 						onClick={(): void => set_hasModal(!hasModal)}
 						aria-expanded={hasModal}
 						aria-controls={'site-info'}
-						className={'flex size-full items-center px-4 text-left font-scope text-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white md:text-2xl'}>
+						className={'flex size-full items-center px-4 text-left font-scope text-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white md:px-6 md:text-2xl'}>
 						{'INFO'}
 					</button>
 					{hasModal ? (
-						<div id={'site-info'} className={'absolute left-0 top-full z-50 w-[200%] border-0 border-b-2 border-white bg-black p-4 md:w-full md:border-2'}>
+						<div id={'site-info'} className={'absolute left-0 top-full z-50 w-[200%] border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
 							<div className={'flex justify-end'}>
 								<button
 									type={'button'}
