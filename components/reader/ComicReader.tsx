@@ -28,6 +28,8 @@ const PAGE_SIZES = '(orientation: landscape) 60vh, 100vw';
 const STEPS: {[key: string]: number} = {ArrowRight: 1, ArrowLeft: -1, j: 1, k: -1};
 // scrolling has settled once no scroll event arrived for this long
 const SETTLE_MS = 100;
+// scroll movement smaller than this doesn't show or hide the header
+const CHROME_SLACK = 8;
 const PAGE_MODE_STEPS: {[key: string]: number} = {'PageDown': 1, 'PageUp': -1, ' ': 1};
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const CONTROL = `border-2 border-white px-3 py-1 hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-40 aria-pressed:bg-white aria-pressed:text-black ${FOCUS}`;
@@ -185,7 +187,9 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		}
 		const hash = index === 0 ? '' : `#page-${index + 1}`;
 		if (window.location.hash !== hash) {
-			window.history.replaceState(window.history.state, '', `${window.location.pathname}${hash}`);
+			// next keeps its own copy of the address in history and restores it on back, so it follows the page too
+			const path = `${window.location.pathname}${hash}`;
+			window.history.replaceState({...window.history.state, as: path}, '', path);
 		}
 		if (resumeFrom !== null && index < resumeFrom) {
 			return;
@@ -221,14 +225,48 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 				return;
 			}
 			const step = STEPS[event.key] ?? (mode === 'page' ? PAGE_MODE_STEPS[event.key] : undefined);
-			if (step) {
-				event.preventDefault();
-				goTo(index + step, true);
+			if (!step) {
+				return;
+			}
+			event.preventDefault();
+			// shift+space pages back, and past either end there is nothing to step to
+			const target = index + (event.key === ' ' && event.shiftKey ? -step : step);
+			if (target >= 0 && target < count) {
+				goTo(target, true);
 			}
 		};
 		window.addEventListener('keydown', onKeyDown);
 		return (): void => window.removeEventListener('keydown', onKeyDown);
 	}, [count, goTo, index, isZoomOpen, mode, openZoom]);
+
+	// reading down hides the site header and this toolbar, scrolling up or focusing them brings them back
+	useEffect((): (() => void) | void => {
+		if (mode !== 'scroll') {
+			return;
+		}
+		const root = document.documentElement;
+		let last = window.scrollY;
+		const onScroll = (): void => {
+			const delta = window.scrollY - last;
+			if (Math.abs(delta) < CHROME_SLACK) {
+				return;
+			}
+			root.dataset.chrome = delta > 0 && window.scrollY > window.innerHeight / 2 ? 'hidden' : 'shown';
+			last = window.scrollY;
+		};
+		const onFocusIn = (event: FocusEvent): void => {
+			if ((event.target as Element).closest('header, [data-reader-toolbar]')) {
+				root.dataset.chrome = 'shown';
+			}
+		};
+		window.addEventListener('scroll', onScroll, {passive: true});
+		document.addEventListener('focusin', onFocusIn);
+		return (): void => {
+			window.removeEventListener('scroll', onScroll);
+			document.removeEventListener('focusin', onFocusIn);
+			root.removeAttribute('data-chrome');
+		};
+	}, [mode]);
 
 	// warm the cache with the next page so turning feels instant
 	useEffect((): void => {
@@ -248,8 +286,10 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 
 	return (
 		// page mode fills the screen under the header, so the page and its buttons always fit
-		<div className={mode === 'page' ? 'flex h-[calc(100dvh-6rem)] flex-col bg-black text-white md:h-[calc(100dvh-4rem)]' : 'min-h-screen bg-black text-white'}>
-			<div className={'sticky top-24 z-10 flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 md:top-16'}>
+		<main className={mode === 'page' ? 'flex h-[calc(100dvh-6rem)] flex-col bg-black text-white md:h-[calc(100dvh-4rem)]' : 'min-h-screen bg-black text-white'}>
+			<div
+				data-reader-toolbar
+				className={'sticky top-24 z-10 flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 transition-[top,transform] duration-300 motion-reduce:transition-none md:top-16 [html[data-chrome=hidden]_&]:top-0 [html[data-chrome=hidden]_&]:-translate-y-full'}>
 				<Link href={'/comics/'} className={`hover:underline ${FOCUS}`}>{'‹ Comics'}</Link>
 				<h1 className={'mr-auto text-base font-normal md:text-lg'}>
 					{`Issue ${comic.number} · ${comic.title}`}
@@ -317,7 +357,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 									alt={pageAlt(comic, i, count)}
 									loading={i < 2 ? 'eager' : 'lazy'}
 									decoding={'async'}
-									className={'h-auto w-full'} />
+									className={'h-auto w-full bg-white/5'} />
 							</button>
 						</li>
 					))}
@@ -334,7 +374,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 							{...pageImage(comic, index)}
 							sizes={PAGE_SIZES}
 							alt={pageAlt(comic, index, count)}
-							className={'size-auto max-h-full max-w-full'} />
+							className={'size-auto max-h-full max-w-full bg-white/5'} />
 					</button>
 					<div className={'flex shrink-0 gap-4'}>
 						<button
@@ -361,6 +401,6 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 			)}
 
 			{mode === 'scroll' ? <EndOfIssue next={next} /> : null}
-		</div>
+		</main>
 	);
 }

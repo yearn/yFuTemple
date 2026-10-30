@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import Link from 'next/link';
 import {NextSeo} from 'next-seo';
 
@@ -25,8 +25,8 @@ type THallLink = Pick<TYFUData, 'id' | 'hall'>;
 type TTributePage = {
 	temple: TYFUData,
 	artworks: TArtwork[],
-	previous: THallLink | null,
-	next: THallLink | null
+	previous: THallLink,
+	next: THallLink
 };
 
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
@@ -41,13 +41,23 @@ export default function Index({temple, artworks, previous, next}: TTributePage):
 		background: artwork.isTransparent ? 'white' : undefined
 	})), [artworks]);
 	const {open} = usePhotoSwipe(slides, {hasCaption: true});
+	const grid = useRef<HTMLUListElement>(null);
+
+	// the grid is masonry, so the viewer steps through the artwork in the order it appears on screen, row by row
+	function openInView(index: number): void {
+		const order = Array.from(grid.current?.children ?? [], (card, i): {i: number, top: number, left: number} => {
+			const {top, left} = card.getBoundingClientRect();
+			return {i, top: Math.round(top), left};
+		}).sort((a, b): number => a.top - b.top || a.left - b.left).map(({i}): number => i);
+		open(order.indexOf(index), order.map((i): SlideData => slides[i]));
+	}
 
 	return (
-		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
+		<div key={temple.id} className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
 			<NextSeo
 				title={`${temple.tributeTitle} · yFu Temple`}
 				description={temple.description.trim()} />
-			<div className={'mx-auto w-full max-w-screen-xl'}>
+			<main className={'mx-auto w-full max-w-screen-xl'}>
 				<div className={'flex items-center justify-between p-4 font-scope text-white md:px-0'}>
 					<BackLink href={`/#${temple.id}`} label={'HOME'} />
 					<a
@@ -55,7 +65,7 @@ export default function Index({temple, artworks, previous, next}: TTributePage):
 						target={'_blank'}
 						rel={'noreferrer'}
 						className={`button-glowing-small bg-white text-black ${FOCUS}`}>
-						{'SUBMIT'}
+						{'SUBMIT ART'}
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
 						<div className={'glow absolute -inset-0 rotate-180 rounded-full'} />
 					</a>
@@ -66,12 +76,12 @@ export default function Index({temple, artworks, previous, next}: TTributePage):
 				<p className={'mx-auto mt-6 max-w-2xl px-4 text-center font-scope text-base text-white md:text-lg'}>
 					{temple.description.trim()}
 				</p>
-				<ul className={'mt-10 columns-1 gap-6 px-4 sm:columns-2 md:px-0 lg:columns-3'}>
+				<ul ref={grid} className={'mt-10 columns-1 gap-6 px-4 sm:columns-2 md:px-0 lg:columns-3'}>
 					{artworks.map((artwork, index): ReactElement => (
 						<li key={artwork.image} className={'mb-6 break-inside-avoid border-2 border-white bg-black font-scope text-white'}>
 							<button
 								type={'button'}
-								onClick={(): void => open(index)}
+								onClick={(): void => openInView(index)}
 								aria-label={`Zoom into ${artwork.title}`}
 								className={`block w-full cursor-zoom-in ${artwork.isTransparent ? 'bg-white' : ''} ${FOCUS}`}>
 								<img
@@ -91,17 +101,18 @@ export default function Index({temple, artworks, previous, next}: TTributePage):
 									target={'_blank'}
 									rel={'noreferrer'}
 									className={`inline-block text-sm underline ${FOCUS}`}>
-									{'Open original ↗'}
+									{'Open original'}
+									<span aria-hidden={'true'}>{' ↗'}</span>
 								</a>
 							</div>
 						</li>
 					))}
 				</ul>
 				<nav aria-label={'Halls'} className={'mt-4 flex flex-wrap justify-between gap-4 px-4 font-scope text-white md:px-0'}>
-					{previous ? <Link href={`/tribute/${previous.id}/`} className={HALL_LINK}>{`‹ ${previous.hall}`}</Link> : <span />}
-					{next ? <Link href={`/tribute/${next.id}/`} className={HALL_LINK}>{`${next.hall} ›`}</Link> : null}
+					<Link href={`/tribute/${previous.id}/`} className={HALL_LINK}>{`‹ ${previous.hall}`}</Link>
+					<Link href={`/tribute/${next.id}/`} className={HALL_LINK}>{`${next.hall} ›`}</Link>
 				</nav>
-			</div>
+			</main>
 			<Footer />
 		</div>
 	);
@@ -117,11 +128,15 @@ export const getStaticProps: GetStaticProps<TTributePage, {id: string}> = async 
 	const halls = [...YFU_DATA].sort((a, b): number => a.order - b.order);
 	const index = halls.findIndex(({id}): boolean => id === params?.id);
 	const temple = halls[index];
-	const link = (hall?: TYFUData): THallLink | null => (hall ? {id: hall.id, hall: hall.hall} : null);
+	// the halls go round, so the last leads back to the first
+	const link = (offset: number): THallLink => {
+		const {id, hall} = halls[(index + offset + halls.length) % halls.length];
+		return {id, hall};
+	};
 	const artworks = await Promise.all(temple.medias.map(async (media): Promise<TArtwork> => {
 		const image = sharp(`${process.cwd()}/public${originalSrc(media.image)}`);
 		const [{width, height}, {channels: [, , , alpha]}] = await Promise.all([image.metadata(), image.stats()]);
 		return {...media, width: width as number, height: height as number, isTransparent: alpha !== undefined && alpha.mean < 255 / 2};
 	}));
-	return {props: {temple, artworks, previous: link(halls[index - 1]), next: link(halls[index + 1])}};
+	return {props: {temple, artworks, previous: link(-1), next: link(1)}};
 };

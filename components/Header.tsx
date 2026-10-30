@@ -17,15 +17,25 @@ const	LINKS = [
 	['Discord', 'https://discord.com/invite/yearn']
 ];
 
-const	HEADER_BUTTON = 'flex size-6 items-center justify-center hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-white md:size-8';
+const	HEADER_BUTTON = 'flex size-8 items-center justify-center hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-white';
 
 function	Header(): ReactElement {
 	const	{tracks, current, isPlaying, progress, toggle, next, previous} = useAudio();
 	const	[hasModal, set_hasModal] = useState(false);
 	const	[hasMediaPlayer, set_hasMediaPlayer] = useState(false);
-	const	closeMediaPlayer = useCallback((): void => set_hasMediaPlayer(false), []);
 	const	info = useRef<HTMLDivElement>(null);
+	const	infoButton = useRef<HTMLButtonElement>(null);
+	const	playerButton = useRef<HTMLButtonElement>(null);
 	const	router = useRouter();
+	// closing a panel from inside it puts focus back on the button that opened it
+	const	closeMediaPlayer = useCallback((): void => {
+		set_hasMediaPlayer(false);
+		playerButton.current?.focus();
+	}, []);
+	const	closeInfo = useCallback((): void => {
+		set_hasModal(false);
+		infoButton.current?.focus();
+	}, []);
 
 	// the info panel closes on escape, a click elsewhere, or moving to another page
 	useEffect((): (() => void) | void => {
@@ -34,8 +44,9 @@ function	Header(): ReactElement {
 		}
 		const close = (): void => set_hasModal(false);
 		const onKeyDown = (event: KeyboardEvent): void => {
-			if (event.key === 'Escape') {
-				close();
+			// an open image viewer takes escape for itself
+			if (event.key === 'Escape' && !event.defaultPrevented) {
+				closeInfo();
 			}
 		};
 		const onPointerDown = (event: PointerEvent): void => {
@@ -51,13 +62,14 @@ function	Header(): ReactElement {
 			window.removeEventListener('pointerdown', onPointerDown);
 			router.events.off('routeChangeStart', close);
 		};
-	}, [hasModal, router.events]);
+	}, [closeInfo, hasModal, router.events]);
 
 	return (
 		<>
-			<header className={'fixed top-0 z-20 grid h-24 w-full grid-cols-[auto_1fr] flex-col items-center md:flex md:h-16 md:flex-row'}>
+			<header className={'fixed top-0 z-20 grid h-24 w-full grid-cols-[auto_1fr] flex-col items-center transition-[top] duration-300 motion-reduce:transition-none md:flex md:h-16 md:flex-row [html[data-chrome=hidden]_&]:-top-24 md:[html[data-chrome=hidden]_&]:-top-16'}>
 				<div ref={info} className={'relative col-span-1 flex h-12 w-full items-center border-b-2 border-white bg-black md:h-full md:w-auto md:shrink-0 lg:w-68'}>
 					<button
+						ref={infoButton}
 						type={'button'}
 						onClick={(): void => set_hasModal(!hasModal)}
 						aria-expanded={hasModal}
@@ -70,7 +82,7 @@ function	Header(): ReactElement {
 							<div className={'flex justify-end'}>
 								<button
 									type={'button'}
-									onClick={(): void => set_hasModal(false)}
+									onClick={closeInfo}
 									aria-label={'Close info'}
 									className={HEADER_BUTTON + ' font-scope text-lg text-white'}>
 									{'X'}
@@ -121,7 +133,7 @@ function	Header(): ReactElement {
 						</div>
 					) : null}
 				</div>
-				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-[300px] md:min-w-[300px]'}>
+				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-auto md:min-w-[300px] md:shrink-0'}>
 					<div className={'flex w-full min-w-0 items-center px-1 font-scope text-white md:px-3'}>
 						<button
 							type={'button'}
@@ -149,6 +161,7 @@ function	Header(): ReactElement {
 							{formatRemaining(progress)}
 						</div>
 						<button
+							ref={playerButton}
 							type={'button'}
 							onClick={(): void => set_hasMediaPlayer(!hasMediaPlayer)}
 							aria-label={hasMediaPlayer ? 'Close media player' : 'Open media player'}
@@ -165,7 +178,7 @@ function	Header(): ReactElement {
 					<div className={'animate-marquee whitespace-nowrap motion-reduce:animate-none'}>
 						<span className={'mx-4 text-xl md:text-2xl'}>{'THE TEMPLE IS A SACRED PLACE, DESIGNED SO THE ACOLYTES THAT REPRESENT YFI MAY COMMUNE AND WORSHIP'}</span>
 					</div>
-					<div className={'absolute top-0 flex h-full animate-marquee2 items-center whitespace-nowrap motion-reduce:hidden'}>
+					<div aria-hidden={'true'} className={'absolute top-0 flex h-full animate-marquee2 items-center whitespace-nowrap motion-reduce:hidden'}>
 						<span className={'mx-4 text-xl md:text-2xl'}>{'THE TEMPLE IS A SACRED PLACE, DESIGNED SO THE ACOLYTES THAT REPRESENT YFI MAY COMMUNE AND WORSHIP'}</span>
 					</div>
 				</div>

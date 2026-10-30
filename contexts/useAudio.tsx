@@ -30,11 +30,12 @@ type TAudioContext = {
 };
 
 const TRACKS: TTrack[] = [
+	// the goddesses in the order the site presents them, then the tree
 	{slug: 'techne', title: 'TECHNE', mark: '/audio-marks/techne.avif'},
-	{slug: 'yearning_tree', title: 'YEARNING TREE', mark: '/audio-marks/yfiTree.avif'},
-	{slug: 'dominion', title: 'DOMINION', mark: '/audio-marks/dominion.avif'},
+	{slug: 'transmission', title: 'TRANSMISSION', mark: '/audio-marks/transmission.avif'},
 	{slug: 'community', title: 'COMMUNITY', mark: '/audio-marks/community.avif'},
-	{slug: 'transmission', title: 'TRANSMISSION', mark: '/audio-marks/transmission.avif'}
+	{slug: 'dominion', title: 'DOMINION', mark: '/audio-marks/dominion.avif'},
+	{slug: 'yearning_tree', title: 'YEARNING TREE', mark: '/audio-marks/yfiTree.avif'}
 ];
 
 // past this many seconds "previous" restarts the track instead of going back one
