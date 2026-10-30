@@ -1,7 +1,8 @@
 import React from 'react';
 import {NextSeo} from 'next-seo';
-import BackLink from 'components/BackLink';
-import Footer from 'components/Footer';
+
+import BackLink from '../components/BackLink';
+import Footer from '../components/Footer';
 
 import type {ReactElement} from 'react';
 

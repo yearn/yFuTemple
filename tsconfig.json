@@ -1,7 +1,5 @@
 {
 	"compilerOptions": {
-	  "rootDirs": ["."],
-	  "baseUrl": ".",
 	  /* Basic Options */
 	  "target": "esnext",
 	  "module": "esnext",
@@ -38,7 +36,8 @@
 	  "isolatedModules": true
 	},
 	"exclude": [
-	  "node_modules"
+	  "node_modules",
+	  ".claude"
 	],
 	"include": [
 	  "**/*.css",
@@ -48,9 +47,7 @@
 	  "public",
 	  "postcss.config.js",
 	  "tailwind.config.js",
-	  "next.config.js",
-	  "theme.config.js",
-	  ".eslintrc.js"
+	  "next.config.js"
 	]
   }
   
