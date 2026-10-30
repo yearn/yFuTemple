@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Image from 'next/image';
+import {useRouter} from 'next/router';
 
 import {formatRemaining, useAudio} from '../contexts/useAudio';
 import PlayerPanel from './PlayerPanel';
@@ -23,24 +24,39 @@ function	Header(): ReactElement {
 	const	[hasModal, set_hasModal] = useState(false);
 	const	[hasMediaPlayer, set_hasMediaPlayer] = useState(false);
 	const	closeMediaPlayer = useCallback((): void => set_hasMediaPlayer(false), []);
+	const	info = useRef<HTMLDivElement>(null);
+	const	router = useRouter();
 
+	// the info panel closes on escape, a click elsewhere, or moving to another page
 	useEffect((): (() => void) | void => {
 		if (!hasModal) {
 			return;
 		}
+		const close = (): void => set_hasModal(false);
 		const onKeyDown = (event: KeyboardEvent): void => {
 			if (event.key === 'Escape') {
-				set_hasModal(false);
+				close();
+			}
+		};
+		const onPointerDown = (event: PointerEvent): void => {
+			if (!info.current?.contains(event.target as Node)) {
+				close();
 			}
 		};
 		window.addEventListener('keydown', onKeyDown);
-		return (): void => window.removeEventListener('keydown', onKeyDown);
-	}, [hasModal]);
+		window.addEventListener('pointerdown', onPointerDown);
+		router.events.on('routeChangeStart', close);
+		return (): void => {
+			window.removeEventListener('keydown', onKeyDown);
+			window.removeEventListener('pointerdown', onPointerDown);
+			router.events.off('routeChangeStart', close);
+		};
+	}, [hasModal, router.events]);
 
 	return (
 		<>
-			<header className={'fixed top-0 z-20 grid h-24 w-full grid-cols-2 flex-col items-center md:flex md:h-16 md:flex-row'}>
-				<div className={'relative col-span-1 flex h-12 w-full items-center border-b-2 border-white bg-black md:h-full md:w-auto md:shrink-0 lg:w-68'}>
+			<header className={'fixed top-0 z-20 grid h-24 w-full grid-cols-[auto_1fr] flex-col items-center md:flex md:h-16 md:flex-row'}>
+				<div ref={info} className={'relative col-span-1 flex h-12 w-full items-center border-b-2 border-white bg-black md:h-full md:w-auto md:shrink-0 lg:w-68'}>
 					<button
 						type={'button'}
 						onClick={(): void => set_hasModal(!hasModal)}
@@ -50,7 +66,7 @@ function	Header(): ReactElement {
 						{'INFO'}
 					</button>
 					{hasModal ? (
-						<div id={'site-info'} className={'absolute left-0 top-full z-50 w-[200%] border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
+						<div id={'site-info'} className={'absolute left-0 top-full z-50 w-screen border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
 							<div className={'flex justify-end'}>
 								<button
 									type={'button'}
@@ -106,7 +122,7 @@ function	Header(): ReactElement {
 					) : null}
 				</div>
 				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-[300px] md:min-w-[300px]'}>
-					<div className={'flex w-max items-center justify-between px-1 font-scope text-white md:px-3'}>
+					<div className={'flex w-full min-w-0 items-center px-1 font-scope text-white md:px-3'}>
 						<button
 							type={'button'}
 							onClick={previous}
@@ -128,8 +144,8 @@ function	Header(): ReactElement {
 							className={HEADER_BUTTON}>
 							<IconPrev className={'size-3 rotate-180 md:size-4'} />
 						</button>
-						<div className={'mx-2 mb-0.5 flex text-xs md:mx-3 md:text-base'}>{tracks[current].title}</div>
-						<div className={'mb-0.5 mr-1 text-xs tabular-nums md:mr-3 md:text-base'}>
+						<div className={'mx-2 mb-0.5 min-w-0 truncate text-xs md:mx-3 md:text-base'}>{tracks[current].title}</div>
+						<div className={'mb-0.5 ml-auto mr-1 text-xs tabular-nums md:mr-3 md:text-base'}>
 							{formatRemaining(progress)}
 						</div>
 						<button
@@ -141,6 +157,9 @@ function	Header(): ReactElement {
 							<IconExpand />
 						</button>
 					</div>
+					<PlayerPanel
+						isOpen={hasMediaPlayer}
+						onClose={closeMediaPlayer} />
 				</div>
 				<div className={'relative col-span-2 flex h-12 w-full select-none items-center overflow-x-hidden border-b-2 border-white bg-[#181D20] font-scope text-white md:h-16'}>
 					<div className={'animate-marquee whitespace-nowrap motion-reduce:animate-none'}>
@@ -151,9 +170,6 @@ function	Header(): ReactElement {
 					</div>
 				</div>
 			</header>
-			<PlayerPanel
-				isOpen={hasMediaPlayer}
-				onClose={closeMediaPlayer} />
 		</>
 
 	);

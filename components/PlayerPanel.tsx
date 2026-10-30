@@ -19,11 +19,18 @@ function clamp(value: number, min: number, max: number): number {
 	return Math.min(Math.max(value, min), max);
 }
 
-// a bottom sheet on phones, a panel under the header on larger screens, dragged by its title bar
+// a bottom sheet on phones, a panel under the header's player on larger screens, dragged by its title bar
 export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactElement | null {
 	const {tracks, current, isPlaying, progress, volume, error, play, toggle, next, previous, seek, set_volume} = useAudio();
 	const panel = useRef<HTMLElement>(null);
 	const [offset, set_offset] = useState({x: 0, y: 0});
+
+	// a new viewport size can leave a dragged panel off screen, so it goes home
+	useEffect((): (() => void) => {
+		const onResize = (): void => set_offset({x: 0, y: 0});
+		window.addEventListener('resize', onResize);
+		return (): void => window.removeEventListener('resize', onResize);
+	}, []);
 
 	const onDragStart = (event: ReactPointerEvent<HTMLDivElement>): void => {
 		if (event.button !== 0 || (event.target as Element).closest('button') || !panel.current) {
@@ -31,10 +38,14 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 		}
 		const handle = event.currentTarget;
 		const rect = panel.current.getBoundingClientRect();
+		const {clientWidth, clientHeight} = document.documentElement;
+		// the phone bottom sheet spans the screen and stays put
+		if (rect.width >= clientWidth) {
+			return;
+		}
 		// where the panel sits without the offset, so it can be kept on screen with the title bar reachable
 		const home = {left: rect.left - offset.x, right: rect.right - offset.x, top: rect.top - offset.y};
 		const start = {x: event.clientX - offset.x, y: event.clientY - offset.y};
-		const {clientWidth, clientHeight} = document.documentElement;
 		const onMove = (move: PointerEvent): void => set_offset({
 			x: clamp(move.clientX - start.x, -home.left, clientWidth - home.right),
 			y: clamp(move.clientY - start.y, -home.top, clientHeight - home.top - handle.offsetHeight)
@@ -67,7 +78,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 			ref={panel}
 			aria-label={'Media player'}
 			style={{translate: `${offset.x}px ${offset.y}px`}}
-			className={'fixed inset-x-0 bottom-0 z-30 max-h-[80dvh] overflow-y-auto border-t-2 border-white bg-black font-scope text-white md:inset-x-auto md:bottom-auto md:right-4 md:top-20 md:w-96 md:border-2'}>
+			className={'fixed inset-x-0 bottom-0 z-30 max-h-[80dvh] overflow-y-auto border-t-2 border-white bg-black font-scope text-white md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:top-full md:mt-4 md:w-96 md:border-2'}>
 			<div
 				onPointerDown={onDragStart}
 				className={'flex h-8 cursor-grab touch-none select-none items-center justify-between border-b-2 border-white pl-3 text-lg active:cursor-grabbing'}>
