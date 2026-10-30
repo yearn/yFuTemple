@@ -10,9 +10,11 @@ import IconPrev from './icons/IconPrev';
 import type {ReactElement} from 'react';
 
 const	LINKS = [
+	['Yearn', 'https://yearn.fi'],
 	['Twitter', 'https://x.com/yearnfi'],
 	['Blog', 'https://blog.yearn.fi'],
-	['Discord', 'https://discord.com/invite/yearn']
+	['Discord', 'https://discord.com/invite/yearn'],
+	['The Blue Pill', 'https://yfistory.org/']
 ];
 
 const	HEADER_BUTTON = 'flex size-8 items-center justify-center hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-white';
@@ -104,41 +106,20 @@ function	Header(): ReactElement {
 								{' / '}
 								<a href={'/faq/'} className={'hover:underline'}>{'FAQ & CREDITS'}</a>
 							</p>
-							<div className={'mt-4 space-y-1 font-scope tracking-widest text-yblue'}>
-								<p>
-									{'Find us: '}
-									<a
-										href={'https://yearn.fi'}
-										target={'_blank'}
-										rel={'noreferrer'}
-										className={'hover:underline'}>
-										{'YEARN'}
-									</a>
-								</p>
-								<p>
-									{LINKS.map(([label, href], index): ReactElement => (
-										<React.Fragment key={label}>
-											{index > 0 ? ' / ' : null}
-											<a
-												href={href}
-												target={'_blank'}
-												rel={'noreferrer'}
-												className={'hover:underline'}>
-												{label}
-											</a>
-										</React.Fragment>
-									))}
-								</p>
-								<p className={'font-bluepill'}>
-									<a
-										href={'https://yfistory.org/'}
-										target={'_blank'}
-										rel={'noreferrer'}
-										className={'text-xl tracking-normal hover:underline'}>
-										{'The Blue Pill'}
-									</a>
-								</p>
-							</div>
+							<p className={'mt-4 font-scope tracking-widest text-yblue'}>
+								{LINKS.map(([label, href], index): ReactElement => (
+									<React.Fragment key={label}>
+										{index > 0 ? ' / ' : null}
+										<a
+											href={href}
+											target={'_blank'}
+											rel={'noreferrer'}
+											className={'hover:underline'}>
+											{label}
+										</a>
+									</React.Fragment>
+								))}
+							</p>
 						</div>
 					) : null}
 				</div>
