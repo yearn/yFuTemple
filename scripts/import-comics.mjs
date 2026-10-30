@@ -38,6 +38,8 @@ const ISSUES = [
 		fixes: {
 			// the 2024 pdf carries issue 3's cover
 			1: {pdf: 'PILLS_02 Full 09182023 R.pdf', page: 1},
+			// and issue 3's credits page, so only the title band comes from 2023, keeping the 2024 credits and footer
+			2: {pdf: 'PILLS_02 Full 09182023 R.pdf', page: 2, band: [135, 190]},
 			// the site replaced this behind-the-scenes page and no pdf has the replacement
 			27: {legacy: 'transmission/27-yfu-02-full-04172024.jpg'}
 		}
@@ -66,9 +68,18 @@ function pageCount(pdf) {
 }
 
 function renderPage(pdf, page, tmp) {
-	const prefix = path.join(tmp, `render-${page}`);
+	const prefix = path.join(tmp, 'render');
 	execFileSync('pdftoppm', ['-r', String(DPI), '-png', '-f', String(page), '-l', String(page), '-singlefile', pdf, prefix]);
-	return `${prefix}.png`;
+	return fs.readFileSync(`${prefix}.png`);
+}
+
+// copies a full-width band, given in pdf points from the top, from one render of a page onto another
+async function pasteBand(base, donor, [top, bottom]) {
+	const scale = DPI / 72;
+	const {width} = await sharp(base).metadata();
+	const y = Math.round(top * scale);
+	const band = await sharp(donor).extract({left: 0, top: y, width, height: Math.round((bottom - top) * scale)}).toBuffer();
+	return sharp(base).composite([{input: band, left: 0, top: y}]).png().toBuffer();
 }
 
 function legacyPage(file) {
@@ -106,6 +117,9 @@ for (const issue of ISSUES) {
 		if (fix?.legacy) {
 			input = legacyPage(fix.legacy);
 			source = `${LEGACY_DIR}/${fix.legacy}@${LEGACY_COMMIT}`;
+		} else if (fix?.band) {
+			input = await pasteBand(renderPage(pdf, number, tmp), renderPage(path.join(sourceRoot, fix.pdf), fix.page, tmp), fix.band);
+			source = `${issue.pdf} p${number}, ${fix.band.join('-')}pt from ${fix.pdf} p${fix.page}`;
 		} else if (fix?.pdf) {
 			input = renderPage(path.join(sourceRoot, fix.pdf), fix.page, tmp);
 			source = `${fix.pdf} p${fix.page}`;
