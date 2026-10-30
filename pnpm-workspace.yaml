@@ -1,0 +1,6 @@
+# pin exact versions when adding packages
+savePrefix: ''
+
+# install scripts stay off; unrs-resolver's only fetches a native binding pnpm already installs
+allowBuilds:
+  unrs-resolver: false

@@ -4,7 +4,6 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"dev:ts": "tsc --watch",
 		"build": "tsc && next build",
 		"import-comics": "node scripts/import-comics.mjs",
 		"lint": "eslint .",
@@ -36,10 +35,9 @@
 		"eslint-plugin-unused-imports": "4.4.1",
 		"globals": "16.5.0",
 		"postcss": "8.4.21",
-		"postcss-nesting": "11.2.1",
 		"sharp": "0.35.5",
 		"typescript": "5.7.2",
 		"typescript-eslint": "8.72.0"
 	},
-	"packageManager": "yarn@4.18.0+sha512.fcb8716fe7cd0eece141ffc18b92193a9df9204c1ba83189c288835223fc0bbe64af473bab0d5e9927a7daeb5caf2bb07eb2787cc9338ca040ea125f2a1f2f7e"
+	"packageManager": "pnpm@12.15.0"
 }
