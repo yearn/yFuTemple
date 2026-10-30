@@ -119,13 +119,6 @@ h1, h2, h3, h4, h5, h6 {
     --tw-ring-color: transparent !important;
 }
 
-.image-wrapper > span {
-	vertical-align: middle;
-}
-.image-wrapper-full-height > span {
-    height: 100% !important;
-}
-
 .text-shadow {
     cursor: pointer;
     text-shadow: 0 0 1px #a898ce
@@ -158,6 +151,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .button-glowing {
     @apply
+        inline-block
+        whitespace-nowrap
         px-8
         py-2
         rounded-full
@@ -171,6 +166,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .button-glowing-small {
   @apply
+      inline-block
+      whitespace-nowrap
       px-6
       py-1
       rounded-full
@@ -180,6 +177,41 @@ h1, h2, h3, h4, h5, h6 {
       glow-wrapper
       disabled:cursor-default
       disabled:opacity-10
+}
+
+/* seek and volume sliders: a hairline with a tick, like the original player */
+.range-line {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 1rem;
+    background: transparent;
+    cursor: pointer;
+}
+.range-line:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+.range-line::-webkit-slider-runnable-track {
+    height: 1px;
+    background: white;
+}
+.range-line::-moz-range-track {
+    height: 1px;
+    background: white;
+}
+.range-line::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2px;
+    height: 1rem;
+    margin-top: calc(0.5px - 0.5rem);
+    background: white;
+}
+.range-line::-moz-range-thumb {
+    width: 2px;
+    height: 1rem;
+    border: 0;
+    border-radius: 0;
+    background: white;
 }
 
 /* caption under photoswipe slides, registered in utils/usePhotoSwipe */

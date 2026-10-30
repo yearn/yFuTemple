@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {formatRemaining, useAudio} from '../contexts/useAudio';
 import IconPause from './icons/IconPause';
 import IconPlay from './icons/IconPlay';
 import IconPrev from './icons/IconPrev';
 
-import type {ReactElement} from 'react';
+import type {PointerEvent as ReactPointerEvent, ReactElement} from 'react';
 
 type TPlayerPanel = {
 	isOpen: boolean,
@@ -15,9 +15,34 @@ type TPlayerPanel = {
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const ICON_BUTTON = `flex size-8 items-center justify-center hover:bg-white hover:text-black ${FOCUS}`;
 
-// a bottom sheet on phones, a panel under the header on larger screens
+function clamp(value: number, min: number, max: number): number {
+	return Math.min(Math.max(value, min), max);
+}
+
+// a bottom sheet on phones, a panel under the header on larger screens, dragged by its title bar
 export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactElement | null {
 	const {tracks, current, isPlaying, progress, volume, error, play, toggle, next, previous, seek, set_volume} = useAudio();
+	const panel = useRef<HTMLElement>(null);
+	const [offset, set_offset] = useState({x: 0, y: 0});
+
+	const onDragStart = (event: ReactPointerEvent<HTMLDivElement>): void => {
+		if (event.button !== 0 || (event.target as Element).closest('button') || !panel.current) {
+			return;
+		}
+		const handle = event.currentTarget;
+		const rect = panel.current.getBoundingClientRect();
+		// where the panel sits without the offset, so it can be kept on screen with the title bar reachable
+		const home = {left: rect.left - offset.x, right: rect.right - offset.x, top: rect.top - offset.y};
+		const start = {x: event.clientX - offset.x, y: event.clientY - offset.y};
+		const {clientWidth, clientHeight} = document.documentElement;
+		const onMove = (move: PointerEvent): void => set_offset({
+			x: clamp(move.clientX - start.x, -home.left, clientWidth - home.right),
+			y: clamp(move.clientY - start.y, -home.top, clientHeight - home.top - handle.offsetHeight)
+		});
+		handle.setPointerCapture(event.pointerId);
+		handle.addEventListener('pointermove', onMove);
+		handle.addEventListener('lostpointercapture', (): void => handle.removeEventListener('pointermove', onMove), {once: true});
+	};
 
 	useEffect((): (() => void) | void => {
 		if (!isOpen) {
@@ -39,9 +64,13 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 	const track = tracks[current];
 	return (
 		<section
+			ref={panel}
 			aria-label={'Media player'}
+			style={{translate: `${offset.x}px ${offset.y}px`}}
 			className={'fixed inset-x-0 bottom-0 z-30 max-h-[80dvh] overflow-y-auto border-t-2 border-white bg-black font-scope text-white md:inset-x-auto md:bottom-auto md:right-4 md:top-20 md:w-96 md:border-2'}>
-			<div className={'flex h-8 items-center justify-between border-b-2 border-white pl-3 text-lg'}>
+			<div
+				onPointerDown={onDragStart}
+				className={'flex h-8 cursor-grab touch-none select-none items-center justify-between border-b-2 border-white pl-3 text-lg active:cursor-grabbing'}>
 				<h2>{'YFU MEDIA PLAYER'}</h2>
 				<button
 					type={'button'}
@@ -90,7 +119,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 					disabled={!progress.duration}
 					onChange={(event): void => seek(Number(event.target.value))}
 					aria-label={'Seek'}
-					className={`w-full accent-white ${FOCUS}`} />
+					className={`range-line w-full ${FOCUS}`} />
 				<label className={'flex items-center gap-3 text-sm'}>
 					<span>{'VOL'}</span>
 					<input
@@ -100,7 +129,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 						step={0.05}
 						value={volume}
 						onChange={(event): void => set_volume(Number(event.target.value))}
-						className={`w-full accent-white ${FOCUS}`} />
+						className={`range-line w-full ${FOCUS}`} />
 				</label>
 				{error ? <p role={'alert'} className={'text-sm text-yblue'}>{error}</p> : null}
 			</div>
