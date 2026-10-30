@@ -4,15 +4,22 @@ import Showcase from '../components/Showcase.astro';
 import Title from '../components/Title.astro';
 import Layout from '../layouts/Layout.astro';
 import YFU_DATA from '../utils/data';
+import {imageSize} from '../utils/imageSize';
 
-const halls = [...YFU_DATA].sort((a, b): number => a.order - b.order);
+const image = async (src: string): Promise<{src: string, width: number, height: number}> => ({src, ...await imageSize(src)});
+const halls = await Promise.all([...YFU_DATA].sort((a, b): number => a.order - b.order).map(async (goddess) => ({
+	...goddess,
+	mark: await image(goddess.watermark),
+	art: {...await image(goddess.mainIllustration), alt: goddess.title}
+})));
 const comic = {
-	mark: {src: '/assetsThumbnail/comic1-mark.avif', width: 1000, height: 143},
-	art: {src: '/assets/comic1-main.avif', width: 959, height: 1667, alt: ''}
+	mark: await image('/assetsThumbnail/comic1-mark.avif'),
+	art: {...await image('/assets/comic1-main.avif'), alt: ''}
 };
 ---
 
-<Layout preload={[comic.mark.src, comic.art.src]}>
+{/* phones show the comic's art below the first screen, so only wider screens preload it */}
+<Layout preload={[{href: comic.mark.src}, {href: comic.art.src, media: '(min-width: 48rem)'}]}>
 	<div class="relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6">
 		<main id="app" class="relative mx-auto w-full max-w-screen-xl" style="min-height: 100vh">
 			<div>
@@ -52,8 +59,8 @@ const comic = {
 						<div id={goddess.id} class="scroll-mt-28 md:scroll-mt-20">
 							<Showcase
 								title={goddess.title}
-								mark={{src: goddess.watermark, width: 497, height: 497}}
-								art={{src: goddess.mainIllustration, width: 600, height: 895, alt: goddess.title}}
+								mark={goddess.mark}
+								art={goddess.art}
 								href={`/tribute/${goddess.id}/`}
 								cta={goddess.cta}>
 								<p>{goddess.description}</p>

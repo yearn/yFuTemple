@@ -20,7 +20,9 @@ const CLICK_ZOOM = 2.5;
 // zoom, pan and swipe between images; photoswipe itself loads on first use. items must be memoized.
 // open can take the items in another order, for when the page shows them differently.
 export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption = false}: TPhotoSwipeOptions = {}): {open: (index: number, ordered?: SlideData[]) => void, isOpen: () => boolean} {
-	const lightbox = useRef<PhotoSwipeLightbox | null>(null);
+	const viewer = useRef<PhotoSwipeLightbox | null>(null);
+	// resolves once the viewer is set up, so a click made while it loads still opens it
+	const ready = useRef<Promise<PhotoSwipeLightbox | null> | null>(null);
 	// the viewer outlives renders, so it reports through these to the latest callbacks
 	const changed = useEffectEvent((index: number): void => onChange?.(index));
 	const closed = useEffectEvent((index: number): void => onClose?.(index));
@@ -28,9 +30,9 @@ export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption
 	useEffect((): (() => void) => {
 		let instance: PhotoSwipeLightbox | null = null;
 		let isCancelled = false;
-		void import('photoswipe/lightbox').then(({default: Lightbox}): void => {
+		ready.current = import('photoswipe/lightbox').then(({default: Lightbox}): PhotoSwipeLightbox | null => {
 			if (isCancelled) {
-				return;
+				return null;
 			}
 			instance = new Lightbox({
 				dataSource: items,
@@ -83,19 +85,26 @@ export function usePhotoSwipe(items: SlideData[], {onChange, onClose, hasCaption
 				});
 			}
 			instance.init();
-			lightbox.current = instance;
+			viewer.current = instance;
+			return instance;
 		});
 		return (): void => {
 			isCancelled = true;
 			instance?.destroy();
-			lightbox.current = null;
+			viewer.current = null;
+			ready.current = null;
 		};
 	}, [hasCaption, items]);
 
 	const open = useCallback((index: number, ordered?: SlideData[]): void => {
-		lightbox.current?.loadAndOpen(index, ordered);
-	}, []);
-	const isOpen = useCallback((): boolean => Boolean(lightbox.current?.pswp), []);
+		const slides = ordered ?? items;
+		// if the viewer can't load, say after a deploy replaced its files, show the image itself
+		void ready.current?.then(
+			(instance): void => void instance?.loadAndOpen(index, ordered),
+			(): void => window.location.assign(slides[index].src ?? '')
+		);
+	}, [items]);
+	const isOpen = useCallback((): boolean => Boolean(viewer.current?.pswp), []);
 
 	return {open, isOpen};
 }

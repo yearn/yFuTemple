@@ -215,8 +215,11 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 
 	useEffect((): (() => void) => {
 		const onKeyDown = (event: KeyboardEvent): void => {
-			const isTyping = event.target instanceof Element && event.target.closest('input, select, textarea, summary');
-			if (event.altKey || event.ctrlKey || event.metaKey || isTyping || isZoomOpen()) {
+			const focused = event.target instanceof Element ? event.target : null;
+			// text fields take every key, and a focused control keeps space for pressing itself
+			const isTyping = focused?.closest('input, select, textarea');
+			const isPressing = event.key === ' ' && focused?.closest('button, a, summary');
+			if (event.altKey || event.ctrlKey || event.metaKey || isTyping || isPressing || isZoomOpen()) {
 				return;
 			}
 			if (event.key === 'z') {
