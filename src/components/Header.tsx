@@ -77,7 +77,8 @@ function	Header(): ReactElement {
 						{'INFO'}
 					</button>
 					{hasModal ? (
-						<div id={'site-info'} className={'absolute top-full left-0 z-50 w-screen border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
+						// the panel hangs below the header row and scrolls when a short screen can't fit it
+						<div id={'site-info'} className={'absolute top-full left-0 z-50 max-h-[calc(100dvh-3rem)] w-screen overflow-y-auto overscroll-contain border-0 border-b-2 border-white bg-black p-4 md:max-h-[calc(100dvh-4rem)] md:w-68 md:border-2'}>
 							<div className={'flex justify-end'}>
 								<button
 									type={'button'}

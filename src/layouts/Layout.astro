@@ -10,13 +10,15 @@ type Props = {
 	description?: string,
 	// keeps the page out of search results
 	noindex?: boolean,
-	// images the first screen shows, fetched alongside the html
-	preload?: string[]
+	// images the first screen shows, fetched alongside the html, optionally only at some screen sizes
+	preload?: {href: string, media?: string}[],
+	// the page draws over the background video, which then pauses
+	hidesBackdrop?: boolean
 };
 
 const DESCRIPTION = 'Read the four yFu comics, walk the halls of the yFu goddesses and listen to their soundtrack. An archive of Yearn lore.';
 
-const {title = 'yFu Temple', description = DESCRIPTION, noindex = false, preload = []} = Astro.props;
+const {title = 'yFu Temple', description = DESCRIPTION, noindex = false, preload = [], hidesBackdrop = false} = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -53,17 +55,17 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
 		<meta name="msapplication-TileColor" content="#000000" />
 		<meta name="theme-color" content="#000000" />
 
-		{preload.map((href) => <link rel="preload" href={href} as="image" />)}
+		{preload.map(({href, media}) => <link rel="preload" href={href} as="image" media={media} />)}
 		<ClientRouter />
 	</head>
 	<body>
 		{/* the header holds the soundtrack's audio element; it and the backdrop stay put while the content below swaps */}
 		<Header client:load />
-		<div id="content" class="z-10 overflow-x-clip pt-24 md:pt-16">
+		<div id="content" data-hides-backdrop={hidesBackdrop || undefined} class="z-10 overflow-x-clip pt-24 md:pt-16">
 			<slot />
 		</div>
 		<div class="fixed inset-0 -z-10">
-			<video playsinline autoplay muted loop poster="/bg.avif" class="size-full object-cover motion-reduce:hidden">
+			<video id="backdrop" playsinline autoplay muted loop poster="/bg.avif" class="size-full object-cover motion-reduce:hidden">
 				<source src="/bglow.webm" type="video/webm" />
 			</video>
 			{/* the poster on its own for visitors who asked for less motion */}
@@ -90,4 +92,18 @@ const url = new URL(Astro.url.pathname, Astro.site).href;
 			restoreFocus();
 		};
 	});
+
+	// the background video only plays where it can be seen
+	const backdrop = document.getElementById('backdrop') as HTMLVideoElement;
+	const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+	const syncBackdrop = (): void => {
+		if (reducedMotion.matches || document.getElementById('content')?.hasAttribute('data-hides-backdrop')) {
+			backdrop.pause();
+		} else {
+			// low power modes can refuse to play, and the poster stays up instead
+			backdrop.play().catch((): void => {});
+		}
+	};
+	document.addEventListener('astro:page-load', syncBackdrop);
+	reducedMotion.addEventListener('change', syncBackdrop);
 </script>

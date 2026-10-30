@@ -15,6 +15,7 @@ const {comic, next} = Astro.props as InferGetStaticPropsType<typeof getStaticPat
 
 <Layout
 	title={`Issue ${comic.number}: ${comic.subtitle} · yFu Comics`}
-	description={`Read yFu issue ${comic.number}, ${comic.subtitle}, the ${comic.title} episode of the yFu comic.`}>
+	description={`Read yFu issue ${comic.number}, ${comic.subtitle}, the ${comic.title} episode of the yFu comic.`}
+	hidesBackdrop>
 	<ComicReader client:load comic={comic} next={next} />
 </Layout>
