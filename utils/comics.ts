@@ -38,6 +38,11 @@ export function fullPageSrc(comic: TComic, index: number): string {
 	return `${pageBase(comic, index)}-${comic.pages[index].widths.at(-1)}.avif`;
 }
 
+// where the reader remembers the page an issue was left on
+export function progressKey(id: string): string {
+	return `reader-page-${id}`;
+}
+
 export function pageAlt(comic: TComicSummary, index: number, count: number): string {
 	return `${comic.title}, page ${index + 1} of ${count}`;
 }
