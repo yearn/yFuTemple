@@ -37,8 +37,9 @@ export default function ComicsPage({issues}: TComicsPage): ReactElement {
 								<img
 									{...pageImage(comic, 0)}
 									sizes={'(min-width: 768px) 25vw, 50vw'}
-									alt={`Cover of yFu issue ${comic.number}, ${comic.subtitle}`}
-									className={'h-auto w-full transition-opacity group-hover:opacity-80'} />
+									// the card's text names the issue
+									alt={''}
+									className={'h-auto w-full bg-white/5 transition-opacity group-hover:opacity-80'} />
 								<div className={'border-t-2 border-white p-3 md:p-4'}>
 									<p className={'text-sm opacity-70'}>{`Issue ${comic.number} · ${comic.title}`}</p>
 									<h2 className={'text-lg md:text-xl'}>{comic.subtitle}</h2>

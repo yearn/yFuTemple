@@ -18,7 +18,7 @@ function FAQ(): ReactElement {
 					</h2>
 					<ul className={'mt-4 max-w-2xl list-outside list-disc space-y-2 pl-4'}>
 						<li className={'text-base text-white'}>
-							{'yFu is a comic series in four books, each 24 pages, which tells the story of Yearn Finance\'s origination, DAO and philosophy, with an epic narrative set within the Pills universe.'}
+							{'yFu is a comic series in four books, each with 24 story pages, which tells the story of Yearn Finance\'s origination, DAO and philosophy, with an epic narrative set within the Pills universe.'}
 						</li>
 						<li className={'text-base text-white'}>
 							{'The project and lore was conceived by the YFI Story team at Yearn (Zemm, Pillhead, BigBadaboom, Pentacle and Banteg).'}
@@ -87,7 +87,7 @@ function Wrapper(): ReactElement {
 			<NextSeo
 				title={'FAQ · yFu Temple'}
 				description={'Credits for the yFu comic, the 2024 comic NFT, and how the yFu Temple relates to Yearn.'} />
-			<div className={'relative mx-auto w-full max-w-screen-xl'} style={{minHeight: '100vh'}}>
+			<main className={'relative mx-auto w-full max-w-screen-xl'} style={{minHeight: '100vh'}}>
 				<div>
 					<div className={'p-4 md:px-0'}>
 						<BackLink href={'/'} label={'HOME'} />
@@ -96,7 +96,7 @@ function Wrapper(): ReactElement {
 						<FAQ/>
 					</section>
 				</div>
-			</div>
+			</main>
 			<Footer/>
 		</div>
 	);

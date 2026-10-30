@@ -60,7 +60,8 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 			return;
 		}
 		const onKeyDown = (event: KeyboardEvent): void => {
-			if (event.key === 'Escape') {
+			// an open image viewer takes escape for itself
+			if (event.key === 'Escape' && !event.defaultPrevented) {
 				onClose();
 			}
 		};
