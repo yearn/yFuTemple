@@ -55,7 +55,7 @@ const comic = {
 								mark={{src: goddess.watermark, width: 497, height: 497}}
 								art={{src: goddess.mainIllustration, width: 600, height: 895, alt: goddess.title}}
 								href={`/tribute/${goddess.id}/`}
-								cta="SEE TRIBUTES">
+								cta={goddess.cta}>
 								<p>{goddess.description}</p>
 							</Showcase>
 							{index + 1 < halls.length ? (
