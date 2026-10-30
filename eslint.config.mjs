@@ -22,12 +22,19 @@ export default tseslint.config(
 	{
 		files: ['**/*.{ts,tsx}'],
 		// names follow the naming-convention rule below rather than the plugin's own
-		extends: [react.configs['recommended-typescript'], react.configs['disable-naming-convention'], reactHooks.configs.flat['recommended-latest']],
+		extends: [react.configs['recommended-typescript'], react.configs['disable-naming-convention']],
+		plugins: {'react-hooks': reactHooks},
+		settings: {'react-x': {importSource: 'preact'}},
 		rules: {
-			// without the react compiler, an effect is the place to read browser-only state (storage, the url hash)
+			// the islands run on preact, so of the hooks plugin only the rules of hooks apply; its other
+			// rules check code for the react compiler and don't know preact's hooks
+			'react-hooks/rules-of-hooks': 2,
+			'react-hooks/exhaustive-deps': 2,
+			// an effect is the place to read browser-only state (storage, the url hash)
 			// after the static render and to scroll once the dom has updated
-			'react-hooks/set-state-in-effect': 0,
 			'@eslint-react/set-state-in-effect': 0,
+			// preact reads a context with useContext, it has no use()
+			'@eslint-react/no-use-context': 0,
 			// setters are named set_ + the state, which this rule doesn't know
 			'@eslint-react/use-state': 0,
 			// comic pages and markdown paragraphs are known by their position, which never changes

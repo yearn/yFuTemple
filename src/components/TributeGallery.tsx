@@ -1,11 +1,11 @@
-import React, {useMemo, useRef} from 'react';
+import {useMemo, useRef} from 'preact/hooks';
 
 import {originalSrc, thumbnailSrc} from '../utils/data';
 import {Markdown} from '../utils/markdown';
 import {usePhotoSwipe} from '../utils/usePhotoSwipe';
 
 import type {SlideData} from 'photoswipe';
-import type {ReactElement} from 'react';
+import type {VNode} from 'preact';
 import type {TYFUDataMedia} from '../utils/data';
 
 export type TArtwork = TYFUDataMedia & {
@@ -17,7 +17,7 @@ export type TArtwork = TYFUDataMedia & {
 
 const FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 
-export default function TributeGallery({artworks}: {artworks: TArtwork[]}): ReactElement {
+export default function TributeGallery({artworks}: {artworks: TArtwork[]}): VNode {
 	const slides = useMemo((): SlideData[] => artworks.map((artwork): SlideData => ({
 		src: originalSrc(artwork.image),
 		width: artwork.width,
@@ -39,7 +39,7 @@ export default function TributeGallery({artworks}: {artworks: TArtwork[]}): Reac
 
 	return (
 		<ul ref={grid} className={'mt-10 columns-1 gap-6 px-4 sm:columns-2 md:px-0 lg:columns-3'}>
-			{artworks.map((artwork, index): ReactElement => (
+			{artworks.map((artwork, index): VNode => (
 				<li key={artwork.image} className={'mb-6 break-inside-avoid border-2 border-white bg-black font-scope text-white'}>
 					<button
 						type={'button'}

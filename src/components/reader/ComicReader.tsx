@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'preact/hooks';
 
 import {fullPageSrc, pageAlt, pageImage, progressKey} from '../../utils/comics';
 import {readStorage, writeStorage} from '../../utils/storage';
 import {usePhotoSwipe} from '../../utils/usePhotoSwipe';
 
 import type {SlideData} from 'photoswipe';
-import type {ReactElement} from 'react';
+import type {VNode} from 'preact';
 import type {TComic, TComicPage, TComicSummary} from '../../utils/comics';
 
 type TMode = 'scroll' | 'page';
@@ -55,13 +55,13 @@ function isOnScreen(index: number): boolean {
 }
 
 // a page's text for screen readers and anyone who wants to read it: the scene, then every line in reading order
-function PageText({page, number, id, className = ''}: {page: TComicPage, number: number, id: string, className?: string}): ReactElement {
+function PageText({page, number, id, className = ''}: {page: TComicPage, number: number, id: string, className?: string}): VNode {
 	return (
 		<details className={`font-scope ${className}`}>
 			<summary className={`cursor-pointer text-sm opacity-70 hover:opacity-100 ${FOCUS}`}>{`Page ${number} as text`}</summary>
 			<div id={id} className={'space-y-2 pt-2 text-sm md:text-base'}>
 				<p className={'italic opacity-80'}>{page.scene}</p>
-				{page.lines.map((line, i): ReactElement => {
+				{page.lines.map((line, i): VNode => {
 					const colon = line.indexOf(': ');
 					return (
 						<p key={i}>
@@ -75,7 +75,7 @@ function PageText({page, number, id, className = ''}: {page: TComicPage, number:
 	);
 }
 
-function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
+function EndOfIssue({next}: {next: TComicSummary | null}): VNode {
 	return (
 		<div className={'mx-auto max-w-3xl px-4 pt-8 pb-16 text-center'}>
 			{next ? (
@@ -92,7 +92,7 @@ function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
 	);
 }
 
-export default function ComicReader({comic, next}: TComicReader): ReactElement {
+export default function ComicReader({comic, next}: TComicReader): VNode {
 	const count = comic.pages.length;
 	const positionKey = progressKey(comic.id);
 	const [mode, set_mode] = useState<TMode>('scroll');
@@ -314,9 +314,9 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 					<span className={'sr-only'}>{'Page'}</span>
 					<select
 						value={index}
-						onChange={(event): void => goTo(Number(event.target.value))}
+						onChange={(event): void => goTo(Number(event.currentTarget.value))}
 						className={`border-2 border-white bg-black px-2 py-1 ${FOCUS}`}>
-						{comic.pages.map((_page, i): ReactElement => (
+						{comic.pages.map((_page, i): VNode => (
 							<option key={i} value={i}>{i + 1}</option>
 						))}
 					</select>
@@ -326,7 +326,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 					role={'group'}
 					aria-label={'Reading mode'}
 					className={'flex gap-1'}>
-					{MODES.map(([value, label]): ReactElement => (
+					{MODES.map(([value, label]): VNode => (
 						<button
 							key={value}
 							type={'button'}
@@ -347,7 +347,7 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 
 			{mode === 'scroll' ? (
 				<ol className={'mx-auto flex max-w-3xl flex-col gap-2 py-4'}>
-					{comic.pages.map((page, i): ReactElement => (
+					{comic.pages.map((page, i): VNode => (
 						<li
 							key={i}
 							id={`page-${i + 1}`}

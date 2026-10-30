@@ -1,13 +1,12 @@
-import React from 'react';
 
-import type {ReactElement, ReactNode} from 'react';
+import type {ComponentChildren, VNode} from 'preact';
 
 // the small markdown subset the gallery texts use: [links](https://…), **bold**, *italic*, ~~accent~~,
-// blank lines between paragraphs and single newlines as line breaks. builds react nodes, never html.
+// blank lines between paragraphs and single newlines as line breaks. builds preact nodes, never html.
 const INLINE = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*|~~([^~]+)~~/g;
 
-function inline(text: string, line: number): ReactNode[] {
-	const nodes: ReactNode[] = [];
+function inline(text: string, line: number): ComponentChildren[] {
+	const nodes: ComponentChildren[] = [];
 	let last = 0;
 	for (const match of text.matchAll(INLINE)) {
 		const [whole, label, href, bold, italic, accent] = match;
@@ -37,12 +36,12 @@ function inline(text: string, line: number): ReactNode[] {
 	return nodes;
 }
 
-export function Markdown({text, className}: {text: string, className?: string}): ReactElement {
+export function Markdown({text, className}: {text: string, className?: string}): VNode {
 	return (
 		<div className={className}>
-			{text.trim().split(/\n{2,}/).map((paragraph, i): ReactElement => (
+			{text.trim().split(/\n{2,}/).map((paragraph, i): VNode => (
 				<p key={i}>
-					{paragraph.split('\n').flatMap((line, j): ReactNode[] => (j === 0 ? inline(line, j) : [<br key={`br-${j}`} />, ...inline(line, j)]))}
+					{paragraph.split('\n').flatMap((line, j): ComponentChildren[] => (j === 0 ? inline(line, j) : [<br key={`br-${j}`} />, ...inline(line, j)]))}
 				</p>
 			))}
 		</div>

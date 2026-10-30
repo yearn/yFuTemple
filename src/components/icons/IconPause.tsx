@@ -1,6 +1,6 @@
-import	React from	'react';
+import type {VNode} from 'preact';
 
-function	Icon({width = '16', height = '16', ...props}): React.ReactElement {
+function	Icon({width = '16', height = '16', ...props}): VNode {
 	return (
 		<svg
 			xmlns={'http://www.w3.org/2000/svg'}

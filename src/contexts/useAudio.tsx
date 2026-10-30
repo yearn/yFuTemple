@@ -1,6 +1,7 @@
-import React, {createContext, use, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createContext} from 'preact';
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'preact/hooks';
 
-import type {ReactElement, ReactNode} from 'react';
+import type {ComponentChildren, VNode} from 'preact';
 
 export type TTrack = {
 	slug: string,
@@ -76,7 +77,7 @@ export function formatRemaining({currentTime, duration}: TAudioProgress): string
 
 // one audio element for the whole site, mounted once so navigation never interrupts it.
 // every bit of state follows the element's own events, so the ui can't drift from what is playing.
-export function AudioContextApp({children}: {children: ReactNode}): ReactElement {
+export function AudioContextApp({children}: {children: ComponentChildren}): VNode {
 	const audio = useRef<HTMLAudioElement>(null);
 	const shouldPlayNext = useRef(false);
 	const [current, set_current] = useState(0);
@@ -204,5 +205,5 @@ export function AudioContextApp({children}: {children: ReactNode}): ReactElement
 	);
 }
 
-export const useAudio = (): TAudioContext => use(Audio);
+export const useAudio = (): TAudioContext => useContext(Audio);
 export default useAudio;

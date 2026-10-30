@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'preact/hooks';
 
 import {formatRemaining, useAudio} from '../contexts/useAudio';
 import IconPause from './icons/IconPause';
 import IconPlay from './icons/IconPlay';
 import IconPrev from './icons/IconPrev';
 
-import type {PointerEvent as ReactPointerEvent, ReactElement} from 'react';
+import type {TargetedPointerEvent, VNode} from 'preact';
 
 type TPlayerPanel = {
 	isOpen: boolean,
@@ -20,7 +20,7 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 // a bottom sheet on phones, a panel under the header's player on larger screens, dragged by its title bar
-export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactElement | null {
+export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): VNode | null {
 	const {tracks, current, isPlaying, progress, volume, error, play, toggle, next, previous, seek, set_volume} = useAudio();
 	const panel = useRef<HTMLElement>(null);
 	const [offset, set_offset] = useState({x: 0, y: 0});
@@ -32,7 +32,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 		return (): void => window.removeEventListener('resize', onResize);
 	}, []);
 
-	const onDragStart = (event: ReactPointerEvent<HTMLDivElement>): void => {
+	const onDragStart = (event: TargetedPointerEvent<HTMLDivElement>): void => {
 		if (event.button !== 0 || (event.target as Element).closest('button') || !panel.current) {
 			return;
 		}
@@ -129,7 +129,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 					step={0.1}
 					value={progress.currentTime}
 					disabled={!progress.duration}
-					onChange={(event): void => seek(Number(event.target.value))}
+					onInput={(event): void => seek(Number(event.currentTarget.value))}
 					aria-label={'Seek'}
 					className={`range-line w-full ${FOCUS}`} />
 				<label className={'flex items-center gap-3 text-sm'}>
@@ -140,13 +140,13 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 						max={1}
 						step={0.05}
 						value={volume}
-						onChange={(event): void => set_volume(Number(event.target.value))}
+						onInput={(event): void => set_volume(Number(event.currentTarget.value))}
 						className={`range-line w-full ${FOCUS}`} />
 				</label>
 				{error ? <p role={'alert'} className={'text-sm text-yblue'}>{error}</p> : null}
 			</div>
 			<ol>
-				{tracks.map((item, index): ReactElement => (
+				{tracks.map((item, index): VNode => (
 					<li key={item.slug} className={'border-b-2 border-white last:border-b-0'}>
 						<button
 							type={'button'}
