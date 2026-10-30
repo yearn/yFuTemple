@@ -1,0 +1,15 @@
+---
+// the way up from a page, named after where it leads
+type Props = {
+	href: string,
+	label: string
+};
+
+const {href, label} = Astro.props;
+---
+
+<a
+	href={href}
+	class="font-scope text-xl text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:text-2xl">
+	{`‹ ${label}`}
+</a>

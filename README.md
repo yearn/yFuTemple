@@ -7,11 +7,11 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm build` writes a static site to `out/`, which any static file server can host:
+`pnpm build` writes a static site to `dist/`, which any static file server can host:
 
 ```
 pnpm build
-python3 -m http.server -d out
+python3 -m http.server -d dist
 ```
 
 Images are committed pre-encoded at the sizes they are shown at, since a static export has no

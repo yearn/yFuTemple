@@ -1,0 +1,61 @@
+---
+import sharp from 'sharp';
+
+import BackLink from '../../components/BackLink.astro';
+import Footer from '../../components/Footer.astro';
+import TributeGallery from '../../components/TributeGallery';
+import Layout from '../../layouts/Layout.astro';
+import YFU_DATA, {originalSrc} from '../../utils/data';
+
+import type {GetStaticPaths, InferGetStaticPropsType} from 'astro';
+import type {TArtwork} from '../../components/TributeGallery';
+
+const FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+const HALL_LINK = `border-2 border-white bg-black px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`;
+
+export const getStaticPaths = (() => {
+	const halls = [...YFU_DATA].sort((a, b): number => a.order - b.order);
+	return halls.map((temple, index) => {
+		// the halls go round, so the last leads back to the first
+		const link = (offset: number): {id: string, hall: string} => {
+			const {id, hall} = halls[(index + offset + halls.length) % halls.length];
+			return {id, hall};
+		};
+		return {params: {id: temple.id}, props: {temple, previous: link(-1), next: link(1)}};
+	});
+}) satisfies GetStaticPaths;
+
+const {temple, previous, next} = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+const artworks = await Promise.all(temple.medias.map(async (media): Promise<TArtwork> => {
+	const image = sharp(`${process.cwd()}/public${originalSrc(media.image)}`);
+	const [{width, height}, {channels: [, , , alpha]}] = await Promise.all([image.metadata(), image.stats()]);
+	return {...media, width, height, isTransparent: alpha !== undefined && alpha.mean < 255 / 2};
+}));
+---
+
+<Layout title={`${temple.tributeTitle} · yFu Temple`} description={temple.description.trim()}>
+	<div class="relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6">
+		<main class="mx-auto w-full max-w-screen-xl">
+			<div class="flex items-center justify-between p-4 font-scope text-white md:px-0">
+				<BackLink href={`/#${temple.id}`} label="HOME" />
+				<a
+					href="https://discord.com/invite/yearn"
+					target="_blank"
+					rel="noreferrer"
+					class={`button-glowing-small bg-white text-black ${FOCUS}`}>
+					SUBMIT ART
+					<div class="glow absolute -inset-0 rotate-180 rounded-full"></div>
+					<div class="glow absolute -inset-0 rotate-180 rounded-full"></div>
+				</a>
+			</div>
+			<h1 class="mx-auto w-fit max-w-xl whitespace-pre-wrap break-words border-b-2 border-b-white px-3 pb-3 text-center font-peste text-2xl font-medium uppercase text-white md:px-0 md:text-5xl">{temple.tributeTitle}</h1>
+			<p class="mx-auto mt-6 max-w-2xl px-4 text-center font-scope text-base text-white md:text-lg">{temple.description.trim()}</p>
+			<TributeGallery client:load artworks={artworks} />
+			<nav aria-label="Halls" class="mt-4 flex flex-wrap justify-between gap-4 px-4 font-scope text-white md:px-0">
+				<a href={`/tribute/${previous.id}/`} class={HALL_LINK}>{`‹ ${previous.hall}`}</a>
+				<a href={`/tribute/${next.id}/`} class={HALL_LINK}>{`${next.hall} ›`}</a>
+			</nav>
+		</main>
+		<Footer />
+	</div>
+</Layout>

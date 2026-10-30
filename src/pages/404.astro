@@ -1,0 +1,20 @@
+---
+import Footer from '../components/Footer.astro';
+import Layout from '../layouts/Layout.astro';
+
+const LINK = 'border-2 border-white px-4 py-2 hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+---
+
+<Layout title="Not found · yFu Temple" noindex>
+	<div class="relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6">
+		<main class="mx-auto flex min-h-[60vh] w-full max-w-xl flex-col items-center justify-center gap-6 px-4 text-center font-scope text-white">
+			<h1 class="font-peste text-5xl uppercase md:text-7xl">404</h1>
+			<p class="text-lg">This passage of the temple does not exist.</p>
+			<div class="flex flex-wrap justify-center gap-4">
+				<a href="/" class={LINK}>Back to the temple</a>
+				<a href="/comics/" class={LINK}>Read the comics</a>
+			</div>
+		</main>
+		<Footer />
+	</div>
+</Layout>

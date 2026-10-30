@@ -1,0 +1,84 @@
+---
+import Footer from '../components/Footer.astro';
+import Showcase from '../components/Showcase.astro';
+import Title from '../components/Title';
+import Layout from '../layouts/Layout.astro';
+import YFU_DATA from '../utils/data';
+
+const halls = [...YFU_DATA].sort((a, b): number => a.order - b.order);
+const comic = {
+	mark: {src: '/assetsThumbnail/comic1-mark.avif', width: 1000, height: 143},
+	art: {src: '/assets/comic1-main.avif', width: 959, height: 1667, alt: ''}
+};
+---
+
+<Layout preload={[comic.mark.src, comic.art.src]}>
+	<div class="relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6">
+		<main id="app" class="relative mx-auto w-full max-w-screen-xl" style="min-height: 100vh">
+			<div>
+				<div class="grid justify-items-end p-4 md:px-4 md:py-1">
+					<div></div>
+					<a href="/comics/" class="button-glowing-small bg-white font-scope text-black">
+						VIEW THE COMICS
+						<div class="glow absolute -inset-0 rotate-180 rounded-full"></div>
+						<div class="glow absolute -inset-0 rotate-180 rounded-full"></div>
+					</a>
+				</div>
+
+				<div class="flex items-center justify-center pb-8 pt-2 md:pt-4">
+					<h1>
+						<span class="sr-only">yFu Temple</span>
+						<span aria-hidden="true"><Title /></span>
+					</h1>
+				</div>
+
+				<section class="w-full px-4 md:px-0">
+					<div class="mb-16">
+						<Showcase
+							title="The Comic"
+							mark={comic.mark}
+							art={comic.art}
+							href="/comics/"
+							cta="VIEW COMICS"
+							priority>
+							<p>yFu is a comic in four episodes, set in the Pills alternate universe and chronicling the rise of Yearn's DAO and DeFi. yFu was developed by Yearn Finance and The Pills Universe, and was written and produced by Josh Blaylock.</p>
+							<p>yFu follows the story of Andre the Patcher and a young farmer named Estonya as they encounter the four yFu goddesses and attempt to recover the secrets of yield from the clutches of the ancient, evil Cron.</p>
+							<p>Browse to see the art and story first hand.</p>
+							<p><a href="/faq/" class="underline">See the FAQ for full credits.</a></p>
+						</Showcase>
+					</div>
+
+					{halls.map((goddess, index) => (
+						<div id={goddess.id} class="scroll-mt-28 md:scroll-mt-20">
+							<Showcase
+								title={goddess.title}
+								mark={{src: goddess.watermark, width: 497, height: 497}}
+								art={{src: goddess.mainIllustration, width: 600, height: 895, alt: goddess.title}}
+								href={`/tribute/${goddess.id}/`}
+								cta="SEE TRIBUTES">
+								<p>{goddess.description}</p>
+							</Showcase>
+							{index + 1 < halls.length ? (
+								<div class="my-0 flex items-center justify-center">
+									<img alt="" src={`/divider-${index + 1}.gif`} width="200" height="200" loading="lazy" decoding="async" />
+								</div>
+							) : null}
+						</div>
+					))}
+					<div class="my-9 flex items-center justify-center">
+						<img alt="" src="/yfiTree2.avif" width="112" height="112" loading="lazy" decoding="async" />
+					</div>
+					<div class="grid grid-cols-1 border-2 border-white">
+						<div class="col-span-1">
+							<img alt="The Yearning Tree" src="/yearningTree.avif" width="2000" height="1000" loading="lazy" decoding="async" />
+						</div>
+						<div class="col-span-1 p-4 text-left font-scope text-base text-white md:p-6 md:text-center">
+							<p>The YFI faction is guided by the four yFu, who interpret the knowledge of the Yearning Tree - an ancient being who hears the desires of creatures across the universe - and responds by growing yield-bearing seeds containing the answers to their wishes</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</main>
+		<Footer />
+	</div>
+</Layout>

@@ -12,7 +12,7 @@ type TPlayerPanel = {
 	onClose: () => void
 };
 
-const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+const FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const ICON_BUTTON = `flex size-8 items-center justify-center hover:bg-white hover:text-black ${FOCUS}`;
 
 function clamp(value: number, min: number, max: number): number {
@@ -79,10 +79,10 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 			ref={panel}
 			aria-label={'Media player'}
 			style={{translate: `${offset.x}px ${offset.y}px`}}
-			className={'fixed inset-x-0 bottom-0 z-30 max-h-[80dvh] overflow-y-auto border-t-2 border-white bg-black font-scope text-white md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:top-full md:mt-4 md:w-96 md:border-2'}>
+			className={'fixed inset-x-0 bottom-0 z-30 max-h-[80dvh] overflow-y-auto border-t-2 border-white bg-black font-scope text-white md:absolute md:inset-x-auto md:top-full md:bottom-auto md:left-0 md:mt-4 md:w-96 md:border-2'}>
 			<div
 				onPointerDown={onDragStart}
-				className={'flex h-8 cursor-grab touch-none select-none items-center justify-between border-b-2 border-white pl-3 text-lg active:cursor-grabbing'}>
+				className={'flex h-8 cursor-grab touch-none items-center justify-between border-b-2 border-white pl-3 text-lg select-none active:cursor-grabbing'}>
 				<h2>{'YFU MEDIA PLAYER'}</h2>
 				<button
 					type={'button'}
@@ -152,7 +152,7 @@ export default function PlayerPanel({isOpen, onClose}: TPlayerPanel): ReactEleme
 							type={'button'}
 							aria-current={index === current ? 'true' : undefined}
 							onClick={(): void => (index === current ? toggle() : play(index))}
-							className={`flex w-full items-center gap-3 px-3 py-1.5 text-left hover:bg-white hover:text-black aria-[current=true]:bg-white/20 ${FOCUS}`}>
+							className={`flex w-full items-center gap-3 px-3 py-1.5 text-left hover:bg-white hover:text-black aria-current:bg-white/20 ${FOCUS}`}>
 							{index === current && isPlaying ? <IconPause /> : <IconPlay />}
 							<span>{item.title}</span>
 						</button>

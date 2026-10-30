@@ -1,0 +1,20 @@
+---
+import ComicReader from '../../components/reader/ComicReader';
+import Layout from '../../layouts/Layout.astro';
+import {COMICS, summary} from '../../utils/comicsManifest';
+
+import type {GetStaticPaths, InferGetStaticPropsType} from 'astro';
+
+export const getStaticPaths = (() => COMICS.map((comic, index) => {
+	const next = COMICS.at(index + 1);
+	return {params: {id: comic.id}, props: {comic, next: next ? summary(next) : null}};
+})) satisfies GetStaticPaths;
+
+const {comic, next} = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+---
+
+<Layout
+	title={`Issue ${comic.number}: ${comic.subtitle} · yFu Comics`}
+	description={`Read yFu issue ${comic.number}, ${comic.subtitle}, the ${comic.title} episode of the yFu comic.`}>
+	<ComicReader client:load comic={comic} next={next} />
+</Layout>

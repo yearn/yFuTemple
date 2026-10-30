@@ -1,4 +1,4 @@
-import React, {createContext, useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import React, {createContext, use, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import type {ReactElement, ReactNode} from 'react';
 
@@ -204,5 +204,5 @@ export function AudioContextApp({children}: {children: ReactNode}): ReactElement
 	);
 }
 
-export const useAudio = (): TAudioContext => useContext(Audio);
+export const useAudio = (): TAudioContext => use(Audio);
 export default useAudio;
