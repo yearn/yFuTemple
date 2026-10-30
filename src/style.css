@@ -8,7 +8,6 @@
 	--font-monument: 'Monument', sans-serif;
 	--font-peste: 'Peste', sans-serif;
 	--font-chicago: 'Chicago', mono;
-	--font-bluepill: 'New Spirit Bold Condensed', sans-serif;
 
 	--container-xl: 552px;
 
@@ -82,14 +81,6 @@
     src: local('pix Chicago'), local('pixChicago'),
         url('/fonts/pixChicago.woff2') format('woff2');
     font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'New Spirit Bold Condensed';
-    src: local('New Spirit Bold Condensed'), local('NewSpirit-BoldCondensed'),
-        url('/fonts/NewSpirit-BoldCondensed.woff2') format('woff2');
-    font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
