@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import Link from 'next/link';
 
-import {fullPageSrc, pageAlt, pageImage} from '../../utils/comics';
+import {fullPageSrc, pageAlt, pageImage, progressKey} from '../../utils/comics';
+import {readStorage, writeStorage} from '../../utils/storage';
 import {usePhotoSwipe} from '../../utils/usePhotoSwipe';
 
 import type {SlideData} from 'photoswipe';
@@ -33,23 +34,6 @@ const CHROME_SLACK = 8;
 const PAGE_MODE_STEPS: {[key: string]: number} = {'PageDown': 1, 'PageUp': -1, ' ': 1};
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const CONTROL = `border-2 border-white px-3 py-1 hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-40 aria-pressed:bg-white aria-pressed:text-black ${FOCUS}`;
-
-// storage can be unavailable (blocked site data, some private modes), and the reader works without it
-function readStorage(key: string): string | null {
-	try {
-		return window.localStorage.getItem(key);
-	} catch {
-		return null;
-	}
-}
-
-function writeStorage(key: string, value: string): void {
-	try {
-		window.localStorage.setItem(key, value);
-	} catch {
-		// nothing to remember then
-	}
-}
 
 function pageFromHash(hash: string, count: number): number | null {
 	const page = Number(hash.match(/^#page-(\d+)$/)?.[1]);
@@ -90,7 +74,7 @@ function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
 
 export default function ComicReader({comic, next}: TComicReader): ReactElement {
 	const count = comic.pages.length;
-	const positionKey = `reader-page-${comic.id}`;
+	const positionKey = progressKey(comic.id);
 	const [mode, set_mode] = useState<TMode>('scroll');
 	const [index, set_index] = useState(0);
 	const [scrollTarget, set_scrollTarget] = useState<TScrollTarget | null>(null);
@@ -138,7 +122,8 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 			goTo(linked);
 		} else {
 			const saved = Number(readStorage(positionKey));
-			if (saved > 0 && saved < count) {
+			// a finished issue starts over rather than offering its last page
+			if (saved > 0 && saved < count - 1) {
 				set_resumeFrom(saved);
 			}
 		}
