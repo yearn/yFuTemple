@@ -1,0 +1,12 @@
+# hold back package versions published less than a week ago, except next's security releases
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - next
+  - '@next/*'
+
+# pin exact versions when adding packages
+savePrefix: ''
+
+# install scripts stay off; unrs-resolver's only fetches a native binding pnpm already installs
+allowBuilds:
+  unrs-resolver: false

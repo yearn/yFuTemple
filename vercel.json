@@ -1,6 +1,6 @@
 {
-  "installCommand": "yarn install --immutable",
-  "buildCommand": "yarn build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm build",
   "trailingSlash": true,
   "redirects": [
     {
