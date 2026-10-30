@@ -1,13 +1,57 @@
-@tailwind base;
+@import 'tailwindcss';
 
-body {@apply text-white;}
-h1 {@apply text-xl font-bold;}
-h4 {@apply text-lg font-bold;}
-/* keep focus rings for keyboard users, hide them after mouse clicks */
-:focus:not(:focus-visible) {outline: none;}
+@theme {
+	--color-yblue: #6176b4;
+	--color-yearn-blue: hsl(220, 95%, 50%);
 
-@tailwind components;
-@tailwind utilities;
+	--font-scope: 'Scope', 'Roboto', serif;
+	--font-monument: 'Monument', sans-serif;
+	--font-peste: 'Peste', sans-serif;
+	--font-chicago: 'Chicago', mono;
+	--font-bluepill: 'New Spirit Bold Condensed', sans-serif;
+
+	--container-xl: 552px;
+
+	--text-base: 16px;
+	--text-base--line-height: 24px;
+	--text-lg: 1.125rem;
+	--text-lg--line-height: 1.75rem;
+	--text-xl: 24px;
+	--text-xl--line-height: 32px;
+	--text-3xl: 32px;
+	--text-3xl--line-height: 40px;
+	--text-4xl: 2.25rem;
+	--text-4xl--line-height: 2.5rem;
+
+	--animate-marquee: marquee 25s linear infinite;
+	--animate-marquee2: marquee2 25s linear infinite;
+
+	@keyframes marquee {
+		0% {transform: translateX(0%);}
+		100% {transform: translateX(-100%);}
+	}
+	@keyframes marquee2 {
+		0% {transform: translateX(100%);}
+		100% {transform: translateX(0%);}
+	}
+}
+
+/* element defaults sit under the utilities, so a class on the element always wins */
+@layer base {
+	body {@apply text-white;}
+	h1 {@apply text-xl font-bold;}
+	h4 {@apply text-lg font-bold;}
+	h1, h2, h3, h4, h5, h6 {@apply text-white;}
+	* {@apply font-scope;}
+	/* keep focus rings for keyboard users, hide them after mouse clicks */
+	:focus:not(:focus-visible) {outline: none;}
+	[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+		outline: none;
+		box-shadow: none;
+	}
+	/* tailwind 4 dropped the pointer cursor on buttons */
+	button:not(:disabled), [role='button']:not(:disabled) {cursor: pointer;}
+}
 
 @font-face {
     font-family: 'Scope';
@@ -59,18 +103,6 @@ html {
 	background: #000000;
 	margin-left: calc(100vw - 100%);
 }
-h1, h2, h3, h4, h5, h6 {
-    @apply text-white;
-}
-* {
-    @apply font-scope;
-}
-
-#__next {
-	width: 100%;
-	height: 100%
-}
-
 ::placeholder {
 	color: #C5C6C7 !important;
 }
@@ -112,7 +144,8 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0;
   transition: opacity 500ms;
 }
-.glow-wrapper:hover .glow::before {
+.button-glowing:hover .glow::before,
+.button-glowing-small:hover .glow::before {
   opacity: 1;
 }
 
@@ -126,7 +159,6 @@ h1, h2, h3, h4, h5, h6 {
         text-lg md:text-xl lg:text-2xl xl:text-3xl
         cursor-pointer
         relative
-        glow-wrapper
         disabled:cursor-default
         disabled:opacity-10
 }
@@ -141,7 +173,6 @@ h1, h2, h3, h4, h5, h6 {
       text-base
       cursor-pointer
       relative
-      glow-wrapper
       disabled:cursor-default
       disabled:opacity-10
 }
@@ -193,9 +224,4 @@ h1, h2, h3, h4, h5, h6 {
 /* caption under photoswipe slides, registered in utils/usePhotoSwipe */
 .pswp__caption {
     @apply absolute inset-x-0 bottom-0 bg-black/70 px-4 py-3 text-center font-scope text-white;
-}
-
-[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
-	outline: none;
-	box-shadow: none;
 }

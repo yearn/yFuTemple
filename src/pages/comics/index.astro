@@ -1,0 +1,25 @@
+---
+import BackLink from '../../components/BackLink.astro';
+import ComicsList from '../../components/ComicsList';
+import Footer from '../../components/Footer.astro';
+import Layout from '../../layouts/Layout.astro';
+import {COMICS} from '../../utils/comicsManifest';
+
+// the list only shows each issue's cover
+const issues = COMICS.map((comic) => ({comic: {...comic, pages: comic.pages.slice(0, 1)}, pageCount: comic.pages.length}));
+---
+
+<Layout
+	title="yFu Comics"
+	description="Read all four issues of yFu, the comic about the rise of Yearn and DeFi.">
+	<div class="relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6">
+		<main class="relative mx-auto w-full max-w-screen-xl px-4 md:px-0">
+			<div class="py-4">
+				<BackLink href="/" label="HOME" />
+			</div>
+			<h1 class="mx-auto mb-8 mt-4 w-fit border-b-2 border-white px-3 pb-3 font-peste text-3xl font-medium uppercase text-white md:text-5xl">yFu comics</h1>
+			<ComicsList client:load issues={issues} />
+		</main>
+		<Footer />
+	</div>
+</Layout>

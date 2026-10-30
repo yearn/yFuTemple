@@ -1,8 +1,9 @@
 import js from '@eslint/js';
-import nextPlugin from '@next/eslint-plugin-next';
+import react from '@eslint-react/eslint-plugin';
 import stylistic from '@stylistic/eslint-plugin';
-import importPlugin from 'eslint-plugin-import';
-import react from 'eslint-plugin-react';
+import {createTypeScriptImportResolver} from 'eslint-import-resolver-typescript';
+import astro from 'eslint-plugin-astro';
+import {importX} from 'eslint-plugin-import-x';
 import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import tailwind from 'eslint-plugin-tailwindcss';
@@ -11,18 +12,26 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-	{ignores: ['.next', 'out', 'public', 'next-env.d.ts', '.claude']},
+	{ignores: ['.astro', 'dist', 'public', '.claude']},
 	js.configs.recommended,
-	importPlugin.flatConfigs.recommended,
-	react.configs.flat.recommended,
-	reactHooks.configs.flat['recommended-latest'],
-	...tailwind.configs['flat/recommended'],
+	importX.flatConfigs.recommended,
+	importX.flatConfigs.typescript,
+	tailwind.configs.recommended,
 	tseslint.configs.recommended,
+	...astro.configs.recommended,
 	{
-		plugins: {'@next/next': nextPlugin},
+		files: ['**/*.{ts,tsx}'],
+		// names follow the naming-convention rule below rather than the plugin's own
+		extends: [react.configs['recommended-typescript'], react.configs['disable-naming-convention'], reactHooks.configs.flat['recommended-latest']],
 		rules: {
-			...nextPlugin.configs.recommended.rules,
-			...nextPlugin.configs['core-web-vitals'].rules
+			// without the react compiler, an effect is the place to read browser-only state (storage, the url hash)
+			// after the static render and to scroll once the dom has updated
+			'react-hooks/set-state-in-effect': 0,
+			'@eslint-react/set-state-in-effect': 0,
+			// setters are named set_ + the state, which this rule doesn't know
+			'@eslint-react/use-state': 0,
+			// comic pages and markdown paragraphs are known by their position, which never changes
+			'@eslint-react/no-array-index-key': 0
 		}
 	},
 	{
@@ -39,23 +48,16 @@ export default tseslint.config(
 			'simple-import-sort': simpleImportSort
 		},
 		settings: {
-			'react': {'version': 'detect'},
-			'import/resolver': {'typescript': {}}
+			'import-x/resolver-next': [createTypeScriptImportResolver()],
+			'tailwindcss': {'cssConfigPath': 'src/style.css'}
 		},
 		rules: {
-			'import/default': 0,
-			'react/prop-types': 0,
-			// the static export has no image optimizer, so next/image buys nothing over a plain img
-			'@next/next/no-img-element': 0,
-			// without the react compiler, an effect is the place to read browser-only state (storage, the url hash)
-			// after the static render and to scroll once the dom has updated
-			'react-hooks/set-state-in-effect': 0,
+			'import-x/default': 0,
 			'@typescript-eslint/no-explicit-any': 'warn',
-			'react/react-in-jsx-scope': 0,
 			'no-async-promise-executor': 0,
-			'import/no-unresolved': 0,
+			'import-x/no-unresolved': 0,
 			'no-else-return': ['error', {'allowElseIf': false}],
-			'import/no-named-as-default-member': 2,
+			'import-x/no-named-as-default-member': 2,
 			'tailwindcss/no-custom-classname': 0,
 			'unused-imports/no-unused-imports': 'error',
 			'unused-imports/no-unused-vars': [
@@ -68,9 +70,9 @@ export default tseslint.config(
 			],
 			'simple-import-sort/imports': 2,
 			'simple-import-sort/exports': 2,
-			'import/first': 2,
-			'import/newline-after-import': 2,
-			'import/no-duplicates': 2,
+			'import-x/first': 2,
+			'import-x/newline-after-import': 2,
+			'import-x/no-duplicates': 2,
 			'curly': ['error', 'all'],
 			'prefer-destructuring': ['error', {'array': true, 'object': true}, {'enforceForRenamedProperties': false}],
 			'@typescript-eslint/consistent-type-imports': [
@@ -170,12 +172,26 @@ export default tseslint.config(
 		}
 	},
 	{
-		// plain js (configs and scripts) sits outside the typescript project
-		files: ['**/*.{js,mjs,cjs}'],
+		// plain js (configs and scripts) sits outside the typescript project, and so do astro components
+		files: ['**/*.{js,mjs,cjs,astro}'],
 		extends: [tseslint.configs.disableTypeChecked]
 	},
 	{
-		files: ['**/*.{ts,tsx}'],
+		// eslint plugins document their configs as members of the default export
+		files: ['eslint.config.mjs'],
+		rules: {'import-x/no-named-as-default-member': 0}
+	},
+	{
+		// astro templates are html: attributes are plain strings and elements are laid out as markup
+		files: ['**/*.astro'],
+		rules: {
+			'@stylistic/jsx-curly-brace-presence': 0,
+			'@stylistic/jsx-max-props-per-line': 0,
+			'@stylistic/jsx-closing-tag-location': 0
+		}
+	},
+	{
+		files: ['**/*.{ts,tsx,astro}'],
 		rules: {
 			'simple-import-sort/imports': [
 				'error',
@@ -183,7 +199,6 @@ export default tseslint.config(
 					groups: [
 						[
 							'^react',
-							'^next',
 							'^tailwindcss',
 							'^@?\\w',
 							'^(@yearn-finance/.*)?\\w',

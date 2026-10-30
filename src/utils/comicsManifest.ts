@@ -1,5 +1,5 @@
-// only import from getStaticProps and getStaticPaths, so the manifest stays out of client bundles
-import comics from '../content/comics.json';
+// only import from page frontmatter, so the manifest stays out of client bundles
+import comics from '../../content/comics.json';
 
 import type {TComic, TComicSummary} from './comics';
 

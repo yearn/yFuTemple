@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import Image from 'next/image';
-import {useRouter} from 'next/router';
 
-import {formatRemaining, useAudio} from '../contexts/useAudio';
+import {AudioContextApp, formatRemaining, useAudio} from '../contexts/useAudio';
 import PlayerPanel from './PlayerPanel';
 import IconExpand from './icons/IconExpand';
 import IconPause from './icons/IconPause';
@@ -17,7 +15,7 @@ const	LINKS = [
 	['Discord', 'https://discord.com/invite/yearn']
 ];
 
-const	HEADER_BUTTON = 'flex size-8 items-center justify-center hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-white';
+const	HEADER_BUTTON = 'flex size-8 items-center justify-center hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-white';
 
 function	Header(): ReactElement {
 	const	{tracks, current, isPlaying, progress, toggle, next, previous} = useAudio();
@@ -26,7 +24,6 @@ function	Header(): ReactElement {
 	const	info = useRef<HTMLDivElement>(null);
 	const	infoButton = useRef<HTMLButtonElement>(null);
 	const	playerButton = useRef<HTMLButtonElement>(null);
-	const	router = useRouter();
 	// closing a panel from inside it puts focus back on the button that opened it
 	const	closeMediaPlayer = useCallback((): void => {
 		set_hasMediaPlayer(false);
@@ -56,13 +53,13 @@ function	Header(): ReactElement {
 		};
 		window.addEventListener('keydown', onKeyDown);
 		window.addEventListener('pointerdown', onPointerDown);
-		router.events.on('routeChangeStart', close);
+		document.addEventListener('astro:before-preparation', close);
 		return (): void => {
 			window.removeEventListener('keydown', onKeyDown);
 			window.removeEventListener('pointerdown', onPointerDown);
-			router.events.off('routeChangeStart', close);
+			document.removeEventListener('astro:before-preparation', close);
 		};
-	}, [closeInfo, hasModal, router.events]);
+	}, [closeInfo, hasModal]);
 
 	return (
 		<>
@@ -74,11 +71,11 @@ function	Header(): ReactElement {
 						onClick={(): void => set_hasModal(!hasModal)}
 						aria-expanded={hasModal}
 						aria-controls={'site-info'}
-						className={'flex size-full items-center px-4 text-left font-scope text-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white md:px-6 md:text-2xl'}>
+						className={'flex size-full items-center px-4 text-left font-scope text-xl text-white focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white md:px-6 md:text-2xl'}>
 						{'INFO'}
 					</button>
 					{hasModal ? (
-						<div id={'site-info'} className={'absolute left-0 top-full z-50 w-screen border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
+						<div id={'site-info'} className={'absolute top-full left-0 z-50 w-screen border-0 border-b-2 border-white bg-black p-4 md:w-68 md:border-2'}>
 							<div className={'flex justify-end'}>
 								<button
 									type={'button'}
@@ -88,12 +85,14 @@ function	Header(): ReactElement {
 									{'X'}
 								</button>
 							</div>
-							<div className={'flex w-full select-none justify-center'}>
-								<Image
+							<div className={'flex w-full justify-center select-none'}>
+								<img
 									alt={''}
 									src={'/yfiTree.avif'}
 									width={150}
-									height={186} />
+									height={186}
+									loading={'lazy'}
+									decoding={'async'} />
 							</div>
 							<div className={'mt-4 space-y-1 font-scope tracking-widest text-yblue'}>
 								<p>
@@ -133,7 +132,7 @@ function	Header(): ReactElement {
 						</div>
 					) : null}
 				</div>
-				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-auto md:min-w-[300px] md:shrink-0'}>
+				<div className={'relative col-span-1 flex h-12 min-w-0 border-b-2 border-l-2 border-white bg-black md:h-16 md:w-auto md:min-w-75 md:shrink-0'}>
 					<div className={'flex w-full min-w-0 items-center px-1 font-scope text-white md:px-3'}>
 						<button
 							type={'button'}
@@ -157,7 +156,7 @@ function	Header(): ReactElement {
 							<IconPrev className={'size-3 rotate-180 md:size-4'} />
 						</button>
 						<div className={'mx-2 mb-0.5 min-w-0 truncate text-xs md:mx-3 md:text-base'}>{tracks[current].title}</div>
-						<div className={'mb-0.5 ml-auto mr-1 text-xs tabular-nums md:mr-3 md:text-base'}>
+						<div className={'mr-1 mb-0.5 ml-auto text-xs tabular-nums md:mr-3 md:text-base'}>
 							{formatRemaining(progress)}
 						</div>
 						<button
@@ -174,7 +173,7 @@ function	Header(): ReactElement {
 						isOpen={hasMediaPlayer}
 						onClose={closeMediaPlayer} />
 				</div>
-				<div className={'relative col-span-2 flex h-12 w-full select-none items-center overflow-x-hidden border-b-2 border-white bg-[#181D20] font-scope text-white md:h-16'}>
+				<div className={'relative col-span-2 flex h-12 w-full items-center overflow-x-hidden border-b-2 border-white bg-[#181D20] font-scope text-white select-none md:h-16'}>
 					<div className={'animate-marquee whitespace-nowrap motion-reduce:animate-none'}>
 						<span className={'mx-4 text-xl md:text-2xl'}>{'THE TEMPLE IS A SACRED PLACE, DESIGNED SO THE ACOLYTES THAT REPRESENT YFI MAY COMMUNE AND WORSHIP'}</span>
 					</div>
@@ -188,4 +187,11 @@ function	Header(): ReactElement {
 	);
 }
 
-export default Header;
+// the site's one audio element lives here, and the layout carries the header over to each new page
+export default function SiteHeader(): ReactElement {
+	return (
+		<AudioContextApp>
+			<Header />
+		</AudioContextApp>
+	);
+}

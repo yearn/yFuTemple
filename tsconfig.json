@@ -37,17 +37,15 @@
 	},
 	"exclude": [
 	  "node_modules",
+	  "dist",
 	  ".claude"
 	],
 	"include": [
-	  "**/*.css",
+	  ".astro/types.d.ts",
+	  "**/*.astro",
 	  "**/*.ts",
 	  "**/*.tsx",
-	  "**/*.d.tsx",
-	  "public",
-	  "postcss.config.js",
-	  "tailwind.config.js",
-	  "next.config.js"
+	  "astro.config.mjs"
 	]
   }
   

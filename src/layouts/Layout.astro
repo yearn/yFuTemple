@@ -1,0 +1,91 @@
+---
+import {ClientRouter} from 'astro:transitions';
+
+import Header from '../components/Header';
+
+import '../style.css';
+
+type Props = {
+	title?: string,
+	description?: string,
+	// keeps the page out of search results
+	noindex?: boolean,
+	// images the first screen shows, fetched alongside the html
+	preload?: string[]
+};
+
+const DESCRIPTION = 'Read the four yFu comics, walk the halls of the yFu goddesses and listen to their soundtrack. An archive of Yearn lore.';
+
+const {title = 'yFu Temple', description = DESCRIPTION, noindex = false, preload = []} = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<html lang="en" transition:animate="none">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow'} />
+		<link rel="canonical" href={url} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:url" content={url} />
+		<meta property="og:site_name" content="yFu Temple" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL('og.jpg', Astro.site).href} />
+		<meta property="og:image:alt" content="The Yearning Tree" />
+		<meta property="og:image:width" content="2000" />
+		<meta property="og:image:height" content="1000" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@yearnfi" />
+		<meta name="twitter:creator" content="@yearnfi" />
+
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/favicons/android-chrome-512x512.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+		<link rel="manifest" href="/favicons/site.webmanifest" />
+		<meta name="msapplication-TileColor" content="#000000" />
+		<meta name="theme-color" content="#000000" />
+
+		{preload.map((href) => <link rel="preload" href={href} as="image" />)}
+		<ClientRouter />
+	</head>
+	<body>
+		{/* the header holds the soundtrack's audio element; it and the backdrop stay put while the content below swaps */}
+		<Header client:load />
+		<div id="content" class="z-10 overflow-x-clip pt-24 md:pt-16">
+			<slot />
+		</div>
+		<div class="fixed inset-0 -z-10">
+			<video playsinline autoplay muted loop poster="/bg.avif" class="size-full object-cover motion-reduce:hidden">
+				<source src="/bglow.webm" type="video/webm" />
+			</video>
+			{/* the poster on its own for visitors who asked for less motion */}
+			<div class="hidden size-full bg-[url(/bg.avif)] bg-cover bg-center motion-reduce:block"></div>
+		</div>
+	</body>
+</html>
+
+<script>
+	import {swapFunctions} from 'astro:transitions/client';
+
+	// navigation swaps only #content. the default swap replaces the whole body and carries persisted
+	// elements over, which keeps the audio playing but restarts the header marquee on every page.
+	document.addEventListener('astro:before-swap', (event) => {
+		event.swap = (): void => {
+			const {deselectScripts, swapRootAttributes, swapHeadElements, saveFocus, swapBodyElement} = swapFunctions;
+			deselectScripts(event.newDocument);
+			swapRootAttributes(event.newDocument);
+			swapHeadElements(event.newDocument);
+			const restoreFocus = saveFocus();
+			swapBodyElement(event.newDocument.getElementById('content')!, document.getElementById('content')!);
+			restoreFocus();
+		};
+	});
+</script>

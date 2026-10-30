@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import Link from 'next/link';
 
 import {fullPageSrc, pageAlt, pageImage, progressKey} from '../../utils/comics';
 import {readStorage, writeStorage} from '../../utils/storage';
@@ -32,7 +31,7 @@ const SETTLE_MS = 100;
 // scroll movement smaller than this doesn't show or hide the header
 const CHROME_SLACK = 8;
 const PAGE_MODE_STEPS: {[key: string]: number} = {'PageDown': 1, 'PageUp': -1, ' ': 1};
-const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+const FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 const CONTROL = `border-2 border-white px-3 py-1 hover:bg-white hover:text-black disabled:pointer-events-none disabled:opacity-40 aria-pressed:bg-white aria-pressed:text-black ${FOCUS}`;
 
 function pageFromHash(hash: string, count: number): number | null {
@@ -57,16 +56,16 @@ function isOnScreen(index: number): boolean {
 
 function EndOfIssue({next}: {next: TComicSummary | null}): ReactElement {
 	return (
-		<div className={'mx-auto max-w-3xl px-4 pb-16 pt-8 text-center'}>
+		<div className={'mx-auto max-w-3xl px-4 pt-8 pb-16 text-center'}>
 			{next ? (
-				<Link href={`/comics/${next.id}/`} className={`inline-block border-2 border-white px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`}>
+				<a href={`/comics/${next.id}/`} className={`inline-block border-2 border-white px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`}>
 					{`Next: Issue ${next.number} · ${next.title}`}
 					<span className={'block text-sm opacity-70'}>{next.subtitle}</span>
-				</Link>
+				</a>
 			) : (
-				<Link href={'/comics/'} className={`inline-block border-2 border-white px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`}>
+				<a href={'/comics/'} className={`inline-block border-2 border-white px-6 py-4 hover:bg-white hover:text-black ${FOCUS}`}>
 					{'Back to all comics'}
-				</Link>
+				</a>
 			)}
 		</div>
 	);
@@ -172,9 +171,8 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		}
 		const hash = index === 0 ? '' : `#page-${index + 1}`;
 		if (window.location.hash !== hash) {
-			// next keeps its own copy of the address in history and restores it on back, so it follows the page too
-			const path = `${window.location.pathname}${hash}`;
-			window.history.replaceState({...window.history.state, as: path}, '', path);
+			// the router keeps this entry's scroll position in its state, so the state stays as it is
+			window.history.replaceState(window.history.state, '', `${window.location.pathname}${hash}`);
 		}
 		if (resumeFrom !== null && index < resumeFrom) {
 			return;
@@ -274,8 +272,8 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 		<main className={mode === 'page' ? 'flex h-[calc(100dvh-6rem)] flex-col bg-black text-white md:h-[calc(100dvh-4rem)]' : 'min-h-screen bg-black text-white'}>
 			<div
 				data-reader-toolbar
-				className={'sticky top-24 z-10 flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 transition-[top,transform] duration-300 motion-reduce:transition-none md:top-16 [html[data-chrome=hidden]_&]:top-0 [html[data-chrome=hidden]_&]:-translate-y-full'}>
-				<Link href={'/comics/'} className={`hover:underline ${FOCUS}`}>{'‹ Comics'}</Link>
+				className={'sticky top-24 z-10 flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b-2 border-white bg-black px-4 py-2 transition-[top,translate] duration-300 motion-reduce:transition-none md:top-16 [html[data-chrome=hidden]_&]:top-0 [html[data-chrome=hidden]_&]:-translate-y-full'}>
+				<a href={'/comics/'} className={`hover:underline ${FOCUS}`}>{'‹ Comics'}</a>
 				<h1 className={'mr-auto text-base font-normal md:text-lg'}>
 					{`Issue ${comic.number} · ${comic.title}`}
 					<span className={'hidden opacity-70 md:inline'}>{` · ${comic.subtitle}`}</span>
@@ -377,9 +375,9 @@ export default function ComicReader({comic, next}: TComicReader): ReactElement {
 								{'Next ›'}
 							</button>
 						) : (
-							<Link href={next ? `/comics/${next.id}/` : '/comics/'} className={CONTROL}>
+							<a href={next ? `/comics/${next.id}/` : '/comics/'} className={CONTROL}>
 								{next ? `Issue ${next.number} · ${next.title} ›` : 'All comics ›'}
-							</Link>
+							</a>
 						)}
 					</div>
 				</div>
