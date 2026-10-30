@@ -51,7 +51,12 @@ export default function Showcase({title, mark, art, href, cta, priority = false,
 					</Link>
 				</div>
 			</div>
-			<div className={'row-start-3 flex md:col-start-2 md:row-span-2 md:row-start-1 xl:col-start-3 xl:row-span-1'}>
+			{/* the art leads where the button does; keyboard and screen reader users get the button alone */}
+			<Link
+				href={href}
+				tabIndex={-1}
+				aria-hidden={'true'}
+				className={'row-start-3 flex transition-opacity hover:opacity-90 md:col-start-2 md:row-span-2 md:row-start-1 xl:col-start-3 xl:row-span-1'}>
 				<Image
 					alt={art.alt}
 					src={art.src}
@@ -59,7 +64,7 @@ export default function Showcase({title, mark, art, href, cta, priority = false,
 					className={'w-full object-cover'}
 					width={art.width}
 					height={art.height} />
-			</div>
+			</Link>
 		</div>
 	);
 }
