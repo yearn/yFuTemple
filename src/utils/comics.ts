@@ -1,8 +1,7 @@
 export type TComicPage = {
 	width: number,
 	height: number,
-	widths: number[],
-	source: string
+	widths: number[]
 };
 
 export type TComic = {
