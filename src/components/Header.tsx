@@ -1,4 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {Fragment} from 'preact';
+import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
 
 import {AudioContextApp, formatRemaining, useAudio} from '../contexts/useAudio';
 import PlayerPanel from './PlayerPanel';
@@ -7,7 +8,7 @@ import IconPlay from './icons/IconPlay';
 import IconPlaylist from './icons/IconPlaylist';
 import IconPrev from './icons/IconPrev';
 
-import type {ReactElement} from 'react';
+import type {VNode} from 'preact';
 
 const	LINKS = [
 	['Yearn', 'https://yearn.fi'],
@@ -19,7 +20,7 @@ const	LINKS = [
 
 const	HEADER_BUTTON = 'flex size-8 items-center justify-center hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-white';
 
-function	Header(): ReactElement {
+function	Header(): VNode {
 	const	{tracks, current, isPlaying, progress, toggle, next, previous} = useAudio();
 	const	[hasModal, set_hasModal] = useState(false);
 	const	[hasMediaPlayer, set_hasMediaPlayer] = useState(false);
@@ -108,8 +109,8 @@ function	Header(): ReactElement {
 								<a href={'/faq/'} className={'hover:underline'}>{'FAQ & CREDITS'}</a>
 							</p>
 							<p className={'mt-4 font-scope tracking-widest text-yblue'}>
-								{LINKS.map(([label, href], index): ReactElement => (
-									<React.Fragment key={label}>
+								{LINKS.map(([label, href], index): VNode => (
+									<Fragment key={label}>
 										{index > 0 ? ' / ' : null}
 										<a
 											href={href}
@@ -118,7 +119,7 @@ function	Header(): ReactElement {
 											className={'hover:underline'}>
 											{label}
 										</a>
-									</React.Fragment>
+									</Fragment>
 								))}
 							</p>
 						</div>
@@ -180,7 +181,7 @@ function	Header(): ReactElement {
 }
 
 // the site's one audio element lives here, and the layout carries the header over to each new page
-export default function SiteHeader(): ReactElement {
+export default function SiteHeader(): VNode {
 	return (
 		<AudioContextApp>
 			<Header />

@@ -1,4 +1,6 @@
-import {useCallback, useEffect, useEffectEvent, useRef} from 'react';
+import {useCallback, useEffect, useRef} from 'preact/hooks';
+
+import {useEffectEvent} from './useEffectEvent';
 
 import type {SlideData} from 'photoswipe';
 import type PhotoSwipeLightbox from 'photoswipe/lightbox';

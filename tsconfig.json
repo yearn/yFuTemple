@@ -10,7 +10,8 @@
 		"dom"
 	  ],
 	  "allowJs": true,
-	  "jsx": "preserve",
+	  "jsx": "react-jsx",
+	  "jsxImportSource": "preact",
 	  "removeComments": false,
 	  "strict": true,
 	  "noImplicitAny": true,

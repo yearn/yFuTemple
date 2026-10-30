@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'preact/hooks';
 
 import {pageImage, progressKey} from '../utils/comics';
 import {readStorage} from '../utils/storage';
 
-import type {ReactElement} from 'react';
+import type {VNode} from 'preact';
 import type {TComic} from '../utils/comics';
 
 type TComicsList = {
@@ -21,7 +21,7 @@ function progressOf(id: string, page: number, pageCount: number): {status: strin
 	return {status: `Continue at page ${page + 1} of ${pageCount}`, href: `/comics/${id}/#page-${page + 1}`, share: (page + 1) / pageCount};
 }
 
-export default function ComicsList({issues}: TComicsList): ReactElement {
+export default function ComicsList({issues}: TComicsList): VNode {
 	// the page each issue was left on lives in this browser, so it shows up after the static render
 	const [pages, set_pages] = useState<{[id: string]: number}>({});
 	useEffect((): void => {
@@ -30,7 +30,7 @@ export default function ComicsList({issues}: TComicsList): ReactElement {
 
 	return (
 		<ol className={'grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6'}>
-			{issues.map(({comic, pageCount}): ReactElement => {
+			{issues.map(({comic, pageCount}): VNode => {
 				const {status, href, share} = progressOf(comic.id, pages[comic.id], pageCount);
 				return (
 					<li key={comic.id}>
