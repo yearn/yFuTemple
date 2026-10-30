@@ -1,7 +1,11 @@
 export type TComicPage = {
 	width: number,
 	height: number,
-	widths: number[]
+	widths: number[],
+	// what the page shows, for anyone who can't see it
+	scene: string,
+	// every lettered line in reading order, as "Speaker: text"
+	lines: string[]
 };
 
 export type TComic = {
