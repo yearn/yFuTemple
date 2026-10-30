@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 
 import Footer from '../components/Footer';
 import Showcase from '../components/Showcase';
@@ -30,6 +31,17 @@ function Tree(): ReactElement {
 
 function Index(): ReactElement {
 	const allData = [...YFU_DATA].sort((a: TYFUData, b: TYFUData): number => a.order - b.order);
+
+	// a hall's back link lands on its #section; once there the hash goes, or coming back to this
+	// history entry would jump to that section again instead of restoring where the reader was
+	useEffect((): (() => void) => {
+		const timer = window.setTimeout((): void => {
+			if (window.location.hash) {
+				void Router.replace('/', undefined, {shallow: true, scroll: false});
+			}
+		});
+		return (): void => window.clearTimeout(timer);
+	}, []);
 
 	return (
 		<div className={'relative -mt-1 flex w-screen flex-col overflow-hidden p-0 md:p-6'}>
