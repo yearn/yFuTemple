@@ -2,9 +2,9 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {AudioContextApp, formatRemaining, useAudio} from '../contexts/useAudio';
 import PlayerPanel from './PlayerPanel';
-import IconExpand from './icons/IconExpand';
 import IconPause from './icons/IconPause';
 import IconPlay from './icons/IconPlay';
+import IconPlaylist from './icons/IconPlaylist';
 import IconPrev from './icons/IconPrev';
 
 import type {ReactElement} from 'react';
@@ -94,6 +94,16 @@ function	Header(): ReactElement {
 									loading={'lazy'}
 									decoding={'async'} />
 							</div>
+							<p className={'mt-4 font-scope text-base text-white'}>
+								{'The yFu Temple is home to '}
+								<em>{'yFu'}</em>
+								{', a four-issue comic about the rise of Yearn, and to the art and music made for its four goddesses. Created by the YFI Story team with Devil\'s Due Studios, in the Pills universe.'}
+							</p>
+							<p className={'mt-4 font-scope tracking-widest text-white'}>
+								<a href={'/comics/'} className={'hover:underline'}>{'COMICS'}</a>
+								{' / '}
+								<a href={'/faq/'} className={'hover:underline'}>{'FAQ & CREDITS'}</a>
+							</p>
 							<div className={'mt-4 space-y-1 font-scope tracking-widest text-yblue'}>
 								<p>
 									{'Find us: '}
@@ -166,7 +176,7 @@ function	Header(): ReactElement {
 							aria-label={hasMediaPlayer ? 'Close media player' : 'Open media player'}
 							aria-expanded={hasMediaPlayer}
 							className={HEADER_BUTTON}>
-							<IconExpand />
+							<IconPlaylist />
 						</button>
 					</div>
 					<PlayerPanel
