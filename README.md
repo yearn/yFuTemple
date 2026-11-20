@@ -1,16 +1,16 @@
 ### requires
-node, pnpm
+node, bun
 
 
 ```
-pnpm install
-pnpm dev
+bun install
+bun dev
 ```
 
-`pnpm build` writes a static site to `dist/`, which any static file server can host:
+`bun run build` writes a static site to `dist/`, which any static file server can host:
 
 ```
-pnpm build
+bun run build
 python3 -m http.server -d dist
 ```
 
